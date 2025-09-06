@@ -82,7 +82,7 @@ export default function LanguageMenu() {
         aria-haspopup="menu"
         aria-expanded={open}
         aria-label="Change language"
-        className="cursor-pointer inline-flex items-center justify-center text-zinc-900"
+        className="cursor-pointer inline-flex items-center justify-center"
       >
         <GlobeIcon className="w-5 h-5 hover:text-white" />
       </button>
@@ -93,7 +93,7 @@ export default function LanguageMenu() {
           ref={menuRef}
           role="menu"
           aria-label="Select language"
-          className="absolute right-0 mt-2 w-40 rounded-xl border bg-white shadow-lg ring-1 ring-black/5 p-1 z-50"
+          className="absolute right-0 mt-2 w-40 rounded-lg bg-white shadow-lg  p-1 z-50"
         >
           {LOCALES.map(opt => {
             const active = opt.code === locale;

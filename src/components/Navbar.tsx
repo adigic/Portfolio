@@ -25,7 +25,7 @@ export function Navbar() {
     <header className="sticky top-0 backdrop-blur">
       <div className="flex h-16 items-center justify-between">
         {/* Brand */}
-        <Link href="/" className="font-semibold text-2xl text-black ">
+        <Link href="/" className="font-semibold text-2xl">
           {/* <span className="sr-only">Home</span> */}
           {brand("name")}
         </Link>
@@ -41,7 +41,7 @@ export function Navbar() {
                 href={item.href}
                 className={cn(
                   "text-sm transition-colors hover:text-white",
-                  active ? "text-white" : "text-zinc-700"
+                  active ? "text-white" : ""
                 )}>
                 {t(item.key)}
               </Link>
@@ -55,7 +55,7 @@ export function Navbar() {
         {/* Mobile controls */}
         <button
           aria-label={open ? "Close menu" : "Open menu"}
-          className="md:hidden p-2 rounded-lg border border-zinc-200"
+          className="md:hidden p-2 rounded-lg cursor-pointer hover:text-brand-light"
           onClick={() => setOpen((v) => !v)}>
           {open ? <X size={20} /> : <Menu size={20} />}
         </button>
