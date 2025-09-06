@@ -1,0 +1,9 @@
+{
+  "nav": {
+    "education": "Education",
+    "experience": "Experience",
+    "projects": "Projects",
+    "contact": "Contact"
+  },
+  "brand": { "name": "Adis Hegic" }
+}

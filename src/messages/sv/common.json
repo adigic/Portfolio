@@ -1,0 +1,9 @@
+{
+  "nav": {
+    "education": "Utbildning",
+    "experience": "Erfarenhet",
+    "projects": "Projekt",
+    "contact": "Kontakt"
+  },
+  "brand": { "name": "Adis Hegic" }
+}
