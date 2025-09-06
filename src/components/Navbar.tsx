@@ -31,9 +31,9 @@ export function Navbar() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden md:flex gap-6">
           {LINKS.map((item) => {
-            <LanguageSwitcher />;
+            
             const active = item.href !== "/" && pathname?.startsWith(item.href);
             return (
               <Link

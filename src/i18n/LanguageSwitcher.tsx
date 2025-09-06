@@ -7,7 +7,7 @@ import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
 
 type LocaleOption = {
-  
+  code: "en" | "sv";
   label: string;
   flagSrc: string;
 };
@@ -19,7 +19,12 @@ const LOCALES: LocaleOption[] = [
 
 function GlobeIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+      {...props}
+    >
       <path
         d="M12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9-9 4.03-9 9 4.03 9 9 9Zm0 0c3.314 0 6-4.03 6-9S15.314 3 12 3 6 7.03 6 12s2.686 9 6 9Zm-9-9h18M12 3v18"
         stroke="currentColor"
@@ -61,8 +66,6 @@ export default function LanguageMenu() {
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
-  const current = LOCALES.find(l => l.code === locale) ?? LOCALES[0];
-
   const switchTo = (code: LocaleOption["code"]) => {
     setOpen(false);
     if (code === locale) return;
@@ -71,6 +74,7 @@ export default function LanguageMenu() {
 
   return (
     <div className="relative">
+      {/* Globe button only */}
       <button
         ref={btnRef}
         type="button"
@@ -78,18 +82,9 @@ export default function LanguageMenu() {
         aria-haspopup="menu"
         aria-expanded={open}
         aria-label="Change language"
-        className="inline-flex items-center gap-2 rounded-full border px-3 py-1.5 hover:bg-zinc-100 text-zinc-900"
+        className="cursor-pointer inline-flex items-center justify-center text-zinc-900"
       >
-        <GlobeIcon className="w-4 h-4" />
-        <Image
-          src={current.flagSrc}
-          alt={`${current.label} flag`}
-          width={16}
-          height={16}
-          className="rounded-[2px]"
-          priority
-        />
-        <span className="text-xs font-medium uppercase">{current.code}</span>
+        <GlobeIcon className="w-5 h-5 hover:text-white" />
       </button>
 
       {/* Dropdown */}
@@ -98,7 +93,7 @@ export default function LanguageMenu() {
           ref={menuRef}
           role="menu"
           aria-label="Select language"
-          className="absolute right-0 mt-2 w-40 rounded-xl border bg-white shadow-lg ring-1 ring-black/5 p-1"
+          className="absolute right-0 mt-2 w-40 rounded-xl border bg-white shadow-lg ring-1 ring-black/5 p-1 z-50"
         >
           {LOCALES.map(opt => {
             const active = opt.code === locale;
@@ -107,7 +102,7 @@ export default function LanguageMenu() {
                 key={opt.code}
                 role="menuitem"
                 onClick={() => switchTo(opt.code)}
-                className={`flex w-full items-center gap-2 rounded-lg px-2 py-2 text-sm hover:bg-zinc-100 ${
+                className={`cursor-pointer flex w-full items-center gap-2 rounded-lg px-2 py-2 text-sm hover:bg-zinc-100 ${
                   active ? "text-zinc-900 font-semibold" : "text-zinc-700"
                 }`}
               >
@@ -119,11 +114,6 @@ export default function LanguageMenu() {
                   className="rounded-[2px]"
                 />
                 <span>{opt.label}</span>
-                {active && (
-                  <span className="ml-auto text-[10px] rounded bg-zinc-200 px-1.5 py-0.5">
-                    Current
-                  </span>
-                )}
               </button>
             );
           })}
