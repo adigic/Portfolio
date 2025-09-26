@@ -3,43 +3,59 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
-import "../globals.css";
 import { Navbar } from "@/components/Navbar";
-import { Poppins } from "next/font/google";
+import { Hero } from "@/components/Hero";
 
 export const metadata: Metadata = {
   title: "Your Name — Portfolio",
   description: "Designer/Developer portfolio",
 };
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  // optional niceties:
-  display: "swap",
-  fallback: ["system-ui", "Segoe UI", "Roboto", "Helvetica", "Arial", "sans-serif"],
-});
+// (Optional but nice for SSG of /en and /sv)
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
 
 export default async function LocaleLayout({
   children,
+  // If you're on Next 14, change the type to: params: { locale: string }
   params,
 }: {
   children: React.ReactNode;
-  // 👇 In Next.js 15, params is a Promise
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await params; // 👈 await it
-  if (!hasLocale(routing.locales, locale)) notFound();
+  const { locale } = await params;
+
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
+
+
+  let messages: Record<string, any>;
+  try {
+
+    messages = (await import(`../../messages/${locale}/common.json`)).default;
+  } catch {
+    messages = (await import(`../../messages/en/common.json`)).default;
+  }
 
   return (
-    <html lang={locale} className='{poppins.className} mx-8 mt-2 '>
-      <body className="">
-        {/* Messages are provided via src/i18n/request.ts */}
-        <NextIntlClientProvider>
+    <NextIntlClientProvider locale={locale} messages={messages}>
+        <main className="mx-10 pb-24">
+      
+        
+        <div className="w-full">
           <Navbar />
-          <main className="container pt-8 pb-24">{children}</main>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+          <section className="snap-start min-h-[100dvh] w-full py-14 md:py-20">
+            <Hero />
+          </section>
+<section className="snap-start min-h-[100dvh] w-full py-14 md:py-20">
+            <Hero />
+          </section>
+
+        </div>
+     
+      </main>
+    </NextIntlClientProvider>
   );
 }

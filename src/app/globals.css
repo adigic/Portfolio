@@ -1,34 +1,67 @@
 @import "tailwindcss";
 
+/* Base tokens */
 :root {
-  --background: #ffffff;
-  --foreground: #1A1A1A;
+  --background: #EDEDED;
+  --foreground: #1a1a1a; /* default text color */
 }
 
+/* Tailwind theme tokens */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+
+  /* brand palette */
+  --color-brand: #1a1a1a;
+  --color-brand-dark: #1a1a1a;
+  --color-brand-light: #ededed;
+  --color-accent: #39597d;
+
+  /* keep your font setup flexible */
+  --font-sans: var(--font-poppins), sans-serif;
   --font-mono: var(--font-geist-mono);
+}
 
-  --color-brand: #1a1a1a;       
-  --color-brand-dark: #1a1a1a;  
-  --color-brand-light: #ededed; 
-  --color-accent: #39597d;    
-  
-  --color-foreground: var(--color-brand);
+/* Light mode only — no dark override */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-poppins), sans-serif;
+  font-weight: 400; /* medium by default */
+}
 
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
   }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #D3D3D3;
-    --foreground: #ededed;
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-body {
-  background: var(--background);
+.fade-in-down {
+  opacity: 0;
+  animation: fadeInDown 0.8s ease-out forwards;
+  animation-delay: .25s;
+}
 
+.fade-in-down-sm {
+  opacity: 0;
+  animation: fadeInDown 1s ease-out forwards;
+  animation-delay: .5s;
+}
 
+.fade-in-down-md {
+  opacity: 0;
+  animation: fadeInDown 0.8s ease-out forwards;
+  animation-delay: 1s;
+}
+
+.fade-in-down-lg {
+  opacity: 0;
+  animation: fadeInDown 0.8s ease-out forwards;
+  animation-delay: 1.5s;
 }

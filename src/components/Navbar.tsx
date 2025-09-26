@@ -22,10 +22,10 @@ export function Navbar() {
   const brand = useTranslations("brand");
 
   return (
-    <header className="sticky top-0 backdrop-blur">
+    <header className="mt-2 ">
       <div className="flex h-16 items-center justify-between">
         {/* Brand */}
-        <Link href="/" className="font-semibold text-2xl">
+        <Link href="/" className="text-3xl text-brand-dark">
           {/* <span className="sr-only">Home</span> */}
           {brand("name")}
         </Link>
@@ -40,8 +40,8 @@ export function Navbar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "text-sm transition-colors hover:text-white",
-                  active ? "text-white" : ""
+                  "text-sm text- transition-colors hover:text-white",
+                  active ? "text-white border-b-2 border-brand-dark" : "text-brand-dark"
                 )}>
                 {t(item.key)}
               </Link>

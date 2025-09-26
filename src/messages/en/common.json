@@ -1,9 +1,16 @@
 {
+  "brand": { "name": "Adis Hegic" },
   "nav": {
     "education": "Education",
     "experience": "Experience",
     "projects": "Projects",
-    "contact": "Contact"
+    "contact": "Contact me"
   },
-  "brand": { "name": "Adis Hegic" }
+  "hero": {
+    "phrases": ["Design-driven", "Pixel-perfect", "Detail-oriented"],
+    "role": "Frontend Developer",
+    "description": "Newly graduated frontend developer with a sharp eye for detail and UX. I build fast, polished interfaces where form supports function.",
+    "quote": "Ready to grow, learn, and create something great.",
+    "alt": "Portrait of Adis Hegic"
+  }
 }

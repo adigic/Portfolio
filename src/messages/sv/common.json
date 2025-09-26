@@ -1,9 +1,16 @@
 {
+  "brand": { "name": "Adis Hegic" },
   "nav": {
     "education": "Utbildning",
     "experience": "Erfarenhet",
     "projects": "Projekt",
     "contact": "Kontakt"
   },
-  "brand": { "name": "Adis Hegic" }
+  "hero": {
+    "phrases": ["Designdriven", "Lösningsorienterad", "Användarfokuserad"],
+    "role": "Frontendutvecklare",
+    "description": "Nyutexaminerad frontendutvecklare med öga för detaljer och UX. Jag bygger snabba, välputsade gränssnitt där formen stöttar funktionen.",
+    "quote": "Redo att växa, lära och skapa något riktigt bra.",
+    "alt": "Porträtt av Adis Hegic"
+  }
 }
