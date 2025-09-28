@@ -43,7 +43,7 @@ export function Navbar({ theme = "light" }: { theme?: Theme }) {
     <header className="mt-2 text-inherit">
       <div className="flex h-16 items-center justify-between">
         {/* Brand */}
-        <Link href="/" className="text-3xl font-medium text-inherit">
+        <Link href="/" className="text-3xl font-normal text-inherit">
           {brand("name")}
         </Link>
 

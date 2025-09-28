@@ -1,6 +1,7 @@
 // src/app/[locale]/page.tsx
 import { Hero } from "@/components/Hero";
 import { FullSection } from "@/components/FullSection";
+import About from "@/components/About";
 
 export default function Home() {
   return (
@@ -9,15 +10,10 @@ export default function Home() {
         <Hero/>
       </FullSection>
 
-      <FullSection id="projects" variant="dark" top>
-        <h2 className="text-3xl md:text-5xl lg:text-6xl font-semibold">Projects</h2>
-        {/* ... */}
+      <FullSection id="about" variant="dark" top>
+        <About/>
       </FullSection>
 
-      <FullSection id="about" variant="light" top>
-        <h2 className="text-3xl md:text-5xl lg:text-6xl font-semibold">About</h2>
-        {/* ... */}
-      </FullSection>
     </>
   );
 }
