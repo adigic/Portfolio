@@ -10,8 +10,6 @@
   },
   "dependencies": {
     "@next/font": "^14.2.15",
-    "@skits/react-text-scramble": "^1.1.0",
-    "@twistezo/react-text-scramble": "^1.0.6",
     "lucide-react": "^0.539.0",
     "next": "15.4.6",
     "next-intl": "^4.3.4",
