@@ -24,7 +24,7 @@ export default async function LocaleLayout({
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
 
-  let messages: Record<string, any>;
+  let messages: Record<string, unknown>;
   try {
     messages = (await import(`../../messages/${locale}/common.json`)).default;
   } catch {
