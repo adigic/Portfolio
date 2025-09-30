@@ -61,7 +61,7 @@ export default function About() {
               {content.skills.map((s) => (
                 <span
                   key={s}
-                  className="inline-flex items-center justify-center rounded-xl border px-4 py-3 text-sm"
+                  className="inline-flex items-center justify-center rounded-lg bg-brand-light/10 border  py-3 text-md"
                   style={{ borderColor: "currentColor", color: "currentColor", opacity: 0.85 }}
                 >
                   {s}

@@ -16,11 +16,11 @@
   "about": {
     "title": "About",
     "bio": [
-      "Hi, I’m Adis Hegic, a frontend developer from Sweden who loves crafting clean, pixel-perfect interfaces where design and performance go hand in hand.",
-      "I’m solutions-oriented, collaborative, and curious — always pushing to learn more and ship better UX.",
+      "I’m Adis Hegic, a frontend developer from Sweden who loves crafting clean, pixel-perfect interfaces where design and performance go hand in hand.",
+      "I’m solution-oriented, collaborative, and curious — always pushing to learn more and ship better UX.",
       "Day-to-day I work with React/Next.js, TypeScript and Tailwind, and I use Figma to move smoothly from idea to polished UI."
     ],
     "skills": ["React", "Next.js", "TypeScript", "JavaScript", "Tailwind CSS", "Figma", "Git", "AWS", "Vue.js"],
-    "location": "Stockholm, Sweden"
+    "location": "Sweden"
   }
 }

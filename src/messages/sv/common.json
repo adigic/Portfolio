@@ -14,13 +14,13 @@
     "alt": "Porträtt av Adis Hegic"
   },
   "about": {
-    "title": "Om mig.",
+    "title": "Om",
     "bio": [
-      "Hej! Jag heter Adis Hegic – en frontendutvecklare som brinner för design och pixelperfekta gränssnitt där estetik, prestanda och tillgänglighet möts.",
+      "Jag heter Adis Hegic – en frontendutvecklare som brinner för design och pixelperfekta gränssnitt där estetik, prestanda och tillgänglighet möts.",
       "Jag är lösningsorienterad, samarbetsvillig och nyfiken – trivs i team och vill hela tiden utvecklas nära design och produkt.",
       "Jag jobbar främst med React/Next.js, TypeScript och Tailwind samt Figma för att gå från idé till polerad UI."
     ],
     "skills": ["React", "Next.js", "TypeScript", "JavaScript", "Tailwind CSS", "Figma", "Git", "AWS", "Vue.js"],
-    "location": "Stockholm, Sverige"
+    "location": "Sverige"
   }
 }
