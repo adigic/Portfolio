@@ -62,7 +62,7 @@ export function Hero() {
   const longestCh = useMemo(() => phrases.reduce((m, s) => Math.max(m, s.length), 0), [phrases]);
 
   return (
-    <div className="mx-auto my-10 lg:my-0 w-full gap-8 lg:gap-16 flex flex-col-reverse  lg:grid lg:grid-cols-[minmax(0,1fr)_32rem]">
+    <div className="mx-auto mb-15 lg:mb-0 w-full gap-8 lg:gap-16 flex flex-col-reverse  lg:grid lg:grid-cols-[minmax(0,1fr)_32rem]">
       {/* LEFT: text */}
       <div className="min-w-0">
         <h1 className="text-brand font-normal leading-[1.1] tracking-tight text-4xl md:text-6xl lg:text-7xl">
@@ -81,7 +81,7 @@ export function Hero() {
       {/* RIGHT: image */}
       <div className="w-full">
         <div className="rounded-2xl border border-zinc-200 bg-zinc-100/60 shadow-sm">
-          <div className="relative aspect-[5/5] md:aspect-[4/5] w-full overflow-hidden">
+          <div className="relative aspect-[4/5] w-full overflow-hidden">
             <Image src="/me.jpg" alt={t("alt")} fill className="object-cover grayscale" priority />
           </div>
         </div>

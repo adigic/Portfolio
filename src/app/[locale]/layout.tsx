@@ -35,7 +35,7 @@ export default async function LocaleLayout({
     <NextIntlClientProvider locale={locale} messages={messages}>
       {/* Non-sticky navbar in normal document flow */}
 <header className="w-full relative z-10">
-  <div className="max-w-7xl mx-auto px-6">
+  <div className="max-w-7xl mx-auto md:px-6 ">
     <Navbar />
   </div>
 </header>

@@ -40,7 +40,7 @@ export function FullSection({
     >
       <div
         className={[
-          "max-w-7xl mx-auto w-full h-full px-6 py-10 md:py-14",
+          "max-w-7xl mx-auto w-full h-full px-6 py-5 md:py-10",
           "flex flex-col", vAlign,
           innerClassName
         ].join(" ")}

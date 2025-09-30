@@ -15,9 +15,13 @@ export default function Home() {
   <Hero />
 </FullSection>
 
-      <FullSection id="about" variant="dark" align="center">
-        <About />
-      </FullSection>
+<FullSection
+  id="about"
+  variant="dark"
+  align="top"                 // 👈 top-aligns the section content    // 👈 optional: removes FullSection’s default top padding
+>
+  <About />
+</FullSection>
     </>
   );
 }

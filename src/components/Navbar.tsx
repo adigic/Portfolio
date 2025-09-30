@@ -40,9 +40,9 @@ export function Navbar({ theme = "light" }: { theme?: Theme }) {
 
   return (
     <header className="mt-2 text-inherit">
-      <div className="flex h-16 items-center justify-between">
+      <div className="flex h-16 items-center justify-between px-6">
         {/* Brand */}
-        <Link href="/" className="text-4xl font-normal">
+        <Link href="/" className="text-3xl hidden md:flex">
           {brand("name")}
         </Link>
 
@@ -54,7 +54,7 @@ export function Navbar({ theme = "light" }: { theme?: Theme }) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={cn(baseLink, active ? linkActive : linkIdle, "text-[16px] font-semibold")}
+                className={cn(baseLink, active ? linkActive : linkIdle, "")}
 
               >
                 {t(item.key)}
@@ -72,8 +72,7 @@ export function Navbar({ theme = "light" }: { theme?: Theme }) {
         <button
           aria-label={open ? "Close menu" : "Open menu"}
           className={cn(
-            "hidden p-2 rounded-lg cursor-pointer",
-            isDark ? "text-white/90 hover:text-white" : "text-zinc-800 hover:text-zinc-900"
+            "md:hidden p-2 rounded-lg cursor-pointer ml-auto"
           )}
           onClick={() => setOpen((v) => !v)}
         >
@@ -84,14 +83,11 @@ export function Navbar({ theme = "light" }: { theme?: Theme }) {
       {/* Mobile menu */}
       <div
         className={cn(
-          "md:hidden transition-[max-height,opacity] overflow-hidden border-b",
-          open ? "max-h-96 opacity-100" : "max-h-0 opacity-0",
-          isDark
-            ? "bg-brand-dark/95 border-white/10 text-white"
-            : "bg-white/95 border-zinc-200 text-zinc-900"
+          "md:hidden transition-[max-height,opacity] overflow-hidden  w-full",
+          open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         )}
       >
-        <nav className="px-6 py-3 flex flex-col gap-2">
+        <nav className="w-full b py-3 flex flex-col gap-2 bg-brand-dark/5">
           <div className="text-inherit mb-1">
             <LanguageSwitcher />
           </div>
@@ -103,7 +99,7 @@ export function Navbar({ theme = "light" }: { theme?: Theme }) {
                 href={item.href}
                 onClick={() => setOpen(false)}
                 className={cn(
-                  "py-2 text-sm",
+                  "py-4 text-sm border w-full",
                   active
                     ? isDark ? "text-white" : "text-zinc-900"
                     : isDark ? "text-white/80 hover:text-white" : "text-zinc-700 hover:text-zinc-900"
