@@ -31,11 +31,11 @@ export default function About() {
     <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-10 lg:gap-16">
       {/* LEFT */}
       <div className="min-w-0">
-        <h2 className="text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tight">
+        <h2 className="text-3xl md:text-6xl lg:text-7xl font-semibold tracking-tight">
           {content.title}.
         </h2>
 
-        <div className="mt-8 pl-5 border-l border-current/15 text-current/80 leading-7 space-y-5 max-w-2xl">
+        <div className="mt-8 md:pl-5 md:border-l border-current/15 text-current/80 leading-7 space-y-5 max-w-2xl">
           {content.bio.map((p, i) => (
             <p key={i}>{p}</p>
           ))}

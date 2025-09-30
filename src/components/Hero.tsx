@@ -74,14 +74,14 @@ export function Hero() {
             <span className="text-brand">.</span>
           </span>
         </h1>
-        <p className="mt-6 max-w-lg text-2xl leading-8 text-zinc-700">{t("description")}</p>
+        <p className="mt-6 max-w-lg text-xl md:text-2xl md:leading-8 text-zinc-700">{t("description")}</p>
         <p className="mt-10 max-w-[60ch] text-sm italic text-zinc-500">“{t("quote")}”</p>
       </div>
 
       {/* RIGHT: image */}
       <div className="w-full">
         <div className="rounded-2xl border border-zinc-200 bg-zinc-100/60 shadow-sm">
-          <div className="relative aspect-[4/5] w-full overflow-hidden">
+          <div className="relative aspect-[5/5] md:aspect-[4/5] w-full overflow-hidden">
             <Image src="/me.jpg" alt={t("alt")} fill className="object-cover grayscale" priority />
           </div>
         </div>
