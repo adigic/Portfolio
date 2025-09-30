@@ -28,7 +28,7 @@ export default function About() {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-10 lg:gap-16">
+    <div className="my-10 lg:my-0 grid grid-cols-1 lg:grid-cols-2 items-center gap-10 lg:gap-16">
       {/* LEFT */}
       <div className="min-w-0">
         <h2 className="text-3xl md:text-6xl lg:text-7xl font-semibold tracking-tight">

@@ -62,7 +62,7 @@ export function Hero() {
   const longestCh = useMemo(() => phrases.reduce((m, s) => Math.max(m, s.length), 0), [phrases]);
 
   return (
-    <div className="mx-auto w-full gap-8 lg:gap-16 flex flex-col-reverse  lg:grid lg:grid-cols-[minmax(0,1fr)_32rem]">
+    <div className="mx-auto my-10 lg:my-0 w-full gap-8 lg:gap-16 flex flex-col-reverse  lg:grid lg:grid-cols-[minmax(0,1fr)_32rem]">
       {/* LEFT: text */}
       <div className="min-w-0">
         <h1 className="text-brand font-normal leading-[1.1] tracking-tight text-4xl md:text-6xl lg:text-7xl">
