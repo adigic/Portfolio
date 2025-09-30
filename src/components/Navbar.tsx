@@ -54,7 +54,8 @@ export function Navbar({ theme = "light" }: { theme?: Theme }) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={cn(baseLink, active ? linkActive : linkIdle)}
+                className={cn(baseLink, active ? linkActive : linkIdle, "text-[16px] font-semibold")}
+
               >
                 {t(item.key)}
               </Link>
