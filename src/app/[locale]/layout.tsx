@@ -1,12 +1,12 @@
-// src/app/[locale]/layout.tsx
 import type { Metadata } from "next";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
-import { ThemedHeader } from "@/components/ThemedHeader";
+import { Navbar } from "@/components/Navbar";
+import { BackToTop } from "@/components/BackToTop";
 
 export const metadata: Metadata = {
-  title: "Your Name — Portfolio",
+  title: "Portfolio | Adis Hegic",
   description: "Designer/Developer portfolio",
 };
 
@@ -33,19 +33,17 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      {/* 🔑 Dedicated scroll container that holds BOTH header and sections */}
-      <div
-        id="scrollRoot"
-        className="
-          h-[100dvh] overflow-y-auto scroll-smooth
-          snap-y md:snap-proximity lg:snap-mandatory
-          motion-reduce:snap-none motion-reduce:scroll-auto
-          overscroll-y-none
-        "
-      >
-        <ThemedHeader />
-        <main className="w-full">{children}</main>
-      </div>
+      {/* Non-sticky navbar in normal document flow */}
+<header className="w-full relative z-10">
+  <div className="max-w-7xl mx-auto px-6">
+    <Navbar />
+  </div>
+</header>
+
+      <main className="w-full">{children}</main>
+
+      {/* Floating back-to-top (CSS auto-inverts if you used the mix-blend version) */}
+      <BackToTop showAfter={200} />
     </NextIntlClientProvider>
   );
 }

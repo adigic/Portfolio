@@ -1,10 +1,10 @@
 {
   "brand": { "name": "Adis Hegic" },
   "nav": {
-    "education": "Education",
+    "education": "About",
     "experience": "Experience",
     "projects": "Projects",
-    "contact": "Contact me"
+    "contact": "Contact"
   },
   "hero": {
     "phrases": ["Design-driven", "Pixel-perfect", "Detail-oriented"],
