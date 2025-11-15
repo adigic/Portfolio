@@ -1,36 +1,38 @@
 @import "tailwindcss";
 
-/* Base tokens */
-:root {
-  --background: #EDEDED;
-  --foreground: #1a1a1a; /* default text color */
-}
-
-/* Tailwind theme tokens */
+/* Design tokens + font utilities */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  /* Colors */
+  --color-background: #EDEDED;
+  --color-foreground: #1a1a1a;
 
-  /* brand palette */
   --color-brand: #1a1a1a;
   --color-brand-dark: #1a1a1a;
-  --color-brand-light: #ededed;
-  --color-accent: #39597d;
+  --color-brand-light: #EDEDED;
+  --color-accent: #39597D;
 
-  /* keep your font setup flexible */
-  --font-sans: var(--font-poppins), sans-serif;
-  --font-mono: var(--font-geist-mono);
+  /* Fonts: connect Tailwind font utilities to next/font variables */
+  /* This controls `font-sans` */
+  --font-sans: var(--font-poppins), system-ui, sans-serif;
+
+  /* Extra font utilities: `font-alexandria`, `font-righteous` */
+  --font-alexandria: var(--font-alexandria), sans-serif;
+  --font-righteous: var(--font-righteous), cursive;
 }
 
-/* Light mode only — no dark override */
+/* Base styles */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-poppins), sans-serif;
-  font-weight: 400; /* medium by default */
+  background: var(--color-background);
+  color: var(--color-foreground);
+  /* Do NOT set font-family here: let next/font + Tailwind handle it */
 }
 
+section {
+  padding-bottom: 100px;
+  padding-top: 100px;
+}
 
+/* Animations */
 @keyframes fadeInDown {
   0% {
     opacity: 0;
@@ -45,13 +47,13 @@ body {
 .fade-in-down {
   opacity: 0;
   animation: fadeInDown 0.8s ease-out forwards;
-  animation-delay: .25s;
+  animation-delay: 0.25s;
 }
 
 .fade-in-down-sm {
   opacity: 0;
   animation: fadeInDown 1s ease-out forwards;
-  animation-delay: .5s;
+  animation-delay: 0.5s;
 }
 
 .fade-in-down-md {

@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useMessages, useTranslations } from "next-intl";
 import Image from "next/image";
+import { Icon } from "@iconify/react";
+import { SectionChevron } from "./SectionChevron";
 
-const DEFAULT_PHRASES = [
-  "Designdriven",
-  "Lösningsorienterad",
-  "Lärhungrig",
+const PHRASES = [
+  "Design-driven",
+  "Project-oriented",
+  "Always learning",
 ] as const;
 
 function TypewriterText({
@@ -24,21 +25,22 @@ function TypewriterText({
   const typingRef = useRef<number | null>(null);
   const holdRef = useRef<number | null>(null);
 
+  // Start on a random phrase if there are several
   useEffect(() => {
-    if (phrases.length > 1) setIdx(Math.floor(Math.random() * phrases.length));
+    if (phrases.length > 1) {
+      setIdx(Math.floor(Math.random() * phrases.length));
+    }
   }, [phrases.length]);
 
   useEffect(() => {
     const full = phrases[idx] ?? "";
     setShown("");
     let i = 0;
+
     const tick = () => {
       if (i <= full.length) {
         setShown(full.slice(0, i++));
-        typingRef.current = window.setTimeout(
-          tick,
-          typeSpeed
-        ) as unknown as number;
+        typingRef.current = window.setTimeout(tick, typeSpeed) as unknown as number;
       } else {
         holdRef.current = window.setTimeout(
           () => setIdx((v) => (v + 1) % phrases.length),
@@ -46,7 +48,9 @@ function TypewriterText({
         ) as unknown as number;
       }
     };
+
     tick();
+
     return () => {
       if (typingRef.current) clearTimeout(typingRef.current);
       if (holdRef.current) clearTimeout(holdRef.current);
@@ -84,15 +88,7 @@ function TypewriterText({
 }
 
 export function Hero() {
-  const t = useTranslations("hero");
-  const messages = useMessages() as
-    | { hero?: { phrases?: string[] } }
-    | undefined;
-
-  const phrases: string[] = useMemo(() => {
-    const arr = messages?.hero?.phrases;
-    return Array.isArray(arr) && arr.length ? arr : [...DEFAULT_PHRASES];
-  }, [messages]);
+  const phrases = useMemo(() => [...PHRASES], []);
 
   const longestCh = useMemo(
     () => phrases.reduce((m, s) => Math.max(m, s.length), 0),
@@ -100,54 +96,97 @@ export function Hero() {
   );
 
   return (
-    <div className="mb-15 lg:mb-0 w-full flex justify-center">
+    <section  data-nav-theme="light" className="snap-start relative flex flex-col min-h-screen
+        bg-light
+         px-2 md:px-12
+        pt-20 pb-4">
+          <div className="flex-1 w-full flex items-center justify-center">
       <div className="min-w-0 text-center px-4 sm:px-6">
         {/* TITLE */}
-        <h1 className="text-brand font-normal leading-[1.1] tracking-tight text-4xl md:text-6xl lg:text-7xl">
+        <h1
+          className="
+            text-brand mt-16  font-alexandria leading-[1.1] tracking-tight
+            text-[clamp(2.4rem,5vw,3.6rem)]
+          "
+        >
           <span
-            className="block lg:text-[60px]"
-            style={{ minWidth: `${longestCh}ch` }}>
+            className="
+              block font-light
+              text-[clamp(2.4rem,6vw,3.5rem)]
+            "
+            style={{ minWidth: `${longestCh}ch` }}
+          >
             <TypewriterText phrases={phrases} typeSpeed={40} holdTime={6000} />
           </span>
-          <span className="block lg:text-[60px] text-accent font-righteous">
-            {t("role")}
-            <span className="text-brand">.</span>
-          </span>
+
+<span
+  className="
+    block text-accent font-righteous
+    text-[clamp(3rem,8vw,5rem)]
+  "
+>
+  Frontend Developer<span className="text-brand">.</span>
+</span>
+
         </h1>
 
         {/* SUBTEXT + QUOTE */}
-        <p className="mt-6 max-w-4xl mx-auto text-xl md:text-3xl md:leading-8 text-zinc-700">
-          {t("description")}
-        </p>
-        <p className="mt-10 max-w-[60ch] mx-auto text-sm italic text-zinc-500">
-          “{t("quote")}”
+<p
+  className="
+    mt-6 max-w-5xl mx-auto text-brand
+    text-[clamp(0.85rem,1.9vw,1.7rem)]
+    leading-[1.4]
+  "
+>
+
+  <span className="block">
+    Newly graduated, detail-focused, and passionate about UI/UX.
+  </span>
+  <span className="block">
+    Excited to bring clean design and performance to every project.
+  </span>
+</p>
+
+
+<p
+  className="
+    mt-4 max-w-[60ch] mx-auto italic text-brand/70
+    text-[clamp(0.75rem,1.3vw,1.2rem)]
+  "
+>
+          “I&rsquo;m ready to grow, learn, and build something amazing.”
         </p>
 
         {/* CARDS */}
         <div className="mt-16 max-w-6xl mx-auto grid gap-6 md:grid-cols-3">
-          {/* DESIGN */}
           <FeatureCard
             title="DESIGN"
             image="/cards/design.avif"
             text="I create clean, structured and visually balanced interfaces with a strong focus on detail, typography and spacing."
           />
 
-          {/* UX */}
           <FeatureCard
             title="UX"
             image="/cards/ux.avif"
             text="I craft intuitive user flows and interactions that make products feel natural, clear and enjoyable to use."
           />
 
-          {/* CODE */}
           <FeatureCard
             title="CODE"
             image="/cards/code.avif"
             text="I build fast, responsive and maintainable frontend architecture using modern frameworks and best practices."
           />
         </div>
+
       </div>
-    </div>
+      </div>
+
+      {/* Chevron låst nära nedre kanten av sektionen/viewporten */}
+      <div className="pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2">
+        <SectionChevron theme="light" />
+      </div>
+
+    </section>
   );
 }
 
@@ -161,29 +200,54 @@ type FeatureCardProps = {
 
 function FeatureCard({ title, text, image }: FeatureCardProps) {
   return (
-    <div className="relative overflow-hidden rounded-lg bg-white aspect-[5/6] shadow-sm">
-      {/* background image */}
-      <div className="absolute inset-0">
+    <div
+      className="
+        relative overflow-hidden rounded-xl bg-white shadow-sm
+        border border-zinc-200
+        lg:aspect-[5/6]
+      "
+    >
+      {/* Bakgrundsbild – bara på desktop */}
+      <div className="hidden md:block absolute inset-0">
         <Image
           src={image}
           alt={title}
           fill
           className="object-cover opacity-40"
         />
-        {/* soft overlay för att göra texten läsbar */}
         <div className="absolute inset-0 bg-white/70" />
       </div>
 
-      {/* content */}
-      <div className="relative px-8 py-9 text-left flex flex-col justify-between h-full">
+      {/* Content */}
+      <div
+        className="
+          relative h-full
+          px-5 py-4
+          sm:px-6 sm:py-6
+          lg:px-8 lg:py-9
+          flex flex-col justify-between
+          text-left
+        "
+      >
         <div>
-          <h3 className="text-base   font-semibold tracking-[0.18em] text-zinc-900 text-center md:text-left">
+          <h3
+            className="
+              text-sm sm:text-base font-semibold tracking-[0.18em]
+              text-zinc-900 text-left
+            "
+          >
             {title}
           </h3>
-          <div className="mt-3 h-[2px] w-10 bg-accent mx-auto md:mx-0" />
+          <div className="mt-2 h-[2px] w-8 sm:w-10 bg-accent" />
         </div>
 
-        <p className="mt-6 text-sm leading-relaxed text-zinc-800 text-center md:text-left ">
+        <p
+          className="
+            mt-3 sm:mt-4 lg:mt-6
+            text-xs sm:text-sm leading-relaxed
+            text-zinc-800
+          "
+        >
           {text}
         </p>
       </div>

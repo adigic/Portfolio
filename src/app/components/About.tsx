@@ -1,7 +1,6 @@
 // src/components/About.tsx
-"use client";
+// "use client";  <-- you can remove this now, see note below
 
-import { useMessages } from "next-intl";
 import { MapPin } from "lucide-react";
 
 type AboutContent = {
@@ -11,30 +10,35 @@ type AboutContent = {
   location: string;  // e.g. "Stockholm, Sweden"
 };
 
+const content: AboutContent = {
+  title: "About",
+  bio: [
+    "Hi, I’m Adis Hegic, a junior frontend developer from Sweden who loves crafting clean, pixel-perfect interfaces where design and performance go hand in hand.",
+    "I’m solutions-oriented, collaborative, and curious — always pushing to learn more and ship better UX.",
+    "Day-to-day I work with React/Next.js, TypeScript and Tailwind, and I use Figma to move smoothly from idea to polished UI.",
+  ],
+  skills: [
+    "React",
+    "Next.js",
+    "TypeScript",
+    "JavaScript",
+    "Tailwind CSS",
+    "Figma",
+    "Git",
+    "AWS",
+    "Vue.js",
+  ],
+  location: "Stockholm, Sweden",
+};
+
 export default function About() {
-  // Safely read the messages (avoid TS error by casting to a generic record)
-  const messages = useMessages() as Record<string, unknown>;
-  const m = (messages?.about ?? {}) as Partial<AboutContent>;
-
-  const content: AboutContent = {
-    title: m.title ?? "About",
-    bio:
-      m.bio ?? [
-        "Hi, I’m Adis Hegic, a junior frontend developer from Sweden who loves crafting clean, pixel-perfect interfaces where design and performance go hand in hand.",
-        "I’m solutions-oriented, collaborative, and curious — always pushing to learn more and ship better UX.",
-        "Day-to-day I work with React/Next.js, TypeScript and Tailwind, and I use Figma to move smoothly from idea to polished UI."
-      ],
-    skills:
-      m.skills ?? ["React", "Next.js", "TypeScript", "JavaScript", "Tailwind CSS", "Figma", "Git", "AWS", "Vue.js"],
-    location: m.location ?? "Stockholm, Sweden"
-  };
-
   return (
     // Fills the section; top label + centered content below
-    <div className="w-full h-full flex flex-col">
+    <div className="w-full h-full flex flex-col bg-brand text-brand-light">
+      <div className="max-w-7xl mx-auto">
       {/* Content-title (section label) — stays at the top */}
       <div className="shrink-0 my-5">
-        <p className="text-lg md:text-sm uppercase tracking-[0.2em] font-medium opacity-70 text-current ">
+        <p className="text-lg md:text-sm uppercase tracking-[0.2em] font-medium opacity-70 text-current">
           {content.title}
         </p>
       </div>
@@ -61,8 +65,12 @@ export default function About() {
               {content.skills.map((s) => (
                 <span
                   key={s}
-                  className="inline-flex items-center justify-center rounded-lg bg-brand-light/10 border  py-3 text-md"
-                  style={{ borderColor: "currentColor", color: "currentColor", opacity: 0.85 }}
+                  className="inline-flex items-center justify-center rounded-lg bg-brand-light/10 border py-3 text-md"
+                  style={{
+                    borderColor: "currentColor",
+                    color: "currentColor",
+                    opacity: 0.85,
+                  }}
                 >
                   {s}
                 </span>
@@ -70,6 +78,7 @@ export default function About() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

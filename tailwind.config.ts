@@ -9,18 +9,15 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        // standard-brödtext, om du vill
-        sans: ["var(--font-poppins)", "system-ui", "sans-serif"],
-
-        // egna klasser:
-        poppins: ["var(--font-poppins)", "system-ui", "sans-serif"],
-        alexandria: ["var(--font-alexandria)", "system-ui", "sans-serif"],
-        righteous: ["var(--font-righteous)", "system-ui", "sans-serif"],
-      },
+    fontFamily: {
+      sans: ["var(--font-poppins)", "system-ui", "sans-serif"],
+      // you can also add others if you want to use them via classNames
+      alexandria: ["var(--font-alexandria)", "sans-serif"],
+      righteous: ["var(--font-righteous)", "cursive"],
+    },
       colors: {
         brand: {
-          DEFAULT: "#1A1A1A", // <- optional default
+          DEFAULT: "#1A1A1A",
           light: "#EDEDED",
           dark: "#1A1A1A",
         },
@@ -30,4 +27,5 @@ const config: Config = {
   },
   plugins: [],
 };
+
 export default config;

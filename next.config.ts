@@ -1,7 +1,8 @@
-import {NextConfig} from 'next';
-import createNextIntlPlugin from 'next-intl/plugin';
+import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {};
-const withNextIntl = createNextIntlPlugin(); // uses default path: src/i18n/request.ts
+const nextConfig: NextConfig = {
+  // lägg ev. din vanliga config här, t.ex:
+  // reactStrictMode: true,
+};
 
-export default withNextIntl(nextConfig);
+export default nextConfig;
