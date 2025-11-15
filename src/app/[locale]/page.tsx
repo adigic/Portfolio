@@ -1,6 +1,7 @@
 import { Hero } from "@/components/Hero";
 import { FullSection } from "@/components/FullSection";
 import About from "@/components/About";
+import Projects from "@/components/Projects";
 
 export default function Home() {
   return (
@@ -21,6 +22,22 @@ export default function Home() {
   align="top"                 // 👈 top-aligns the section content    // 👈 optional: removes FullSection’s default top padding
 >
   <About />
+</FullSection>
+
+<FullSection
+  id="about"
+  variant="light"
+  align="top"                 // 👈 top-aligns the section content    // 👈 optional: removes FullSection’s default top padding
+>
+  <About />
+</FullSection>
+
+<FullSection
+  id="about"
+  variant="dark"
+  align="top"                 // 👈 top-aligns the section content    // 👈 optional: removes FullSection’s default top padding
+>
+  <Projects/>
 </FullSection>
     </>
   );

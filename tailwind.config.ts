@@ -10,8 +10,13 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-poppins)", "sans-serif"],
-        
+        // standard-brödtext, om du vill
+        sans: ["var(--font-poppins)", "system-ui", "sans-serif"],
+
+        // egna klasser:
+        poppins: ["var(--font-poppins)", "system-ui", "sans-serif"],
+        alexandria: ["var(--font-alexandria)", "system-ui", "sans-serif"],
+        righteous: ["var(--font-righteous)", "system-ui", "sans-serif"],
       },
       colors: {
         brand: {

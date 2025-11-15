@@ -22,5 +22,41 @@
     ],
     "skills": ["React", "Next.js", "TypeScript", "JavaScript", "Tailwind CSS", "Figma", "Git", "AWS", "Vue.js"],
     "location": "Sverige"
+  },
+  
+  "projects": {
+    "title": "Projekt",
+    "filters": { "all": "Alla", "personal": "Personliga", "client": "Kundprojekt" },
+    "items": [
+      {
+        "id": "runclub",
+        "title": "RunClub",
+        "kind": "client",
+        "desc": "En community-app för löpning byggd med Next.js, TypeScript och Tailwind CSS.",
+        "image": "/projects/RunClub.avif",
+        "tech": ["React", "Next.js", "TypeScript", "Tailwind CSS"],
+        "links": { "github": "https://github.com/you/runclub", "live": "https://runclub.example.com" }
+      },
+      {
+        "id": "golfcount",
+        "title": "GolfCount",
+        "kind": "client",
+        "desc": "Kundwebb för reseplanering byggd med Angular + NgRx + Tailwind.",
+        "image": "/projects/GolfCount.avif",
+        "tech": ["Angular", "NgRx", "Tailwind CSS"],
+        "links": { "live": "https://client-site.example.com" }
+      },
+      {
+        "id": "travelmate",
+        "title": "TravelMate",
+        "kind": "client",
+        "desc": "Kundwebb för reseplanering byggd med Angular + NgRx + Tailwind.",
+        "image": "/projects/TravelMate.avif",
+        "tech": ["Angular", "NgRx", "Tailwind CSS"],
+        "links": { "live": "https://client-site.example.com" }
+      }
+    ]
   }
+
+
 }
