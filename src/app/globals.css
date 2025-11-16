@@ -27,10 +27,7 @@ body {
   /* Do NOT set font-family here: let next/font + Tailwind handle it */
 }
 
-section {
-  padding-bottom: 100px;
-  padding-top: 100px;
-}
+
 
 /* Animations */
 @keyframes fadeInDown {

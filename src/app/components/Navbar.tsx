@@ -111,8 +111,8 @@ export function Navbar() {
 
   const hamburgerBg = uiIsDark ? "bg-brand" : "bg-brand-light";
   const hamburgerBorder = uiIsDark
-    ? "border border-white/20"
-    : "border border-brand/20";
+    ? ""
+    : "";
 
   // ✨ NYTT: separata hover + border för mobilen
   const mobileLinkHoverBg = uiIsDark
@@ -128,7 +128,7 @@ export function Navbar() {
     <header className="fixed top-0 left-0 z-50 w-full h-16 inset-x-0 transition">
       {/* TOP RAD: brand + desktop-nav + hamburger */}
       <div
-        className={`md:${topBgClass} flex items-center justify-between px-4 py-3 md:px-6 md:py-4 mx-auto`}
+        className={`${topBgClass} flex items-center justify-between px-4 py-3 md:px-6 md:py-4 mx-auto`}
       >
         {/* Brand (desktop) */}
         <Link

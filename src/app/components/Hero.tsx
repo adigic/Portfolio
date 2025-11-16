@@ -99,7 +99,7 @@ export function Hero() {
     <section  data-nav-theme="light" className="w-full snap-start snap-always relative flex flex-col min-h-screen
         bg-brand-light
          px-2 md:px-12
-        pt-20 pb-4">
+        md:pt-20 pb-4">
           <div className="flex-1 w-full flex items-center justify-center">
       <div className="min-w-0 text-center sm:px-6">
         {/* TITLE */}
