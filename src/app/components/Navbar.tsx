@@ -128,7 +128,7 @@ export function Navbar() {
     <header className="fixed top-0 left-0 z-50 w-full h-16 inset-x-0 transition">
       {/* TOP RAD: brand + desktop-nav + hamburger */}
       <div
-        className={`md:${topBgClass} flex items-center justify-between px-4 py-3 md:px-6 md:py-4 mx-auto`}
+        className={`${topBgClass} flex items-center justify-between px-4 py-3 md:px-6 md:py-4 mx-auto`}
       >
         {/* Brand (desktop) */}
         <Link
@@ -156,7 +156,7 @@ export function Navbar() {
 
           {/* LinkedIn-icon */}
           <Link
-            href="https://www.linkedin.com/in/DITT-LINKEDIN-HÄR"
+            href="https://www.linkedin.com/in/adishegic/"
             target="_blank"
             rel="noreferrer"
             aria-label="LinkedIn profile"
@@ -209,6 +209,7 @@ export function Navbar() {
         className={[
           "md:hidden absolute inset-x-0 top-full z-40",
           "transform-gpu will-change-transform origin-top transition-transform duration-300 ease-out pt-0 p-2",
+          "max-w-full",
           panelOpen ? "scale-y-100" : "scale-y-0",
           panelOpen ? "pointer-events-auto" : "pointer-events-none",
         ].join(" ")}

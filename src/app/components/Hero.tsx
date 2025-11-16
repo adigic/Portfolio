@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
-import { Icon } from "@iconify/react";
+
 import { SectionChevron } from "./SectionChevron";
 
 const PHRASES = [
@@ -96,7 +96,7 @@ export function Hero() {
   );
 
   return (
-    <section  data-nav-theme="light" className="w-full snap-start relative flex flex-col min-h-screen
+    <section  data-nav-theme="light" className="w-full snap-start snap-always relative flex flex-col min-h-screen
         bg-brand-light
          px-2 md:px-12
         pt-20 pb-4">

@@ -21,9 +21,9 @@ export default function AboutSection() {
     <section
      data-nav-theme="dark"
       id="about"
-      className="snap-start relative flex flex-col min-h-screen
+      className="snap-start snap-always relative flex flex-col min-h-screen
         bg-brand text-white
-        px-6 md:px-12
+        px-4 md:px-12
         pt-20 pb-4"
     >
         <div className="flex-1 flex items-center">
