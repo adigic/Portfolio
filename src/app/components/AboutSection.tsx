@@ -23,19 +23,19 @@ export default function AboutSection() {
       className="snap-start snap-always relative flex flex-col min-h-screen
         bg-brand text-white
         px-4 md:px-12
-        pt-20 pb-4"
+        pt-20 pb-20"
     >
       <div className="flex-1 flex items-center">
-        <div className="mx-auto max-w-[1500px]">
+        <div className="mx-auto max-w-[1500px] ">
           {/* Title */}
-          <h2 className="mb-12 text-3xl sm:text-4xl lg:text-5xl uppercase font-alexandria">
+          <h2 className="mb-12 text-3xl sm:text-4xl lg:text-5xl uppercase font-alexandriaanimate-fade-up anim-slow">
             ABOUT ME.
           </h2>
 
           {/* Main content */}
-          <div className="flex flex-col gap-12 lg:flex-row lg:items-start mx-auto">
+          <div className="flex flex-col gap-12 lg:flex-row lg:items-start mx-auto animate-fade-up anim-slow delay-100">
             {/* Left column: text */}
-            <div className="lg:w-4/5">
+            <div className="lg:w-4/5 ">
               <div className="lg:border-l border-white/25 lg:pl-6 text-md sm:text-lg leading-relaxed text-white space-y-5">
                 <p>
                   Hi, I&apos;m Adis Hegic, a junior frontend developer from
@@ -57,7 +57,7 @@ export default function AboutSection() {
               </div>
 
               {/* Location */}
-              <div className="mt-8 flex items-center gap-2 text-lg text-white/80">
+              <div className="mt-8 flex items-center gap-2 text-lg text-white/80 animate-fade-up anim-slow delay-200">
                 <span className="inline-flex items-center justify-center">
                   <Icon
                     icon="raphael:location"
@@ -75,12 +75,8 @@ export default function AboutSection() {
                 {skills.map((skill) => (
                   <span
                     key={skill}
-                    className="flex items-center justify-center rounded-lg bg-brand-light/10 border py-3 text-md"
-                    style={{
-                      borderColor: "currentColor",
-                      color: "currentColor",
-                      opacity: 0.85,
-                    }}
+                    className="flex items-center justify-center rounded-lg bg-brand-light/10 border-1 border-brand-light/10 hover:border-brand-light/50 py-3 text-md shadow-2xl"
+
                   >
                     {skill}
                   </span>

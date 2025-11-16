@@ -1,10 +1,11 @@
 import AboutSection from "./components/AboutSection";
+import Footer from "./components/Footer";
 import { Hero } from "./components/Hero";
 import { Navbar } from "./components/Navbar";
 
 export default function Home() {
   return (
-    <>
+    <div>
       <Navbar />
 
       <main className="">
@@ -12,8 +13,9 @@ export default function Home() {
             
         <Hero />
         <AboutSection />
+        <Footer/>
         </div>
       </main>
-    </>
+    </div>
   );
 }

@@ -99,7 +99,7 @@ export function Hero() {
     <section  data-nav-theme="light" className="w-full snap-start snap-always relative flex flex-col min-h-screen
         bg-brand-light
          px-2 md:px-12
-        md:pt-20 pb-4">
+        md:pt-20 pb-20">
           <div className="flex-1 w-full flex items-center justify-center">
       <div className="min-w-0 text-center sm:px-6">
         {/* TITLE */}
@@ -120,7 +120,7 @@ export function Hero() {
           </span>
 
 <span
-  className="
+  className="animate-fade-up anim-slow
     block text-accent font-righteous
     text-[clamp(2.5rem,8vw,5rem)]
   "
@@ -132,7 +132,7 @@ export function Hero() {
 
         {/* SUBTEXT + QUOTE */}
 <p
-  className="
+  className="animate-fade-up anim-slow delay-100
     mt-6 max-w-5xl mx-auto text-brand
     text-[clamp(0.75rem,1.9vw,1.7rem)]
     leading-[1.4]
@@ -149,7 +149,7 @@ export function Hero() {
 
 
 <p
-  className="
+  className="animate-fade-up anim-slow delay-200
     mt-4 max-w-[60ch] mx-auto italic text-brand/70
     text-[clamp(0.70rem,1.3vw,1.2rem)]
   "
@@ -158,7 +158,7 @@ export function Hero() {
         </p>
 
         {/* CARDS */}
-        <div className="mt-16 max-w-6xl mx-auto grid gap-6 md:grid-cols-3">
+        <div className="mt-16 max-w-6xl mx-auto grid gap-6 md:grid-cols-3 animate-fade-up anim-slow delay-300">
           <FeatureCard
             title="DESIGN"
             image="/cards/design.avif"
@@ -245,7 +245,7 @@ function FeatureCard({ title, text, image }: FeatureCardProps) {
           className="
             mt-3 sm:mt-4 lg:mt-6
             text-xs sm:text-sm leading-relaxed
-            text-zinc-800
+            text-brand
           "
         >
           {text}

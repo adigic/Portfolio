@@ -10,7 +10,7 @@ export function SectionChevron({ theme = "dark" }: SectionChevronProps) {
   const isDark = theme === "dark";
 
   return (
-    <div className="pb-6 flex justify-center pointer-events-none">
+    <div className="pb-4 flex justify-center pointer-events-none">
       <Icon
         icon="bi:chevron-double-down"
         aria-hidden

@@ -1,5 +1,7 @@
 import localFont from "next/font/local";
 import "./globals.css";
+import AnalyticsLoader from "./components/AnalyticsLoader";
+import CookieBanner from "./components/CookieBanner";
 
 
 // define fonts
@@ -43,7 +45,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     
   `}
       >
-        {children}
+                {/* 🔹 Ladda GA enbart när samtycke finns */}
+        <AnalyticsLoader />
+        <div className="relative min-h-screen max-h-svh">
+          {children}
+        </div>
+                {/* 🔹 Cookie-banner längst ner */}
+        <CookieBanner />
       </body>
     </html>
   );

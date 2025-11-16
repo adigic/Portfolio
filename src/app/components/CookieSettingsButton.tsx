@@ -12,9 +12,9 @@ export default function CookieSettingsButton() {
     <button
       type="button"
       onClick={handleClick}
-      className="mt-4 inline-flex items-center gap-2 rounded-sm border border-white/30 px-3 py-2 text-xs md:text-sm tracking-wide hover:bg-white/10 cursor-pointer"
+      className="mt-4 inline-flex items-center gap-2 rounded-md border border-brand-light/40 px-3 py-2 text-xs md:text-sm tracking-wide text-brand-light hover:bg-brand-light/10 hover:border-brand-light/70 transition cursor-pointer"
     >
-      Ändra cookieinställningar
+      Change cookie settings
     </button>
   );
 }

@@ -9,6 +9,7 @@
   --color-brand: #1a1a1a;
   --color-brand-dark: #1a1a1a;
   --color-brand-light: #EDEDED;
+  --color-brand-input: #D9D9D9;
   --color-accent: #39597D;
 
   /* Fonts: connect Tailwind font utilities to next/font variables */
@@ -63,4 +64,121 @@ body {
   opacity: 0;
   animation: fadeInDown 0.8s ease-out forwards;
   animation-delay: 1.5s;
+}
+
+/* ========= Animations Toolkit ========= */
+@layer utilities {
+  /* Base vars you can tweak once */
+  :root {
+    --anim-duration: 600ms;
+    --anim-ease: cubic-bezier(.22, .9, .24, 1); /* snappy but smooth */
+    --anim-distance: 16px;                      /* translate distance */
+    --anim-scale: .96;                          /* start scale for pop/scale-in */
+  }
+
+  /* --- Keyframes --- */
+  @keyframes fade-in {
+    from { opacity: 0 }
+    to   { opacity: 1 }
+  }
+  @keyframes fade-up {
+    from { opacity: 0; transform: translate3d(0, var(--anim-distance), 0) }
+    to   { opacity: 1; transform: translate3d(0, 0, 0) }
+  }
+  @keyframes fade-down {
+    from { opacity: 0; transform: translate3d(0, calc(var(--anim-distance) * -1), 0) }
+    to   { opacity: 1; transform: translate3d(0, 0, 0) }
+  }
+  @keyframes fade-left {
+    from { opacity: 0; transform: translate3d(var(--anim-distance), 0, 0) }
+    to   { opacity: 1; transform: translate3d(0, 0, 0) }
+  }
+  @keyframes fade-right {
+    from { opacity: 0; transform: translate3d(calc(var(--anim-distance) * -1), 0, 0) }
+    to   { opacity: 1; transform: translate3d(0, 0, 0) }
+  }
+  @keyframes scale-in {
+    from { opacity: 0; transform: scale(var(--anim-scale)) }
+    to   { opacity: 1; transform: scale(1) }
+  }
+  @keyframes pop-in {
+    0%   { opacity: 0; transform: translate3d(0, var(--anim-distance), 0) scale(.98) }
+    60%  { opacity: 1; transform: translate3d(0, -2px, 0) scale(1.01) }
+    100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1) }
+  }
+  @keyframes blur-in {
+    from { opacity: 0; filter: blur(6px); transform: translate3d(0, 6px, 0) }
+    to   { opacity: 1; filter: blur(0); transform: translate3d(0, 0, 0) }
+  }
+  @keyframes reveal-clip {
+    from { clip-path: inset(0 0 100% 0) }
+    to   { clip-path: inset(0 0 0 0) }
+  }
+  @keyframes hover {
+    0% { transform: translateY(0px);}
+    50% { transform: translateY(10px);}
+    100% { transform: translateY(0px);}
+    
+  }
+
+  /* --- Utilities (single-use) --- */
+  .animate-fade-in   { animation: fade-in   var(--anim-duration) var(--anim-ease) both }
+  .animate-fade-up   { animation: fade-up   var(--anim-duration) var(--anim-ease) both }
+  .animate-fade-down { animation: fade-down var(--anim-duration) var(--anim-ease) both }
+  .animate-fade-left { animation: fade-left var(--anim-duration) var(--anim-ease) both }
+  .animate-fade-right{ animation: fade-right var(--anim-duration) var(--anim-ease) both }
+  .animate-scale-in  { animation: scale-in  var(--anim-duration) var(--anim-ease) both }
+  .animate-pop-in    { animation: pop-in    var(--anim-duration) var(--anim-ease) both }
+  .animate-blur-in   { animation: blur-in   var(--anim-duration) var(--anim-ease) both }
+  .animate-reveal    { animation: reveal-clip var(--anim-duration) var(--anim-ease) both }
+  .animate-hover    { animation: hover ease-in-out infinite }
+
+  /* --- Duration presets --- */
+  .anim-fast   { animation-duration: 400ms }
+  .anim-normal { animation-duration: 600ms }
+  .anim-slow   { animation-duration: 900ms }
+
+  /* --- Distance + scale knobs (optional override per element) --- */
+  .anim-distance-sm { --anim-distance: 8px }
+  .anim-distance-lg { --anim-distance: 28px }
+  .anim-scale-soft  { --anim-scale: .98 }
+  .anim-scale-bold  { --anim-scale: .9 }
+
+  /* --- Delays (handy for quick staggers) --- */
+  .delay-0   { animation-delay: 0ms }
+  .delay-100 { animation-delay: 100ms }
+  .delay-200 { animation-delay: 200ms }
+  .delay-300 { animation-delay: 300ms }
+  .delay-400 { animation-delay: 400ms }
+  .delay-500 { animation-delay: 500ms }
+  .delay-600 { animation-delay: 600ms }
+
+  /* --- Scroll-reveal helpers (CSS+JS optional) --- */
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translate3d(0, var(--anim-distance), 0);
+    will-change: transform, opacity;
+  }
+  .reveal-on-scroll.is-visible {
+    animation: fade-up var(--anim-duration) var(--anim-ease) both;
+  }
+
+  /* --- Reduced motion --- */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in,
+    .animate-fade-up,
+    .animate-fade-down,
+    .animate-fade-left,
+    .animate-fade-right,
+    .animate-scale-in,
+    .animate-pop-in,
+    .animate-blur-in,
+    .animate-reveal,
+    .reveal-on-scroll.is-visible {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
+    }
+  }
 }

@@ -20,6 +20,7 @@ const config: Config = {
           DEFAULT: "#1A1A1A",
           light: "#EDEDED",
           dark: "#1A1A1A",
+          input: "#D9D9D9",
         },
         accent: "#39597D",
       },

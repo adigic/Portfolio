@@ -17,14 +17,14 @@ export default function CookieBanner() {
     const stored = window.localStorage.getItem(STORAGE_KEY) as ConsentValue | null;
 
     if (!stored) {
-      // Inget val gjort → visa banner
+      // No choice yet → show banner
       setVisible(true);
     } else if (stored === "accepted") {
-      // Redan accepterat → trigga GA-loader
+      // Already accepted → trigger GA loader
       window.dispatchEvent(new Event("cookie-consent-accepted"));
     }
 
-    // Lyssna på special-event för att öppna bannern igen (från integritetssidan)
+    // Listen for custom event to reopen the banner (from the privacy page)
     const onOpen = () => {
       setVisible(true);
     };
@@ -53,13 +53,16 @@ export default function CookieBanner() {
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-50 flex justify-center px-4 pb-4">
-      <div className="w-full max-w-3xl rounded-md bg-[#111111]/95 text-white border border-white/10 shadow-lg backdrop-blur-sm">
-        <div className="flex flex-col gap-3 p-4 text-sm md:flex-row md:items-center md:justify-between">
-          <p className="leading-snug">
-            Vi använder cookies för att analysera trafik med Google Analytics. Du kan välja att
-            acceptera eller neka statistikcookies. Läs mer i vår{" "}
-            <Link href="/integritetspolicy" className="underline underline-offset-2 hover:text-gray-200">
-              integritetspolicy
+      <div className="w-full max-w-4xl rounded-lg bg-brand/95 text-brand-light border border-brand-light/20 shadow-lg backdrop-blur-md">
+        <div className="flex flex-col gap-3 p-4 text-xs sm:text-sm md:flex-row md:items-center md:justify-between">
+          <p className="leading-snug text-brand-light/90">
+            I use cookies to analyze traffic with Google Analytics. You can choose to
+            accept or reject analytics cookies. Read more in the{" "}
+            <Link
+              href="/integrity"
+              className="underline underline-offset-2 hover:text-accent transition-colors"
+            >
+              integritypolicy
             </Link>
             .
           </p>
@@ -68,16 +71,16 @@ export default function CookieBanner() {
             <button
               type="button"
               onClick={() => handleChoice("denied")}
-              className="px-3 py-1.5 text-xs md:text-sm border border-white/30 rounded-sm hover:bg-white/10 transition cursor-pointer"
+              className="px-3 py-1.5 text-xs sm:text-sm border border-brand-light/40 rounded-md hover:bg-brand-light/10 transition cursor-pointer"
             >
-              Neka
+              Reject
             </button>
             <button
               type="button"
               onClick={() => handleChoice("accepted")}
-              className="px-3 py-1.5 text-xs md:text-sm bg-white text-black rounded-sm hover:bg-gray-100 transition cursor-pointer"
+              className=" py-1.5 text-xs sm:text-sm rounded-md px-4 bg-accent text-brand-light hover:opacity-90 transition cursor-pointer"
             >
-              Acceptera
+              Accept
             </button>
           </div>
         </div>
