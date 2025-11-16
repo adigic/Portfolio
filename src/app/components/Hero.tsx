@@ -87,6 +87,8 @@ function TypewriterText({
   );
 }
 
+/* --- HERO --- */
+
 export function Hero() {
   const phrases = useMemo(() => [...PHRASES], []);
 
@@ -96,96 +98,78 @@ export function Hero() {
   );
 
   return (
-    <section  data-nav-theme="light" className="w-full snap-start snap-always relative flex flex-col min-h-screen
+    <section
+      data-nav-theme="light"
+      className="w-full snap-start snap-always relative flex flex-col min-h-screen
         bg-brand-light
-         px-2 md:px-12
-        md:pt-20 pb-20">
-          <div className="flex-1 w-full flex items-center justify-center">
-      <div className="min-w-0 text-center sm:px-6">
-        {/* TITLE */}
-        <h1
-          className="
-            text-brand mt-16  font-alexandria leading-[1.1] tracking-tight
-            text-[clamp(2.4rem,5vw,3.6rem)]
-          "
-        >
-          <span
+        px-2 md:px-12
+        md:pt-20 pb-20 overflow-x-hidden"
+    >
+      <div className="flex-1 w-full flex items-center justify-center">
+        <div className="min-w-0 text-center sm:px-6">
+          {/* TITLE */}
+          <h1
             className="
-              block font-light
-              text-[clamp(2.2rem,6vw,3.5rem)]
+              text-brand mt-16 font-alexandria leading-[1.1] tracking-tight
+              text-[clamp(2.4rem,5vw,3.6rem)]
             "
-            style={{ minWidth: `${longestCh}ch` }}
           >
-            <TypewriterText phrases={phrases} typeSpeed={40} holdTime={6000} />
-          </span>
+            <span
+              className="
+                block font-light
+                text-[clamp(2.2rem,6vw,3.5rem)]
+              "
+              style={{ minWidth: `${longestCh}ch` }}
+            >
+              <TypewriterText phrases={phrases} typeSpeed={40} holdTime={6000} />
+            </span>
 
-<span
-  className="animate-fade-up anim-slow
-    block text-accent font-righteous
-    text-[clamp(2.5rem,8vw,5rem)]
-  "
->
-  Frontend Developer<span className="text-brand">.</span>
-</span>
+            <span
+              className="animate-fade-up anim-slow
+                block text-accent font-righteous
+                text-[clamp(2.5rem,8vw,5rem)]
+              "
+            >
+              Frontend Developer<span className="text-brand">.</span>
+            </span>
+          </h1>
 
-        </h1>
+          {/* SUBTEXT + QUOTE */}
+          <p
+            className="animate-fade-up anim-slow delay-100
+              mt-6 max-w-5xl mx-auto text-brand
+              text-[clamp(0.75rem,1.9vw,1.7rem)]
+              leading-[1.4]
+            "
+          >
+            <span className="block">
+              Newly graduated, detail-focused, and passionate about UI/UX.
+            </span>
+            <span className="block">
+              Excited to bring clean design and performance to every project.
+            </span>
+          </p>
 
-        {/* SUBTEXT + QUOTE */}
-<p
-  className="animate-fade-up anim-slow delay-100
-    mt-6 max-w-5xl mx-auto text-brand
-    text-[clamp(0.75rem,1.9vw,1.7rem)]
-    leading-[1.4]
-  "
->
+          <p
+            className="animate-fade-up anim-slow delay-200
+              mt-4 max-w-[60ch] mx-auto italic text-brand/70
+              text-[clamp(0.70rem,1.3vw,1.2rem)]
+            "
+          >
+            “I&rsquo;m ready to grow, learn, and build something amazing.”
+          </p>
 
-  <span className="block">
-    Newly graduated, detail-focused, and passionate about UI/UX.
-  </span>
-  <span className="block">
-    Excited to bring clean design and performance to every project.
-  </span>
-</p>
-
-
-<p
-  className="animate-fade-up anim-slow delay-200
-    mt-4 max-w-[60ch] mx-auto italic text-brand/70
-    text-[clamp(0.70rem,1.3vw,1.2rem)]
-  "
->
-          “I&rsquo;m ready to grow, learn, and build something amazing.”
-        </p>
-
-        {/* CARDS */}
-        <div className="mt-16 max-w-6xl mx-auto grid gap-6 md:grid-cols-3 animate-fade-up anim-slow delay-300">
-          <FeatureCard
-            title="DESIGN"
-            image="/cards/design.avif"
-            text="I create clean, structured and visually balanced interfaces with a strong focus on detail, typography and spacing."
-          />
-
-          <FeatureCard
-            title="UX"
-            image="/cards/ux.avif"
-            text="I craft intuitive user flows and interactions that make products feel natural, clear and enjoyable to use."
-          />
-
-          <FeatureCard
-            title="CODE"
-            image="/cards/code.avif"
-            text="I build fast, responsive and maintainable frontend architecture using modern frameworks and best practices."
-          />
+          {/* CARDS DECK */}
+          <div className="mt-16 animate-fade-up anim-slow delay-300">
+            <HeroCardsDeck />
+          </div>
         </div>
-
-      </div>
       </div>
 
       {/* Chevron låst nära nedre kanten av sektionen/viewporten */}
       <div className="pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2">
         <SectionChevron theme="light" />
       </div>
-
     </section>
   );
 }
@@ -202,13 +186,12 @@ function FeatureCard({ title, text, image }: FeatureCardProps) {
   return (
     <div
       className="
-        relative overflow-hidden rounded-xl bg-white shadow-sm
-        border border-zinc-200
-        lg:aspect-[5/6]
+        relative h-full overflow-hidden rounded-xl bg-white shadow-xl
+        border border-brand-light
       "
     >
       {/* Bakgrundsbild – bara på desktop */}
-      <div className="hidden md:block absolute inset-0">
+      <div className=" absolute inset-0">
         <Image
           src={image}
           alt={title}
@@ -224,7 +207,7 @@ function FeatureCard({ title, text, image }: FeatureCardProps) {
           relative h-full
           px-5 py-4
           sm:px-6 sm:py-6
-          lg:px-8 lg:py-9
+          lg:px-7 lg:py-7
           flex flex-col justify-between
           text-left
         "
@@ -232,24 +215,189 @@ function FeatureCard({ title, text, image }: FeatureCardProps) {
         <div>
           <h3
             className="
-              text-sm sm:text-base font-semibold tracking-[0.18em]
-              text-zinc-900 text-left
+              text-[0.65rem] sm:text-xs md:text-sm font-semibold
+              tracking-[0.18em]
+              text-zinc-900
             "
           >
             {title}
           </h3>
-          <div className="mt-2 h-[2px] w-8 sm:w-10 bg-accent" />
+          <div className="mt-2 h-[2px] w-7 sm:w-8 bg-accent" />
         </div>
 
         <p
           className="
-            mt-3 sm:mt-4 lg:mt-6
-            text-xs sm:text-sm leading-relaxed
+            mt-3 sm:mt-4
+            text-[0.7rem] sm:text-xs md:text-sm leading-relaxed
             text-brand
           "
         >
           {text}
         </p>
+      </div>
+    </div>
+  );
+}
+
+
+/* --- HERO CARDS DECK / CAROUSEL --- */
+
+const HERO_CARDS: FeatureCardProps[] = [
+  {
+    title: "DESIGN",
+    image: "/cards/design.avif",
+    text: "I create clean, structured and visually balanced interfaces with a strong focus on detail, typography and spacing.",
+  },
+  {
+    title: "UX",
+    image: "/cards/ux.avif",
+    text: "I craft intuitive user flows and interactions that make products feel natural, clear and enjoyable to use.",
+  },
+  {
+    title: "CODE",
+    image: "/cards/code.avif",
+    text: "I build fast, responsive and maintainable frontend architecture using modern frameworks and best practices.",
+  },
+];
+
+function HeroCardsDeck() {
+  const [active, setActive] = useState(0);
+  const touchStartX = useRef<number | null>(null);
+
+  // Auto-rotate every 7 seconds
+  useEffect(() => {
+    const id = window.setInterval(
+      () => setActive((prev) => (prev + 1) % HERO_CARDS.length),
+      7000
+    );
+    return () => window.clearInterval(id);
+  }, []);
+
+  const goNext = () => setActive((prev) => (prev + 1) % HERO_CARDS.length);
+  const goPrev = () =>
+    setActive((prev) => (prev - 1 + HERO_CARDS.length) % HERO_CARDS.length);
+
+  const getPosition = (index: number) => {
+    const total = HERO_CARDS.length;
+    if (index === active) return "center";
+    if (index === (active + 1) % total) return "right";
+    if (index === (active - 1 + total) % total) return "left";
+    return "hidden";
+  };
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (touchStartX.current == null) return;
+    const diff = e.changedTouches[0].clientX - touchStartX.current;
+
+    const threshold = 40; // px swipe threshold
+    if (Math.abs(diff) > threshold) {
+      if (diff < 0) {
+        // swipe left → next
+        goNext();
+      } else {
+        // swipe right → prev
+        goPrev();
+      }
+    }
+
+    touchStartX.current = null;
+  };
+
+  return (
+    <div className="w-full flex flex-col items-center gap-4 sm:gap-5 md:gap-6">
+      {/* Label so it's obvious it's interactive */}
+      <span className="text-[0.65rem] sm:text-[0.7rem] uppercase tracking-[0.2em] text-brand/60">
+        Explore my focus areas
+      </span>
+
+      {/* Deck wrapper – smaller + centered, swipe on mobile */}
+      <div
+        className="relative mx-auto w-full max-w-3xl h-[190px] sm:h-[210px] md:h-[230px] lg:h-[250px]"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        {HERO_CARDS.map((card, index) => {
+          const pos = getPosition(index);
+
+          let translateX = "0%";
+          let rotate = "0deg";
+          let scale = 1;
+          let zIndex = 30;
+          let opacity = 1;
+
+          if (pos === "left") {
+            translateX = "-22%";
+            rotate = "-7deg";
+            scale = 0.9;
+            zIndex = 20;
+            opacity = 0.9;
+          } else if (pos === "right") {
+            translateX = "22%";
+            rotate = "7deg";
+            scale = 0.9;
+            zIndex = 20;
+            opacity = 0.9;
+          } else if (pos === "hidden") {
+            translateX = "0%";
+            rotate = "0deg";
+            scale = 0.8;
+            zIndex = 10;
+            opacity = 0;
+          }
+
+          return (
+            <button
+              key={card.title}
+              type="button"
+              onClick={() => setActive(index)}
+              className={`
+                absolute inset-0 mx-auto
+                flex items-center justify-center
+                transition-all duration-500 ease-[cubic-bezier(0.22,0.61,0.36,1)]
+                ${pos === "hidden" ? "pointer-events-none" : "cursor-pointer"}
+              `}
+              style={{
+                transform: `translateX(${translateX}) scale(${scale}) rotate(${rotate})`,
+                zIndex,
+                opacity,
+              }}
+              aria-label={`${card.title} card`}
+            >
+              {/* Playing-card ratio: 63x88, just scaled down */}
+              <div className="w-[62%] sm:w-[50%] md:w-[42%] lg:w-[36%] aspect-[63/88]">
+                <FeatureCard {...card} />
+              </div>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Dots only */}
+      <div className="flex flex-col items-center gap-3 mt-28 md:mt-20">
+        <div className="flex gap-2">
+          {HERO_CARDS.map((card, i) => (
+            <button
+              key={card.title}
+              type="button"
+              onClick={() => setActive(i)}
+              className={`h-2.5 rounded-full transition-all cursor-pointer ${
+                i === active
+                  ? "w-6 bg-accent"
+                  : "w-2.5 bg-brand/30 hover:bg-brand/60"
+              }`}
+              aria-label={`Show ${card.title} card`}
+            />
+          ))}
+        </div>
+
+        {/* Hint text on larger displays */}
+        <span className="hidden md:block text-[0.65rem] text-brand/60">
+          Tap a card, swipe, or use the dots to browse.
+        </span>
       </div>
     </div>
   );
