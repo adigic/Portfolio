@@ -112,7 +112,7 @@ export function Hero() {
           <span
             className="
               block font-light
-              text-[clamp(2.4rem,6vw,3.5rem)]
+              text-[clamp(2.2rem,6vw,3.5rem)]
             "
             style={{ minWidth: `${longestCh}ch` }}
           >
@@ -122,7 +122,7 @@ export function Hero() {
 <span
   className="
     block text-accent font-righteous
-    text-[clamp(2.8rem,8vw,5rem)]
+    text-[clamp(2.5rem,8vw,5rem)]
   "
 >
   Frontend Developer<span className="text-brand">.</span>
@@ -134,7 +134,7 @@ export function Hero() {
 <p
   className="
     mt-6 max-w-5xl mx-auto text-brand
-    text-[clamp(0.85rem,1.9vw,1.7rem)]
+    text-[clamp(0.75rem,1.9vw,1.7rem)]
     leading-[1.4]
   "
 >
@@ -151,7 +151,7 @@ export function Hero() {
 <p
   className="
     mt-4 max-w-[60ch] mx-auto italic text-brand/70
-    text-[clamp(0.75rem,1.3vw,1.2rem)]
+    text-[clamp(0.70rem,1.3vw,1.2rem)]
   "
 >
           “I&rsquo;m ready to grow, learn, and build something amazing.”
