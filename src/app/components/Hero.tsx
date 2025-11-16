@@ -96,12 +96,12 @@ export function Hero() {
   );
 
   return (
-    <section  data-nav-theme="light" className="snap-start relative flex flex-col min-h-screen
-        bg-light
+    <section  data-nav-theme="light" className="w-full snap-start relative flex flex-col min-h-screen
+        bg-brand-light
          px-2 md:px-12
         pt-20 pb-4">
           <div className="flex-1 w-full flex items-center justify-center">
-      <div className="min-w-0 text-center px-4 sm:px-6">
+      <div className="min-w-0 text-center sm:px-6">
         {/* TITLE */}
         <h1
           className="
@@ -122,7 +122,7 @@ export function Hero() {
 <span
   className="
     block text-accent font-righteous
-    text-[clamp(3rem,8vw,5rem)]
+    text-[clamp(2.8rem,8vw,5rem)]
   "
 >
   Frontend Developer<span className="text-brand">.</span>

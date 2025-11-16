@@ -15,10 +15,13 @@ export function Navbar() {
   const [panelOpen, setPanelOpen] = useState(false);
   const [itemsVisible, setItemsVisible] = useState(false);
   const [hash, setHash] = useState<string>("");
-  const [navTheme, setNavTheme] = useState<"light" | "dark">("light");
+  const [navTheme, setNavTheme] = useState<"light" | "dark">("light"); // beskriver SEKTIONEN
   const ulRef = useRef<HTMLUListElement | null>(null);
 
-  const isDark = navTheme === "dark";
+  // uiIsDark = hur NAV:en ska se ut (reverserat mot sektionen)
+  // sektion dark  => uiIsDark = false (ljus navbar)
+  // sektion light => uiIsDark = true  (mörk navbar)
+  const uiIsDark = navTheme === "light";
 
   // hash för active-link styling på desktop
   useEffect(() => {
@@ -48,7 +51,6 @@ export function Navbar() {
         const visible = entries.filter((e) => e.isIntersecting);
         if (!visible.length) return;
 
-        // Ta den som syns mest
         const topMost = visible.reduce((prev, curr) =>
           prev.intersectionRatio > curr.intersectionRatio ? prev : curr
         );
@@ -59,7 +61,7 @@ export function Navbar() {
         }
       },
       {
-        threshold: 0.5, // minst 50% inne i viewport
+        threshold: 0.5,
       }
     );
 
@@ -82,7 +84,6 @@ export function Navbar() {
     else openMenu();
   };
 
-  // när länkarna har fadat ut → stäng panelen
   const onItemsTransitionEnd = (
     e: React.TransitionEvent<HTMLUListElement>
   ) => {
@@ -92,28 +93,47 @@ export function Navbar() {
     }
   };
 
-  const baseLink = "text-sm border-b border-transparent ";
-  const linkIdle = isDark
+  // Färglogik baserat på UI-tema (reversed)
+  const baseLink = "text-sm border-b border-transparent";
+  const linkIdle = uiIsDark
     ? "text-white hover:border-white/80"
     : "text-brand hover:border-brand";
-  const linkActive = isDark
+  const linkActive = uiIsDark
     ? "text-white border-b border-white"
     : "text-brand border-b border-brand";
 
-  const brandColorClass = isDark ? "text-white" : "text-brand";
-  const bgClass = isDark ? "bg-brand" : "bg-brand-light";
-  const iconColorClass = isDark ? "text-white" : "text-brand";
+  const brandColorClass = uiIsDark ? "text-white" : "text-brand";
+  const topBgClass = uiIsDark ? "bg-brand" : "bg-brand-light";
+  const iconColorClass = uiIsDark ? "text-white" : "text-brand";
+
+  const mobilePanelBg = uiIsDark ? "bg-brand" : "bg-brand-light";
+  const mobilePanelText = uiIsDark ? "text-white" : "text-brand";
+
+  const hamburgerBg = uiIsDark ? "bg-brand" : "bg-brand-light";
+  const hamburgerBorder = uiIsDark
+    ? "border border-white/20"
+    : "border border-brand/20";
+
+  // ✨ NYTT: separata hover + border för mobilen
+  const mobileLinkHoverBg = uiIsDark
+    ? "hover:bg-white/5"
+    : "hover:bg-brand/10";
+
+  const mobilePanelBorder = uiIsDark
+    ? "border-b border-white/10"
+    : "border-b border-brand/10";
+
 
   return (
     <header className="fixed top-0 left-0 z-50 w-full h-16 inset-x-0 transition">
       {/* TOP RAD: brand + desktop-nav + hamburger */}
       <div
-        className={`${bgClass} flex items-center justify-between px-4 py-3 md:px-6 md:py-4 mx-auto`}
+        className={`md:${topBgClass} flex items-center justify-between px-4 py-3 md:px-6 md:py-4 mx-auto`}
       >
-        {/* Brand */}
+        {/* Brand (desktop) */}
         <Link
           href="/"
-          className={`text-2xl sm:text-3xl tracking-tight ${brandColorClass}`}
+          className={`hidden md:flex text-2xl sm:text-3xl tracking-tight ${brandColorClass}`}
           onClick={() => closeMenu()}
         >
           Adis Hegic
@@ -127,9 +147,7 @@ export function Navbar() {
               <Link
                 key={l.href}
                 href={l.href}
-                className={`${baseLink} ${
-                  isActive ? linkActive : linkIdle
-                }`}
+                className={`${baseLink} ${isActive ? linkActive : linkIdle}`}
               >
                 {l.label}
               </Link>
@@ -149,7 +167,13 @@ export function Navbar() {
         </nav>
 
         {/* Mobile hamburger */}
-        <div className="md:hidden flex items-center">
+        <div
+          className={`
+            md:hidden
+            ${hamburgerBg} ${hamburgerBorder}
+            rounded-md absolute top-2 right-2 
+          `}
+        >
           <button
             type="button"
             onClick={toggleMenu}
@@ -184,18 +208,21 @@ export function Navbar() {
       <div
         className={[
           "md:hidden absolute inset-x-0 top-full z-40",
-          "transform-gpu will-change-transform origin-top transition-transform duration-300 ease-out",
+          "transform-gpu will-change-transform origin-top transition-transform duration-300 ease-out pt-0 p-2",
           panelOpen ? "scale-y-100" : "scale-y-0",
           panelOpen ? "pointer-events-auto" : "pointer-events-none",
         ].join(" ")}
         style={{ transformOrigin: "top" }}
       >
-        <div className="bg-brand shadow-xl overflow-hidden">
+        <div
+          className={`${mobilePanelBg} ${mobilePanelText} rounded-lg shadow-xl overflow-hidden`}
+        >
           <ul
             ref={ulRef}
             onTransitionEnd={onItemsTransitionEnd}
             className={[
-              "flex flex-col text-white text-lg select-none border-b",
+              "flex flex-col text-lg select-none",
+              mobilePanelBorder, // 🔁 använder rätt border beroende på tema
               "transition-opacity duration-200 ease-out",
               itemsVisible ? "opacity-100" : "opacity-0",
               itemsVisible ? "pointer-events-auto" : "pointer-events-none",
@@ -206,7 +233,12 @@ export function Navbar() {
                 <Link
                   href={l.href}
                   onClick={() => closeMenu()}
-                  className="block w-full text-left py-3 px-6 hover:bg-white/5 hover:opacity-100 opacity-90 transition"
+                  className={`
+                    block w-full text-left py-3 px-6
+                    opacity-90 hover:opacity-100
+                    ${mobileLinkHoverBg}   // 🔁 hover för ljus/mörk panel
+                    transition
+                  `}
                 >
                   {l.label}
                 </Link>
@@ -215,6 +247,7 @@ export function Navbar() {
           </ul>
         </div>
       </div>
+
     </header>
   );
 }

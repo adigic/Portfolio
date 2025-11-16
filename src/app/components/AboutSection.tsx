@@ -27,7 +27,7 @@ export default function AboutSection() {
         pt-20 pb-4"
     >
         <div className="flex-1 flex items-center">
-      <div className="mx-auto ">
+      <div className="mx-auto max-w-[1500px]">
         {/* Title */}
         <h2 className="mb-12 text-3xl sm:text-4xl lg:text-5xl  uppercase font-alexandria">
           ABOUT ME.
@@ -58,7 +58,7 @@ export default function AboutSection() {
             </div>
 
             {/* Location */}
-            <div className="mt-8 flex items-center gap-2 text-sm text-white/80">
+            <div className="mt-8 flex items-center gap-2 text-lg text-white/80">
               <span className="inline-flexitems-center justify-center ">
                 {/* simple location pin icon */}
 <Icon
@@ -74,12 +74,12 @@ export default function AboutSection() {
 
 
           {/* RIGHT: skills */}
-          <div className="lg:w-2/3">
-            <div className="flex flex-wrap  gap-3 w-full">
+          <div className="w-full lg:w-2/3">
+            <div className="flex flex-wrap gap-3 w-full">
               {skills.map((skill) => (
                 <span
                   key={skill}
-                  className="inline-flex w-42 items-center justify-center rounded-lg bg-brand-light/10 border py-3  text-md"
+                  className="flex w-1/2 items-center justify-center rounded-lg bg-brand-light/10 border py-3  text-md"
                   style={{
                     borderColor: "currentColor",
                     color: "currentColor",
