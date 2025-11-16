@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
+import { Icon } from "@iconify/react";
 
 import { SectionChevron } from "./SectionChevron";
 
@@ -179,27 +180,30 @@ export function Hero() {
 type FeatureCardProps = {
   title: string;
   text: string;
-  image: string; // path in /public
+  image?: string; // still supports bg image
+  icon?: string;  // Iconify icon name
 };
 
-function FeatureCard({ title, text, image }: FeatureCardProps) {
+function FeatureCard({ title, text, image, icon }: FeatureCardProps) {
   return (
     <div
       className="
         relative h-full overflow-hidden rounded-xl bg-white shadow-xl
-        border border-brand-light
+        border border-brand-light mt-5
       "
     >
-      {/* Bakgrundsbild – bara på desktop */}
-      <div className=" absolute inset-0">
-        <Image
-          src={image}
-          alt={title}
-          fill
-          className="object-cover opacity-40"
-        />
-        <div className="absolute inset-0 bg-white/70" />
-      </div>
+      {/* Bakgrundsbild (soft, under content) */}
+      {image && (
+        <div className="absolute inset-0">
+          <Image
+            src={image}
+            alt={title}
+            fill
+            className="object-cover opacity-40"
+          />
+          <div className="absolute inset-0 bg-white/70" />
+        </div>
+      )}
 
       {/* Content */}
       <div
@@ -212,6 +216,7 @@ function FeatureCard({ title, text, image }: FeatureCardProps) {
           text-left
         "
       >
+        {/* Titel – som innan */}
         <div>
           <h3
             className="
@@ -225,9 +230,22 @@ function FeatureCard({ title, text, image }: FeatureCardProps) {
           <div className="mt-2 h-[2px] w-7 sm:w-8 bg-accent" />
         </div>
 
+        {/* Ikonen – centrerad på kortet */}
+        <div className="flex justify-center my-4 sm:my-5">
+          {icon && (
+            <div className=" flex items-center justify-center">
+              <Icon
+                icon={icon}
+                className="text-brand text-7xl"
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Beskrivning – under ikonen */}
         <p
           className="
-            mt-3 sm:mt-4
+            mt-2 sm:mt-3
             text-[0.7rem] sm:text-xs md:text-sm leading-relaxed
             text-brand
           "
@@ -240,22 +258,26 @@ function FeatureCard({ title, text, image }: FeatureCardProps) {
 }
 
 
+
 /* --- HERO CARDS DECK / CAROUSEL --- */
 
 const HERO_CARDS: FeatureCardProps[] = [
   {
     title: "DESIGN",
     image: "/cards/design.avif",
+    icon: "ph:paint-brush-broad", // change icons if you want
     text: "I create clean, structured and visually balanced interfaces with a strong focus on detail, typography and spacing.",
   },
   {
     title: "UX",
     image: "/cards/ux.avif",
+    icon: "ph:paths",
     text: "I craft intuitive user flows and interactions that make products feel natural, clear and enjoyable to use.",
   },
   {
     title: "CODE",
     image: "/cards/code.avif",
+    icon: "ph:code",
     text: "I build fast, responsive and maintainable frontend architecture using modern frameworks and best practices.",
   },
 ];
@@ -308,13 +330,13 @@ function HeroCardsDeck() {
   };
 
   return (
-    <div className="w-full flex flex-col items-center gap-4 sm:gap-5 md:gap-6">
+    <div className="w-full flex flex-col items-center gap-4 sm:gap-5 md:gap-6 ">
       {/* Label so it's obvious it's interactive */}
       <span className="text-[0.65rem] sm:text-[0.7rem] uppercase tracking-[0.2em] text-brand/60">
         Explore my focus areas
       </span>
 
-      {/* Deck wrapper – smaller + centered, swipe on mobile */}
+      {/* Deck wrapper – centered, swipe on mobile */}
       <div
         className="relative mx-auto w-full max-w-3xl h-[190px] sm:h-[210px] md:h-[230px] lg:h-[250px]"
         onTouchStart={handleTouchStart}
@@ -377,7 +399,7 @@ function HeroCardsDeck() {
       </div>
 
       {/* Dots only */}
-      <div className="flex flex-col items-center gap-3 mt-28 md:mt-20">
+      <div className="flex flex-col items-center gap-3 mt-28 ">
         <div className="flex gap-2">
           {HERO_CARDS.map((card, i) => (
             <button

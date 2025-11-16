@@ -60,7 +60,7 @@ export default function Footer() {
   }
 
   return (
-    <footer id="kontakt" className="snap-start snap-always relative bg-brand-light  text-brand font-poppins">
+    <footer data-nav-theme="light" id="kontakt" className="snap-start snap-always relative bg-brand-light  text-brand font-poppins">
       <div className="py-10">
       <div className="mx-auto w-full max-w-7xl px-6 md:px-10 pb-10 pt-16">
 
@@ -73,8 +73,7 @@ export default function Footer() {
             <form
               name="contact"
               method="POST"
-              data-netlify="true"
-              data-netlify-honeypot="bot-field"
+
               onSubmit={onSubmit}
               className="space-y-4"
             >
