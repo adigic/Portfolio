@@ -128,7 +128,7 @@ export function Navbar() {
     <header className="fixed top-0 left-0 z-50 w-full h-16 inset-x-0 transition">
       {/* TOP RAD: brand + desktop-nav + hamburger */}
       <div
-        className={`${topBgClass} flex items-center justify-between px-4 py-3 md:px-6 md:py-4 mx-auto`}
+        className={`md:${topBgClass} flex items-center justify-between px-4 py-3 md:px-6 md:py-4 mx-auto`}
       >
         {/* Brand (desktop) */}
         <Link
