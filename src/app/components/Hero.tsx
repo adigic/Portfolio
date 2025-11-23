@@ -271,7 +271,7 @@ const HERO_CARDS: FeatureCardProps[] = [
   {
     title: "UX",
     image: "/cards/ux.avif",
-    icon: "ph:paths",
+    icon: "streamline-ultimate:layout",
     text: "I craft intuitive user flows and interactions that make products feel natural, clear and enjoyable to use.",
   },
   {
