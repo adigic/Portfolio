@@ -32,10 +32,10 @@ export function Navbar() {
   }, []);
 
   // Lås body-scroll när menyn är öppen
-  useEffect(() => {
+/*   useEffect(() => {
     document.body.classList.toggle("overflow-hidden", panelOpen);
     return () => document.body.classList.remove("overflow-hidden");
-  }, [panelOpen]);
+  }, [panelOpen]); */
 
   // Lyssna på vilken sektion som är i view (via data-nav-theme)
   useEffect(() => {
