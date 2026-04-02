@@ -125,7 +125,7 @@ export function Hero() {
       data-nav-theme="light"
       className="relative flex min-h-svh w-full flex-col justify-center
         bg-brand-light
-        overflow-x-hidden px-4 pt-24 pb-12 md:px-12 md:pt-24 md:pb-10"
+        overflow-x-hidden px-4 pt-20 pb-12 md:px-12 md:pt-24 md:pb-10"
     >
       <motion.div
         aria-hidden="true"
@@ -147,7 +147,7 @@ export function Hero() {
       </motion.div>
 
       <motion.div
-        className="absolute inset-x-0  z-10 flex justify-center px-4 top-5 md:top-22 md:right-2 md:justify-end"
+        className="absolute inset-x-0  z-10 flex justify-center px-4 top-10 md:top-22 md:right-1 md:justify-end"
         initial={{ opacity: 0, y: -14, scale: 0.96 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
@@ -184,7 +184,7 @@ export function Hero() {
             <span
               className="
                 block font-light
-                text-[clamp(2rem,5.5vw,3.2rem)]
+                text-[clamp(1.75rem,4.7vw,2.8rem)]
               "
               style={{ minWidth: `${longestCh}ch` }}
             >
@@ -399,15 +399,30 @@ function HeroCardsDeck() {
   };
 
   return (
-    <div className="w-full flex flex-col items-center gap-4 sm:gap-5 md:gap-6 ">
-      {/* Label so it's obvious it's interactive */}
-      <span className="text-[0.65rem] sm:text-[0.7rem] uppercase tracking-[0.2em] text-brand/60">
-        Explore my focus areas
-      </span>
+    <div className="flex w-full flex-col items-center gap-4 sm:gap-5 md:gap-6">
 
-      {/* Deck wrapper – centered, swipe on mobile */}
+
+      {/* Compact mobile card */}
+      <div className="w-full hidden">
+        <motion.button
+          key={HERO_CARDS[active]?.title}
+          type="button"
+          onClick={goNext}
+          initial={{ opacity: 0, y: 18, scale: 0.97 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          className="group mx-auto block w-full max-w-[270px]"
+          aria-label={`${HERO_CARDS[active]?.title} card`}
+        >
+          <div className="aspect-[62/80]">
+            <FeatureCard {...HERO_CARDS[active]} />
+          </div>
+        </motion.button>
+      </div>
+
+      {/* Deck wrapper – centered, swipe on tablet/desktop */}
       <div
-        className="relative mx-auto w-full max-w-3xl h-[190px] sm:h-[210px] md:h-[230px] lg:h-[250px]"
+        className="relative mx-auto mt-12 md:mt-6 h-[210px] w-full max-w-3xl sm:block md:h-[230px] lg:h-[250px]"
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
@@ -458,8 +473,7 @@ function HeroCardsDeck() {
               }}
               aria-label={`${card.title} card`}
             >
-              {/* Playing-card ratio: 63x88, just scaled down */}
-              <div className="w-[62%] sm:w-[50%] md:w-[42%] lg:w-[36%] aspect-[63/88]">
+              <div className="w-[50%] md:w-[42%] lg:w-[36%] aspect-[63/88]">
                 <FeatureCard {...card} />
               </div>
             </button>
@@ -468,7 +482,7 @@ function HeroCardsDeck() {
       </div>
 
       {/* Dots only */}
-      <div className="mt-22 flex flex-col items-center gap-3 md:mt-24 ">
+      <div className="mt-20 flex flex-col items-center gap-3 md:mt-16">
         <div className="flex gap-2">
           {HERO_CARDS.map((card, i) => (
             <button
@@ -486,7 +500,7 @@ function HeroCardsDeck() {
         </div>
 
         {/* Hint text on larger displays */}
-        <span className="hidden md:block text-[0.65rem] text-brand/60">
+        <span className=" text-[0.65rem] text-brand/60">
           Tap a card, swipe, or use the dots to browse.
         </span>
       </div>
