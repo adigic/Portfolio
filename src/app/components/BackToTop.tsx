@@ -9,6 +9,7 @@ type Theme = "light" | "dark";
 export function BackToTop({ showAfter = 200 }: { showAfter?: number }) {
   const [visible, setVisible] = useState(false);
   const [theme, setTheme] = useState<Theme>("light");
+  const [footerVisible, setFooterVisible] = useState(false);
 
   // Show/hide after scrolling
   useEffect(() => {
@@ -20,7 +21,7 @@ export function BackToTop({ showAfter = 200 }: { showAfter?: number }) {
 
   // Detect current section theme
   useEffect(() => {
-    const sections = Array.from(document.querySelectorAll<HTMLElement>("section[data-theme]"));
+    const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-nav-theme]"));
     if (!sections.length) return;
 
     const io = new IntersectionObserver(
@@ -28,7 +29,7 @@ export function BackToTop({ showAfter = 200 }: { showAfter?: number }) {
         const top = entries
           .filter((e) => e.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        const next = (top?.target.getAttribute("data-theme") as Theme) || "light";
+        const next = (top?.target.getAttribute("data-nav-theme") as Theme) || "light";
         setTheme((prev) => (prev === next ? prev : next));
       },
       { root: null, threshold: [0.55] }
@@ -38,11 +39,24 @@ export function BackToTop({ showAfter = 200 }: { showAfter?: number }) {
 
     // Initial: check what's around viewport center
     const el = document.elementFromPoint(window.innerWidth / 2, window.innerHeight / 2);
-    const sec = el?.closest("section[data-theme]") as HTMLElement | null;
-    const initial = (sec?.getAttribute("data-theme") as Theme) || "light";
+    const sec = el?.closest("[data-nav-theme]") as HTMLElement | null;
+    const initial = (sec?.getAttribute("data-nav-theme") as Theme) || "light";
     setTheme(initial);
 
     return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const footer = document.getElementById("contact");
+    if (!footer) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setFooterVisible(entry.isIntersecting),
+      { threshold: 0.15 }
+    );
+
+    observer.observe(footer);
+    return () => observer.disconnect();
   }, []);
 
   const prefersReduced =
@@ -68,7 +82,9 @@ export function BackToTop({ showAfter = 200 }: { showAfter?: number }) {
         "h-11 w-11 rounded-full grid place-items-center shadow-lg",
         "transition-all duration-300 cursor-pointer hover:opacity-80",
         themed,
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 pointer-events-none",
+        visible && !footerVisible
+          ? "opacity-100 translate-y-0"
+          : "opacity-0 translate-y-2 pointer-events-none",
       ].join(" ")}
     >
       <ChevronUp className="h-5 w-5" />

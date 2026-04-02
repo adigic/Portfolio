@@ -5,12 +5,10 @@ import { motion, type Variants } from "framer-motion";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
 
-import { SectionChevron } from "./SectionChevron";
-
 const PHRASES = [
-  "Design-driven",
-  "Project-oriented",
-  "Always learning",
+  "AI-enhanced",
+  "UX/UI-driven",
+  "Frontend-focused",
 ] as const;
 
 const heroContainerVariants: Variants = {
@@ -123,6 +121,7 @@ export function Hero() {
 
   return (
     <section
+      id="top"
       data-nav-theme="light"
       className="relative flex min-h-svh w-full flex-col justify-center
         bg-brand-light
@@ -147,20 +146,34 @@ export function Hero() {
         />
       </motion.div>
 
+      <motion.div
+        className="absolute inset-x-0  z-10 flex justify-center px-4 top-5 md:top-18 md:right-2 md:justify-end"
+        initial={{ opacity: 0, y: -14, scale: 0.96 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <motion.span
+          className="inline-flex items-center gap-2 border border-brand/10 bg-white/85 px-3 py-1.5 text-[0.58rem] font-semibold uppercase tracking-[0.17em] text-brand shadow-[0_10px_24px_rgba(0,0,0,0.06)] backdrop-blur-sm sm:px-3.5 sm:text-[0.62rem] md:text-[0.66rem]"
+          initial={{ opacity: 0, filter: "blur(6px)" }}
+          animate={{ opacity: 1, filter: "blur(0px)" }}
+          transition={{ duration: 0.5, delay: 0.28, ease: "easeOut" }}
+        >
+          <motion.span
+            className="h-1.5 w-1.5 rounded-full bg-emerald-500"
+            animate={{ opacity: [1, 0.4, 1], scale: [1, 0.82, 1] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+          />
+          Open to development opportunities
+        </motion.span>
+      </motion.div>
+
       <div className="flex w-full flex-1 items-center justify-center">
         <motion.div
-          className="min-w-0 max-w-6xl text-center sm:px-6"
+          className="relative min-w-0 max-w-6xl text-center sm:px-6"
           initial="hidden"
           animate="visible"
           variants={heroContainerVariants}
         >
-          <motion.div className="mb-5 flex justify-center" variants={heroItemVariants}>
-            <span className="inline-flex items-center gap-2 border border-brand/10 bg-white/70 px-4 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-brand shadow-[0_10px_30px_rgba(0,0,0,0.06)] backdrop-blur-sm sm:text-[0.72rem]">
-              <span className="h-2 w-2 rounded-full bg-emerald-500" />
-              Open to frontend opportunities
-            </span>
-          </motion.div>
-
           <motion.h1
             variants={heroItemVariants}
             className="
@@ -183,7 +196,7 @@ export function Hero() {
                 text-[clamp(2.5rem,7vw,4.5rem)]
               "
             >
-              Frontend Developer<span className="text-brand">.</span>
+              Software Engineer<span className="text-brand">.</span>
             </span>
           </motion.h1>
 
@@ -213,24 +226,19 @@ export function Hero() {
             “I&rsquo;m ready to grow, learn, and build something amazing.”
           </motion.p>
 
-          <motion.div
+{/*           <motion.div
             variants={heroItemVariants}
             className="mt-5 flex flex-wrap items-center justify-center gap-2.5 text-[0.68rem] font-medium uppercase tracking-[0.16em] text-brand/65 sm:text-[0.72rem]"
           >
             <span className="border border-brand/10 bg-white/55 px-3 py-2 backdrop-blur-sm">React</span>
             <span className="border border-brand/10 bg-white/55 px-3 py-2 backdrop-blur-sm">Next.js</span>
             <span className="border border-brand/10 bg-white/55 px-3 py-2 backdrop-blur-sm">TypeScript</span>
-          </motion.div>
+          </motion.div> */}
 
           <motion.div className="mt-10 md:mt-12" variants={heroItemVariants}>
             <HeroCardsDeck />
           </motion.div>
         </motion.div>
-      </div>
-
-      {/* Chevron låst nära nedre kanten av sektionen/viewporten */}
-      <div className="pointer-events-none absolute bottom-2 left-1/2 hidden -translate-x-1/2 lg:block">
-        <SectionChevron theme="light" />
       </div>
     </section>
   );

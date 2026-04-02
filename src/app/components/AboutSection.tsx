@@ -3,8 +3,6 @@
 import { motion, type Variants } from "framer-motion";
 import { Globe, MapPin, Sparkles, Workflow, Wrench } from "lucide-react";
 
-import { SectionChevron } from "./SectionChevron";
-
 const skills = [
   "HTML",
   "CSS",
@@ -168,10 +166,6 @@ export default function AboutSection() {
             </motion.div>
           </motion.div>
         </motion.div>
-      </div>
-
-      <div className="pointer-events-none absolute bottom-2 left-1/2 hidden -translate-x-1/2 lg:block">
-        <SectionChevron theme="dark" />
       </div>
     </section>
   );

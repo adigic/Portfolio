@@ -1,4 +1,5 @@
 import AboutSection from "./components/AboutSection";
+import { BackToTop } from "./components/BackToTop";
 import ExperienceEducationSection from "./components/ExperienceEducationSection";
 import Footer from "./components/Footer";
 import { Hero } from "./components/Hero";
@@ -15,12 +16,12 @@ export default async function Home() {
 
       <main className="">
         <div className="w-full mx-auto">
-            
-        <Hero />
-        <AboutSection />
-        <ExperienceEducationSection />
-        <ProjectsSection projects={projects} />
-        <Footer/>
+          <Hero />
+          <AboutSection />
+          <ExperienceEducationSection />
+          <ProjectsSection projects={projects} />
+          <Footer/>
+          <BackToTop showAfter={520} />
         </div>
       </main>
     </div>

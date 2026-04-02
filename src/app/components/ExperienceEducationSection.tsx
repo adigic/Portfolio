@@ -3,8 +3,6 @@
 import { Icon } from "@iconify/react";
 import { motion, type Variants } from "framer-motion";
 
-import { SectionChevron } from "./SectionChevron";
-
 const experiences = [
   {
     company: "Novalo Technologies",
@@ -74,6 +72,7 @@ const hoverLift = {
 export default function ExperienceEducationSection() {
   return (
     <section
+      id="background"
       data-nav-theme="light"
       className="relative flex min-h-svh items-center bg-brand-light px-4 py-16 text-brand md:px-12 md:py-18"
     >
@@ -174,10 +173,6 @@ export default function ExperienceEducationSection() {
           </motion.div>
         </div>
       </motion.div>
-
-      <div className="pointer-events-none absolute bottom-2 left-1/2 hidden -translate-x-1/2 lg:block">
-        <SectionChevron theme="light" />
-      </div>
     </section>
   );
 }

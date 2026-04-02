@@ -64,7 +64,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                     <button
                       key={item.value}
                       onClick={() => setFilter(item.value as 'Personal' | 'Professional')}
-                      className={`relative z-10 min-w-0 rounded-full px-3 py-2.5 text-[0.72rem] font-semibold uppercase tracking-[0.14em] transition-[color,transform] duration-200 ease-out sm:px-5 ${isActive ? 'text-white' : 'text-[#202020] hover:scale-[0.985]'}`}
+                      className={`cursor-pointer relative z-10 min-w-0 rounded-full px-3 py-2.5 text-[0.72rem] font-semibold uppercase tracking-[0.14em] transition-[color,transform] duration-200 ease-out sm:px-5 ${isActive ? 'text-white' : 'text-[#202020] hover:scale-[0.985]'}`}
                       type="button"
                     >
                       {item.label}

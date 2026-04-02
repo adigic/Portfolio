@@ -5,8 +5,8 @@ import Link from "next/link";
 import { Icon } from "@iconify/react";
 
 const LINKS = [
-  { href: "#education", label: "Education" },
-  { href: "#experience", label: "Experience" },
+  { href: "#about", label: "About" },
+  { href: "#background", label: "Background" },
   { href: "#projects", label: "Projects" },
   { href: "#contact", label: "Contact Me" },
 ] as const;
