@@ -5,19 +5,18 @@ import Link from "next/link";
 import { Icon } from "@iconify/react";
 
 const LINKS = [
-  { href: "#about", label: "About" },
-  { href: "#background", label: "Background" },
-  { href: "#projects", label: "Projects" },
-  { href: "#contact", label: "Contact Me" },
+  { href: "#about", label: "About", icon: "solar:user-rounded-bold-duotone" },
+  { href: "#background", label: "Background", icon: "solar:documents-bold-duotone" },
+  { href: "#projects", label: "Projects", icon: "solar:widget-5-bold-duotone" },
+  { href: "#contact", label: "Contact Me", icon: "solar:chat-round-dots-bold-duotone" },
 ] as const;
 
 export function Navbar() {
   const [panelOpen, setPanelOpen] = useState(false);
-  const [itemsVisible, setItemsVisible] = useState(false);
   const [hash, setHash] = useState<string>("");
   const [navTheme, setNavTheme] = useState<"light" | "dark">("light"); // beskriver SEKTIONEN
   const [scrolled, setScrolled] = useState(false);
-  const ulRef = useRef<HTMLUListElement | null>(null);
+  const panelRef = useRef<HTMLDivElement | null>(null);
 
   // uiIsDark = hur NAV:en ska se ut (reverserat mot sektionen)
   // sektion dark  => uiIsDark = false (ljus navbar)
@@ -40,10 +39,10 @@ export function Navbar() {
   }, []);
 
   // Lås body-scroll när menyn är öppen
-/*   useEffect(() => {
+  useEffect(() => {
     document.body.classList.toggle("overflow-hidden", panelOpen);
     return () => document.body.classList.remove("overflow-hidden");
-  }, [panelOpen]); */
+  }, [panelOpen]);
 
   // Lyssna på vilken sektion som är i view (via data-nav-theme)
   useEffect(() => {
@@ -78,28 +77,27 @@ export function Navbar() {
     return () => observer.disconnect();
   }, []);
 
-  const openMenu = () => {
-    setPanelOpen(true);
-    requestAnimationFrame(() => setItemsVisible(true));
-  };
+  const openMenu = () => setPanelOpen(true);
 
-  const closeMenu = () => {
-    setItemsVisible(false);
-  };
+  const closeMenu = () => setPanelOpen(false);
 
   const toggleMenu = () => {
     if (panelOpen) closeMenu();
     else openMenu();
   };
 
-  const onItemsTransitionEnd = (
-    e: React.TransitionEvent<HTMLUListElement>
-  ) => {
-    if (e.propertyName !== "opacity") return;
-    if (!itemsVisible) {
-      setPanelOpen(false);
-    }
-  };
+  useEffect(() => {
+    if (!panelOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeMenu();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [panelOpen]);
 
   // Färglogik baserat på UI-tema (reversed)
   const baseLink = "border-b border-transparent text-[11px] font-semibold uppercase tracking-[0.16em] transition-[color,border-color,opacity] duration-200 ease-out";
@@ -114,8 +112,10 @@ export function Navbar() {
   const topBgClass = uiIsDark ? "bg-brand" : "bg-brand-light";
   const iconColorClass = uiIsDark ? "text-white" : "text-brand";
 
-  const mobilePanelBg = uiIsDark ? "bg-brand" : "bg-brand-light";
-  const mobilePanelText = uiIsDark ? "text-white" : "text-brand";
+  const mobilePanelSurface = uiIsDark
+    ? "bg-brand text-white border-white/10"
+    : "bg-brand-light text-brand border-brand/10";
+  const mobileOverlay = uiIsDark ? "bg-black/35" : "bg-brand/12";
 
   const hamburgerBg = uiIsDark ? "bg-brand" : "bg-brand-light";
   const hamburgerBorder = uiIsDark
@@ -123,13 +123,7 @@ export function Navbar() {
     : "";
 
   // ✨ NYTT: separata hover + border för mobilen
-  const mobileLinkHoverBg = uiIsDark
-    ? "hover:bg-white/5"
-    : "hover:bg-brand/10";
-
-  const mobilePanelBorder = uiIsDark
-    ? "border-b border-white/10"
-    : "border-b border-brand/10";
+  const mobileLinkHoverBg = uiIsDark ? "hover:bg-white/5" : "hover:bg-brand/10";
 
 
   return (
@@ -179,7 +173,7 @@ export function Navbar() {
           className={`
             md:hidden
             ${hamburgerBg} ${hamburgerBorder}
-            rounded-md absolute top-2 right-2 
+            rounded-sm absolute top-2 right-2 
           `}
         >
           <button
@@ -212,48 +206,86 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* MOBILE DROPDOWN-PANEL (under navbaren) */}
+      {/* MOBILE SIDE PANEL */}
       <div
         className={[
-          "md:hidden absolute inset-x-0 top-full z-40",
-          "transform-gpu will-change-transform origin-top transition-transform duration-300 ease-out pt-0 p-2",
-          "max-w-full",
-          panelOpen ? "scale-y-100" : "scale-y-0",
-          panelOpen ? "pointer-events-auto" : "pointer-events-none",
+          "fixed inset-0 z-40 md:hidden transition-opacity duration-300 ease-out",
+          panelOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
         ].join(" ")}
-        style={{ transformOrigin: "top" }}
+        aria-hidden={!panelOpen}
       >
+        <button
+          type="button"
+          aria-label="Close menu overlay"
+          onClick={closeMenu}
+          className={`absolute inset-0 ${mobileOverlay}`}
+        />
+
         <div
-          className={`${mobilePanelBg} ${mobilePanelText} rounded-lg shadow-xl overflow-hidden`}
+          ref={panelRef}
+          className={[
+            `absolute right-0 top-0 flex h-full w-[min(88vw,22rem)] flex-col border-l ${mobilePanelSurface} shadow-[0_24px_60px_rgba(0,0,0,0.24)]`,
+            "transform-gpu transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
+            panelOpen ? "translate-x-0" : "translate-x-full",
+          ].join(" ")}
         >
-          <ul
-            ref={ulRef}
-            onTransitionEnd={onItemsTransitionEnd}
-            className={[
-              "flex flex-col text-lg select-none",
-              mobilePanelBorder, // 🔁 använder rätt border beroende på tema
-              "transition-opacity duration-200 ease-out",
-              itemsVisible ? "opacity-100" : "opacity-0",
-              itemsVisible ? "pointer-events-auto" : "pointer-events-none",
-            ].join(" ")}
-          >
-            {LINKS.map((l) => (
-              <li key={l.href}>
-                <Link
-                  href={l.href}
-                  onClick={() => closeMenu()}
-                  className={`
-                    block w-full text-left py-3 px-6
-                    opacity-90 hover:opacity-100
-                    ${mobileLinkHoverBg}
-                    transition
-                  `}
-                >
-                  {l.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <div className="flex items-center justify-between border-b border-current/10 px-5 py-4">
+            <p className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] opacity-55">
+              Menu
+            </p>
+            <button
+              type="button"
+              onClick={closeMenu}
+              aria-label="Close menu"
+              className="flex h-10 w-10 items-center justify-center rounded-sm border border-current/12 transition-colors duration-200 ease-out hover:bg-black/5"
+            >
+              <Icon icon="solar:close-circle-bold-duotone" width={22} height={22} />
+            </button>
+          </div>
+
+          <nav className="flex-1 px-3 py-4">
+            <ul className="flex flex-col gap-1 select-none">
+              {LINKS.map((l) => (
+                <li key={l.href}>
+                  <Link
+                    href={l.href}
+                    onClick={() => closeMenu()}
+                    className={[
+                      `flex items-center gap-3 rounded-sm px-4 py-3.5 text-left transition-[background-color,transform,opacity] duration-200 ease-out ${mobileLinkHoverBg}`,
+                      hash === l.href ? "opacity-100" : "opacity-90 hover:opacity-100",
+                    ].join(" ")}
+                  >
+                    <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-current/10 bg-white/5">
+                      <Icon icon={l.icon} width={20} height={20} />
+                    </span>
+                    <span className="text-[0.95rem] font-semibold tracking-[0.04em]">
+                      {l.label}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="border-t border-current/10 px-4 py-4">
+            <Link
+              href="https://www.linkedin.com/in/adishegic/"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="LinkedIn profile"
+              className={[
+                `flex items-center gap-3 rounded-sm px-4 py-3.5 transition-[background-color,transform,opacity] duration-200 ease-out ${mobileLinkHoverBg}`,
+                "opacity-90 hover:opacity-100",
+              ].join(" ")}
+            >
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-current/10 bg-white/5">
+                <Icon icon="simple-icons:linkedin" width={18} height={18} />
+              </span>
+              <span className="text-[0.95rem] font-semibold tracking-[0.04em]">
+                LinkedIn
+              </span>
+            </Link>
+          </div>
         </div>
       </div>
 

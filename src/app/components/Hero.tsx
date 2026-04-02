@@ -208,12 +208,7 @@ export function Hero() {
               leading-[1.4]
             "
           >
-            <span className="block">
-              Newly graduated, detail-focused, and passionate about UI/UX.
-            </span>
-            <span className="block">
-              Excited to bring clean design and performance to every project.
-            </span>
+            Software engineer with a frontend focus, building modern digital experiences with clarity, structure and thoughtful execution.
           </motion.p>
 
           <motion.p
@@ -223,7 +218,7 @@ export function Hero() {
               text-[clamp(0.8rem,1vw,1rem)]
             "
           >
-            “I&rsquo;m ready to grow, learn, and build something amazing.”
+            “Clear thinking, clean execution, and digital experiences built to feel intuitive.”
           </motion.p>
 
 {/*           <motion.div
@@ -422,7 +417,7 @@ function HeroCardsDeck() {
 
       {/* Deck wrapper – centered, swipe on tablet/desktop */}
       <div
-        className="relative mx-auto mt-12 md:mt-6 h-[210px] w-full max-w-3xl sm:block md:h-[230px] lg:h-[250px]"
+        className="relative mx-auto mt-10 md:my-10 h-[210px] w-full max-w-3xl sm:block md:h-[230px] lg:h-[250px]"
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
