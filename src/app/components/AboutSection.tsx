@@ -148,7 +148,7 @@ export default function AboutSection() {
                   Core Stack
                 </p>
                 <p className="text-right text-xs text-white/45">
-                  Core tools, workflows and platforms from the CV
+                  Core tools, workflows and platforms.
                 </p>
               </div>
               <div className="grid w-full grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3">
