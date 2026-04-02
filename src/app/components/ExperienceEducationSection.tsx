@@ -34,11 +34,20 @@ const education = [
     school: "Frontend Developer",
     subtitle: "EC Utbildning",
     period: "August 2023 - June 2025",
+    bullets: [
+      "Higher vocational studies focused on modern frontend development.",
+      "Built practical skills in React, Next.js, TypeScript, UI implementation and responsive design.",
+      "Worked with project-based assignments and collaborative development workflows.",
+    ],
   },
   {
     school: "Electrical & Automation",
     subtitle: "Wijkmanska Gymnasiet",
     period: "August 2012 - June 2015",
+    bullets: [
+      "Studied electrical systems, automation and industrial technology.",
+      "Built a strong technical foundation in troubleshooting and structured problem solving.",
+    ],
   },
 ];
 
@@ -127,12 +136,9 @@ export default function ExperienceEducationSection() {
                     {item.role}
                   </p>
 
-                  <ul className="space-y-1.5 pt-1 text-sm leading-relaxed text-brand/78 sm:text-[0.95rem]">
+                  <ul className="list-disc space-y-1.5 pl-5 pt-1 text-sm leading-relaxed text-brand/78 marker:text-brand/60 sm:text-[0.95rem]">
                     {item.bullets.map((bullet) => (
-                      <li key={bullet} className="flex gap-2">
-                        <span className="mt-[9px] h-1.5 w-1.5 bg-brand/65" />
-                        <span>{bullet}</span>
-                      </li>
+                      <li key={bullet}>{bullet}</li>
                     ))}
                   </ul>
                 </motion.article>
@@ -167,6 +173,11 @@ export default function ExperienceEducationSection() {
                   <p className="text-sm font-semibold text-brand/72 sm:text-[0.95rem]">
                     {item.period}
                   </p>
+                  <ul className="list-disc space-y-1.5 pl-5 pt-1 text-sm leading-relaxed text-brand/78 marker:text-brand/60 sm:text-[0.95rem]">
+                    {item.bullets.map((bullet) => (
+                      <li key={bullet}>{bullet}</li>
+                    ))}
+                  </ul>
                 </motion.article>
               ))}
             </div>
