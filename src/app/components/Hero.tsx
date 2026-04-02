@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { motion, type Variants } from "framer-motion";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
 
@@ -11,6 +12,28 @@ const PHRASES = [
   "Project-oriented",
   "Always learning",
 ] as const;
+
+const heroContainerVariants: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.75,
+      ease: "easeOut",
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const heroItemVariants: Variants = {
+  hidden: { opacity: 0, y: 18 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: "easeOut" },
+  },
+};
 
 function TypewriterText({
   phrases,
@@ -101,24 +124,54 @@ export function Hero() {
   return (
     <section
       data-nav-theme="light"
-      className="w-full snap-start snap-always relative flex flex-col min-h-screen
+      className="relative flex min-h-svh w-full flex-col justify-center
         bg-brand-light
-        px-2 md:px-12
-        md:pt-20 pb-20 overflow-x-hidden"
+        overflow-x-hidden px-4 pt-24 pb-12 md:px-12 md:pt-24 md:pb-10"
     >
-      <div className="flex-1 w-full flex items-center justify-center">
-        <div className="min-w-0 text-center sm:px-6">
-          {/* TITLE */}
-          <h1
+      <motion.div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+      >
+        <motion.div
+          className="absolute left-[8%] top-[15%] h-44 w-44 rounded-full bg-accent/10 blur-3xl md:h-56 md:w-56"
+          animate={{ y: [0, -14, 0], x: [0, 8, 0], scale: [1, 1.04, 1] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute bottom-[16%] right-[10%] h-52 w-52 rounded-full bg-brand/8 blur-3xl md:h-64 md:w-64"
+          animate={{ y: [0, 16, 0], x: [0, -10, 0], scale: [1, 1.06, 1] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        />
+      </motion.div>
+
+      <div className="flex w-full flex-1 items-center justify-center">
+        <motion.div
+          className="min-w-0 max-w-6xl text-center sm:px-6"
+          initial="hidden"
+          animate="visible"
+          variants={heroContainerVariants}
+        >
+          <motion.div className="mb-5 flex justify-center" variants={heroItemVariants}>
+            <span className="inline-flex items-center gap-2 border border-brand/10 bg-white/70 px-4 py-2 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-brand shadow-[0_10px_30px_rgba(0,0,0,0.06)] backdrop-blur-sm sm:text-[0.72rem]">
+              <span className="h-2 w-2 rounded-full bg-emerald-500" />
+              Open to frontend opportunities
+            </span>
+          </motion.div>
+
+          <motion.h1
+            variants={heroItemVariants}
             className="
-              text-brand mt-16 font-alexandria leading-[1.1] tracking-tight
-              text-[clamp(2.4rem,5vw,3.6rem)]
+              mt-8 text-brand font-alexandria leading-[1.06] tracking-tight
+              text-[clamp(2.2rem,4.7vw,3.45rem)]
             "
           >
             <span
               className="
                 block font-light
-                text-[clamp(2.2rem,6vw,3.5rem)]
+                text-[clamp(2rem,5.5vw,3.2rem)]
               "
               style={{ minWidth: `${longestCh}ch` }}
             >
@@ -126,20 +179,19 @@ export function Hero() {
             </span>
 
             <span
-              className="animate-fade-up anim-slow
-                block text-accent font-righteous
-                text-[clamp(2.5rem,8vw,5rem)]
+              className="block text-accent font-righteous
+                text-[clamp(2.5rem,7vw,4.5rem)]
               "
             >
               Frontend Developer<span className="text-brand">.</span>
             </span>
-          </h1>
+          </motion.h1>
 
-          {/* SUBTEXT + QUOTE */}
-          <p
-            className="animate-fade-up anim-slow delay-100
-              mt-6 max-w-5xl mx-auto text-brand
-              text-[clamp(0.75rem,1.9vw,1.7rem)]
+          <motion.p
+            variants={heroItemVariants}
+            className="
+              mt-5 max-w-4xl mx-auto text-brand
+              text-[clamp(0.9rem,1.45vw,1.35rem)]
               leading-[1.4]
             "
           >
@@ -149,26 +201,35 @@ export function Hero() {
             <span className="block">
               Excited to bring clean design and performance to every project.
             </span>
-          </p>
+          </motion.p>
 
-          <p
-            className="animate-fade-up anim-slow delay-200
-              mt-4 max-w-[60ch] mx-auto italic text-brand/70
-              text-[clamp(0.70rem,1.3vw,1.2rem)]
+          <motion.p
+            variants={heroItemVariants}
+            className="
+              mt-3 max-w-[56ch] mx-auto italic text-brand/70
+              text-[clamp(0.8rem,1vw,1rem)]
             "
           >
             “I&rsquo;m ready to grow, learn, and build something amazing.”
-          </p>
+          </motion.p>
 
-          {/* CARDS DECK */}
-          <div className="mt-16 animate-fade-up anim-slow delay-300">
+          <motion.div
+            variants={heroItemVariants}
+            className="mt-5 flex flex-wrap items-center justify-center gap-2.5 text-[0.68rem] font-medium uppercase tracking-[0.16em] text-brand/65 sm:text-[0.72rem]"
+          >
+            <span className="border border-brand/10 bg-white/55 px-3 py-2 backdrop-blur-sm">React</span>
+            <span className="border border-brand/10 bg-white/55 px-3 py-2 backdrop-blur-sm">Next.js</span>
+            <span className="border border-brand/10 bg-white/55 px-3 py-2 backdrop-blur-sm">TypeScript</span>
+          </motion.div>
+
+          <motion.div className="mt-10 md:mt-12" variants={heroItemVariants}>
             <HeroCardsDeck />
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
 
       {/* Chevron låst nära nedre kanten av sektionen/viewporten */}
-      <div className="pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2">
+      <div className="pointer-events-none absolute bottom-2 left-1/2 hidden -translate-x-1/2 lg:block">
         <SectionChevron theme="light" />
       </div>
     </section>
@@ -188,8 +249,8 @@ function FeatureCard({ title, text, image, icon }: FeatureCardProps) {
   return (
     <div
       className="
-        relative h-full overflow-hidden rounded-xl bg-white shadow-xl
-        border border-brand-light mt-5
+        relative mt-5 h-full overflow-hidden rounded-xl border border-brand-light/70 bg-white shadow-[0_18px_40px_rgba(0,0,0,0.1)]
+        transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-brand/20 hover:shadow-[0_24px_55px_rgba(0,0,0,0.14)]
       "
     >
       {/* Bakgrundsbild (soft, under content) */}
@@ -199,7 +260,7 @@ function FeatureCard({ title, text, image, icon }: FeatureCardProps) {
             src={image}
             alt={title}
             fill
-            className="object-cover opacity-40"
+            className="object-cover opacity-40 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
           />
           <div className="absolute inset-0 bg-white/70" />
         </div>
@@ -233,7 +294,7 @@ function FeatureCard({ title, text, image, icon }: FeatureCardProps) {
         {/* Ikonen – centrerad på kortet */}
         <div className="flex justify-center my-4 sm:my-5">
           {icon && (
-            <div className=" flex items-center justify-center">
+            <div className="flex items-center justify-center transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-0.5">
               <Icon
                 icon={icon}
                 className="text-brand text-7xl"
@@ -377,9 +438,9 @@ function HeroCardsDeck() {
               type="button"
               onClick={() => setActive(index)}
               className={`
-                absolute inset-0 mx-auto
+                group absolute inset-0 mx-auto
                 flex items-center justify-center
-                transition-all duration-500 ease-[cubic-bezier(0.22,0.61,0.36,1)]
+                transition-[transform,opacity] duration-350 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform
                 ${pos === "hidden" ? "pointer-events-none" : "cursor-pointer"}
               `}
               style={{
@@ -399,14 +460,14 @@ function HeroCardsDeck() {
       </div>
 
       {/* Dots only */}
-      <div className="flex flex-col items-center gap-3 mt-28 ">
+      <div className="mt-22 flex flex-col items-center gap-3 md:mt-24 ">
         <div className="flex gap-2">
           {HERO_CARDS.map((card, i) => (
             <button
               key={card.title}
               type="button"
               onClick={() => setActive(i)}
-              className={`h-2.5 rounded-full transition-all cursor-pointer ${
+              className={`h-2.5 rounded-full transition-[width,background-color,opacity] duration-220 ease-out cursor-pointer ${
                 i === active
                   ? "w-6 bg-accent"
                   : "w-2.5 bg-brand/30 hover:bg-brand/60"

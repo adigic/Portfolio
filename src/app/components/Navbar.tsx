@@ -16,6 +16,7 @@ export function Navbar() {
   const [itemsVisible, setItemsVisible] = useState(false);
   const [hash, setHash] = useState<string>("");
   const [navTheme, setNavTheme] = useState<"light" | "dark">("light"); // beskriver SEKTIONEN
+  const [scrolled, setScrolled] = useState(false);
   const ulRef = useRef<HTMLUListElement | null>(null);
 
   // uiIsDark = hur NAV:en ska se ut (reverserat mot sektionen)
@@ -29,6 +30,13 @@ export function Navbar() {
     sync();
     window.addEventListener("hashchange", sync);
     return () => window.removeEventListener("hashchange", sync);
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   // Lås body-scroll när menyn är öppen
@@ -94,7 +102,7 @@ export function Navbar() {
   };
 
   // Färglogik baserat på UI-tema (reversed)
-  const baseLink = "text-sm border-b border-transparent";
+  const baseLink = "border-b border-transparent text-[11px] font-semibold uppercase tracking-[0.16em] transition-[color,border-color,opacity] duration-200 ease-out";
   const linkIdle = uiIsDark
     ? "text-white hover:border-white/80"
     : "text-brand hover:border-brand";
@@ -125,22 +133,22 @@ export function Navbar() {
 
 
   return (
-    <header className="fixed top-0 left-0 z-50 w-full h-16 inset-x-0 transition">
+    <header className="fixed top-0 left-0 z-50 h-16 w-full inset-x-0 transition">
       {/* TOP RAD: brand + desktop-nav + hamburger */}
       <div
-        className={`${topBgClass} flex items-center justify-between px-4 py-3 md:px-6 md:py-4 mx-auto`}
+        className={`${topBgClass} mx-auto flex items-center justify-between px-4 py-3 transition-[background-color,box-shadow] duration-300 md:px-6 md:py-4 ${scrolled ? "shadow-[0_10px_35px_rgba(0,0,0,0.08)]" : ""}`}
       >
         {/* Brand (desktop) */}
         <Link
           href="/"
-          className={`hidden md:flex text-2xl sm:text-3xl tracking-tight ${brandColorClass}`}
+          className={`hidden md:flex text-[1.9rem] tracking-tight ${brandColorClass}`}
           onClick={() => closeMenu()}
         >
           Adis Hegic
         </Link>
 
         {/* Desktop-nav */}
-        <nav className="hidden md:flex items-center gap-8 ml-auto font-medium">
+        <nav className="ml-auto hidden items-center gap-8 md:flex">
           {LINKS.map((l) => {
             const isActive = hash === l.href;
             return (
@@ -160,7 +168,7 @@ export function Navbar() {
             target="_blank"
             rel="noreferrer"
             aria-label="LinkedIn profile"
-            className={iconColorClass}
+            className={`${iconColorClass} transition-[transform,opacity] duration-200 ease-out hover:translate-y-[-1px] hover:opacity-70`}
           >
             <Icon icon="simple-icons:linkedin" width={20} height={20} />
           </Link>
@@ -186,17 +194,17 @@ export function Navbar() {
             `}
           >
             <span
-              className={`block h-0.5 w-6 bg-current transition-transform duration-300 ${
+              className={`block h-0.5 w-6 bg-current transition-transform duration-200 ease-out ${
                 panelOpen ? "rotate-45 translate-y-1.5" : ""
               }`}
             />
             <span
-              className={`block h-0.5 w-6 bg-current transition-opacity duration-300 ${
+              className={`block h-0.5 w-6 bg-current transition-opacity duration-200 ease-out ${
                 panelOpen ? "opacity-0" : "opacity-100"
               }`}
             />
             <span
-              className={`block h-0.5 w-6 bg-current transition-transform duration-300 ${
+              className={`block h-0.5 w-6 bg-current transition-transform duration-200 ease-out ${
                 panelOpen ? "-rotate-45 -translate-y-1.5" : ""
               }`}
             />
@@ -237,7 +245,7 @@ export function Navbar() {
                   className={`
                     block w-full text-left py-3 px-6
                     opacity-90 hover:opacity-100
-                    ${mobileLinkHoverBg}   // 🔁 hover för ljus/mörk panel
+                    ${mobileLinkHoverBg}
                     transition
                   `}
                 >

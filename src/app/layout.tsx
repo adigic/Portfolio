@@ -32,7 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
 <html
   lang="sv"
-  className="scroll-smooth snap-y snap-mandatory h-screen overflow-y-scroll "
+  className="scroll-smooth scroll-pt-20"
 >
       <body
   className={`
@@ -47,7 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       >
                 {/* 🔹 Ladda GA enbart när samtycke finns */}
         <AnalyticsLoader />
-        <div className="relative min-h-screen max-h-svh">
+        <div className="relative min-h-svh">
           {children}
         </div>
                 {/* 🔹 Cookie-banner längst ner */}
