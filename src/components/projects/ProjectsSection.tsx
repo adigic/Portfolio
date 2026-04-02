@@ -12,6 +12,13 @@ const FILTERS = [
   { label: 'Professional', value: 'Professional' },
 ];
 
+const FILTER_DESCRIPTIONS = {
+  Personal:
+    'A curated set of learning-focused test projects that I built to explore ideas, practice new techniques and deepen my frontend skills.',
+  Professional:
+    'A curated set of projects delivered through my company, reflecting how I approach client work, production-ready interfaces and real-world delivery.',
+} as const;
+
 type ProjectsSectionProps = {
   projects: Project[];
 };
@@ -31,6 +38,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
 
   const featuredProjects = filtered.slice(0, 3);
   const activeIndex = FILTERS.findIndex((item) => item.value === filter);
+  const description = FILTER_DESCRIPTIONS[filter];
 
   return (
     <section id="projects" data-nav-theme="dark" className="flex min-h-svh items-center bg-brand px-4 py-16 text-white md:px-12 md:py-18">
@@ -40,7 +48,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
             Selected Work
           </p>
           <p className="max-w-2xl text-sm leading-relaxed text-white/68 sm:text-base">
-            A curated set of projects that reflect how I approach interface design, frontend implementation and product presentation.
+            {description}
           </p>
         </div>
 
@@ -64,7 +72,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                     <button
                       key={item.value}
                       onClick={() => setFilter(item.value as 'Personal' | 'Professional')}
-                      className={`cursor-pointer relative z-10 min-w-0 rounded-full px-3 py-2.5 text-[0.72rem] font-semibold uppercase tracking-[0.14em] transition-[color,transform] duration-200 ease-out sm:px-5 ${isActive ? 'text-white' : 'text-[#202020] hover:scale-[0.985]'}`}
+                      className={`cursor-pointer relative z-10 min-w-0 rounded-full px-3 py-1.5 md:py-2.5 text-[0.72rem] font-semibold uppercase tracking-[0.14em] transition-[color,transform] duration-200 ease-out sm:px-5 ${isActive ? 'text-white' : 'text-[#202020] hover:scale-[0.985]'}`}
                       type="button"
                     >
                       {item.label}
@@ -85,7 +93,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
             >
               Projects.
             </motion.h2>
-            <p className="mt-1 text-xs text-white/52 sm:mt-2 sm:text-sm">
+            <p className="mt-1 hidden md:block text-xs text-white/52 sm:mt-2 sm:text-sm">
               {featuredProjects.length} featured cards shown
             </p>
           </div>

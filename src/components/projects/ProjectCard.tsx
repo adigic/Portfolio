@@ -11,7 +11,6 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project }: ProjectCardProps) {
-  const displayType = project.type === 'Private' ? 'Personal' : project.type;
   const hoverLift = {
     y: -6,
     transition: { type: 'spring', stiffness: 320, damping: 24, mass: 0.72 },
@@ -19,7 +18,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
   return (
     <motion.div
-      className="group flex h-full w-full flex-col overflow-hidden border border-black/6 bg-white text-brand shadow-[0_20px_50px_rgba(0,0,0,0.14)] max-[1179px]:sm:grid max-[1179px]:sm:grid-cols-[240px_minmax(0,1fr)] min-[1180px]:min-h-[35rem]"
+      className="group grid h-full w-full overflow-hidden border border-black/6 bg-white text-brand shadow-[0_20px_50px_rgba(0,0,0,0.14)] grid-cols-[148px_minmax(0,1fr)] min-[480px]:grid-cols-[180px_minmax(0,1fr)] sm:grid-cols-[240px_minmax(0,1fr)] min-[1180px]:flex min-[1180px]:min-h-[35rem] min-[1180px]:grid-cols-none min-[1180px]:flex-col"
       variants={{
         hidden: { opacity: 0, y: 28 },
         visible: {
@@ -30,23 +29,18 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       }}
       whileHover={hoverLift}
     >
-      <div className="relative h-[20rem] w-full overflow-hidden max-[1179px]:sm:h-full min-[1180px]:h-[23rem]">
+      <div className="relative h-full min-h-[12.5rem] overflow-hidden min-[1180px]:h-[23rem] min-[1180px]:min-h-0">
         <Image
           src={project.imageUrl}
           alt={project.title}
           fill
           className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.035]"
-          sizes="(max-width: 1179px) 100vw, 33vw"
+          sizes="(max-width: 479px) 148px, (max-width: 639px) 180px, (max-width: 1179px) 240px, 33vw"
         />
       </div>
 
-      <div className="grid flex-1 gap-4 p-4 sm:p-5 min-[1180px]:gap-1 min-[1180px]:p-4">
+      <div className="grid flex-1 gap-3 p-4 min-[480px]:p-4 sm:gap-4 sm:p-5 min-[1180px]:gap-1 min-[1180px]:p-4">
         <div className="min-[1180px]:flex min-[1180px]:h-full min-[1180px]:flex-col">
-          <div className="mb-2 flex items-center justify-between gap-3">
-            <span className="rounded-full bg-brand/7 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-brand/55">
-              {displayType}
-            </span>
-          </div>
           <h3 className="mb-1.5 text-lg font-bold leading-tight min-[1180px]:text-base xl:text-lg">
             {project.title}
           </h3>
