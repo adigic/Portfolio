@@ -147,7 +147,7 @@ export function Hero() {
       </motion.div>
 
       <motion.div
-        className="absolute inset-x-0  z-10 flex justify-center px-4 top-5 md:top-18 md:right-2 md:justify-end"
+        className="absolute inset-x-0  z-10 flex justify-center px-4 top-5 md:top-22 md:right-2 md:justify-end"
         initial={{ opacity: 0, y: -14, scale: 0.96 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
