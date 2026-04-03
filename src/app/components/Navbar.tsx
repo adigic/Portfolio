@@ -204,7 +204,7 @@ export function Navbar() {
       {/* MOBILE DROPDOWN PANEL (expands from top) + overlay */}
       {/* Mobile menu overlay and curtain animation */}
       <div
-        className={`md:hidden pointer-events-none fixed inset-0 z-40 transition-all duration-300 ${panelOpen ? 'opacity-100' : 'opacity-0'}`}
+        className={`md:hidden fixed inset-0 z-40 transition-all duration-300 ${panelOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
         style={{transitionProperty: 'opacity'}}
         aria-hidden={!panelOpen}
       >
