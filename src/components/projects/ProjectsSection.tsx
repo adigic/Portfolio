@@ -37,7 +37,6 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
   );
 
   const featuredProjects = filtered.slice(0, 3);
-  const activeIndex = FILTERS.findIndex((item) => item.value === filter);
   const description = FILTER_DESCRIPTIONS[filter];
 
   return (
@@ -54,7 +53,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
             >
               Projects.
             </motion.h2>
-            <p className="mt-4 mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/45">
+            <p className="mt-2 mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/45">
               Selected Work
             </p>
             <p className="max-w-2xl text-sm leading-relaxed text-white/68 sm:text-base">
@@ -63,16 +62,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
           </div>
 
           <div className="shrink-0 lg:flex lg:flex-col lg:items-end lg:text-right">
-            <div className="relative isolate w-full max-w-[26rem] overflow-hidden rounded-full bg-white/88 p-1 shadow-[0_12px_30px_rgba(0,0,0,0.16)] lg:ml-auto">
-              <motion.span
-                className="absolute bottom-1 top-1 rounded-full bg-[#202020]"
-                initial={false}
-                animate={{
-                  width: 'calc(50% - 0.25rem)',
-                  left: activeIndex === 0 ? '0.25rem' : 'calc(50% + 0rem)',
-                }}
-                transition={{ duration: 0.28, ease: 'easeOut' }}
-              />
+            <div className="relative isolate w-[20rem] overflow-hidden rounded-full bg-white/88 p-1 shadow-[0_12px_30px_rgba(0,0,0,0.16)] sm:w-[17rem] lg:ml-auto lg:w-fit">
               <div className="relative grid grid-cols-2 gap-1">
                 {FILTERS.map((item) => {
                   const isActive = filter === item.value;
@@ -81,10 +71,17 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                     <button
                       key={item.value}
                       onClick={() => setFilter(item.value as 'Personal' | 'Professional')}
-                      className={`cursor-pointer relative z-10 min-w-0 rounded-full px-3 py-1.5 text-[0.72rem] font-medium uppercase tracking-[0.14em] transition-colors duration-200 ease-out md:py-2.5 sm:px-5 ${isActive ? 'text-white' : 'text-[#202020]'}`}
+                      className={`cursor-pointer relative z-10 min-w-0 rounded-full px-3 py-1.5 text-[0.72rem] font-medium uppercase tracking-[0.14em] transition-colors duration-200 ease-out sm:px-4 md:px-5  ${isActive ? 'text-white' : 'text-[#202020]'}`}
                       type="button"
                     >
-                      {item.label}
+                      {isActive ? (
+                        <motion.span
+                          layoutId="projects-filter-pill"
+                          className="absolute inset-0 rounded-full bg-[#202020]"
+                          transition={{ type: 'spring', stiffness: 360, damping: 30, mass: 0.85 }}
+                        />
+                      ) : null}
+                      <span className="relative z-10">{item.label}</span>
                     </button>
                   );
                 })}

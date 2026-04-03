@@ -9,21 +9,37 @@ import { Project } from '@/lib/sanity/types';
 
 interface ProjectCardProps {
   project: Project;
+  revealDirection?: 'side' | 'down';
+  index?: number;
 }
 
-export default function ProjectCard({ project }: ProjectCardProps) {
+export default function ProjectCard({ project, revealDirection = 'down', index = 0 }: ProjectCardProps) {
   const hasExternalUrl = Boolean(project.url && project.url !== '#');
+  const revealEase = [0.22, 1, 0.36, 1] as const;
+  const hiddenVariant =
+    revealDirection === 'side'
+      ? { opacity: 0, x: -42 }
+      : { opacity: 0, y: -28 };
 
   return (
     <motion.article
       className="group relative grid h-full w-full overflow-hidden border border-black/6 bg-white/95 text-brand shadow-[0_20px_50px_rgba(0,0,0,0.14)] transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-white grid-cols-[148px_minmax(0,1fr)] min-[480px]:grid-cols-[180px_minmax(0,1fr)] sm:grid-cols-[240px_minmax(0,1fr)] min-[1180px]:flex min-[1180px]:min-h-[35rem] min-[1180px]:grid-cols-none min-[1180px]:flex-col"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.28 }}
+      custom={index}
       variants={{
-        hidden: { opacity: 0, y: 28 },
-        visible: {
+        hidden: hiddenVariant,
+        visible: (cardIndex) => ({
           opacity: 1,
-          y: 0,
-          transition: { duration: 0.55, ease: "easeOut" },
-        },
+          x: revealDirection === 'side' ? 0 : undefined,
+          y: revealDirection === 'down' ? 0 : undefined,
+          transition: {
+            duration: 0.55,
+            ease: revealEase,
+            delay: cardIndex * 0.1,
+          },
+        }),
       }}
     >
       <Link

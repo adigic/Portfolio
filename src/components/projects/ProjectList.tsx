@@ -2,32 +2,42 @@
 
 import { Project } from '@/lib/sanity/types';
 import ProjectCard from './ProjectCard';
-import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 
 interface ProjectListProps {
   projects: Project[];
 }
 
 export default function ProjectList({ projects }: ProjectListProps) {
+  const [isDesktopCards, setIsDesktopCards] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const mediaQuery = window.matchMedia('(min-width: 1180px)');
+
+    const updateLayout = (event?: MediaQueryListEvent) => {
+      setIsDesktopCards(event ? event.matches : mediaQuery.matches);
+    };
+
+    updateLayout();
+    mediaQuery.addEventListener('change', updateLayout);
+
+    return () => mediaQuery.removeEventListener('change', updateLayout);
+  }, []);
+
   return (
-    <motion.div
-      className="grid grid-cols-1 gap-3 min-[1180px]:grid-cols-3"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
-      variants={{
-        hidden: { opacity: 0 },
-        visible: {
-          opacity: 1,
-          transition: {
-            staggerChildren: 0.14,
-          },
-        },
-      }}
-    >
-      {projects.map(project => (
-        <ProjectCard key={project._id} project={project} />
+    <div className="grid grid-cols-1 gap-3 min-[1180px]:grid-cols-3">
+      {projects.map((project, index) => (
+        <ProjectCard
+          key={project._id}
+          project={project}
+          revealDirection={isDesktopCards ? 'down' : 'side'}
+          index={index}
+        />
       ))}
-    </motion.div>
+    </div>
   );
 }
