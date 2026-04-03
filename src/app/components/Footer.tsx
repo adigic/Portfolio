@@ -1,225 +1,37 @@
 // app/components/Footer.tsx
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-
-import { Icon } from "@iconify/react";
 import DownloadCV from "./DownloadCV";
+import NavbarContactButton from "./NavbarContactButton";
 
 export default function Footer() {
-  const [submitting, setSubmitting] = useState(false);
-  const [sent, setSent] = useState(false);
-
-  const goTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
-
-  // Convert FormData -> URL-encoded string without any casts
-  function encodeFormData(data: FormData): string {
-    const params = new URLSearchParams();
-    data.forEach((value, key) => {
-      // We only have text inputs/textarea here; stringify defensively
-      params.append(key, typeof value === "string" ? value : String(value));
-    });
-    return params.toString();
-  }
-
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setSubmitting(true);
-    setSent(false);
-
-    const form = e.currentTarget;
-    const fd = new FormData(form);
-
-    // Ensure Netlify form name is present
-    if (!fd.get("form-name")) fd.set("form-name", "contact");
-
-    try {
-      const res = await fetch("/__forms.html", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: encodeFormData(fd),
-      });
-
-      if (!res.ok) throw new Error("Netlify submission failed");
-
-      form.reset();
-      setSent(true);
-
-      // Safely access grecaptcha without any casts or ts-ignore
-      const w: typeof window & { grecaptcha?: { reset: () => void } } = window as never;
-      w.grecaptcha?.reset();
-    } catch (err) {
-      console.error(err);
-      alert("Något gick fel. Försök igen.");
-    } finally {
-      setSubmitting(false);
-      // Revert “Skickat” after a few seconds
-      window.setTimeout(() => setSent(false), 4000);
-    }
-  }
-
   return (
-    <footer data-nav-theme="light" id="contact" className="relative bg-brand-light text-brand font-poppins">
-      <div className="py-10">
-      <div className="mx-auto w-full max-w-7xl px-6 md:px-10 pb-10 pt-16">
-
-
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-          {/* Left: form */}
-          <div className="md:col-span-7 order-2 md:order-1">
-            <h3 className="text-xl font-semibold mb-4 border-b-2 border-accent w-fit">Contact Me</h3>
-
-            <form
-              name="contact"
-              method="POST"
-
-              onSubmit={onSubmit}
-              className="space-y-4"
-            >
-              {/* Netlify essentials */}
-              <input type="hidden" name="form-name" value="contact" />
-              <p className="hidden">
-                <label>
-                  Don’t fill this out: <input name="bot-field" />
-                </label>
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <input
-                  name="name"
-                  type="text"
-                  placeholder="NAME"
-                  required
-                  className="w-full rounded-none bg-brand-input px-4 py-3 text-sm placeholder-dark outline-none ring-1 ring-accent/20 focus:ring-accent"
-                />
-                <input
-                  name="email"
-                  type="email"
-                  placeholder="E-MAIL"
-                  required
-                  className="w-full rounded-none bg-brand-input px-4 py-3 text-sm placeholder-dark outline-none ring-1 ring-accent/20 focus:ring-accent"
-                />
-              </div>
-
-              <textarea
-                name="message"
-                rows={5}
-                placeholder="YOUR MESSAGE…"
-                required
-                className="w-full m-0 rounded-none bg-brand-input px-4 py-3 text-sm placeholder-dark outline-none ring-1 ring-accent/20 focus:ring-accent"
-              />
-
-              {/* Netlify reCAPTCHA widget */}
-              <div data-netlify-recaptcha="true" className="my-2" />
-
-              <div className="flex items-center justify-between">
-                <button
-                  type="button"
-                  onClick={goTop}
-                  className="inline-flex items-center gap-2 border border-accent px-3 py-2 text-xs tracking-wide hover:bg-accent hover:text-brand-light cursor-pointer text-accent"
-                >
-                  <Icon
-                    icon="mdi:chevron-double-up"
-                    width={18}
-                    height={18}
-                    aria-hidden
-                    className=""
-                  />
-                  <p className="text-sm ">BACK TO THE TOP</p>
-                </button>
-
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="bg-accent text-white px-4 py-2 text-sm tracking-wide hover:opacity-90 disabled:opacity-60 cursor-pointer"
-                >
-                  {sent ? "MESSAGE SENT" : submitting ? "SENDING…" : "SEND MESSAGE"}
-                </button>
-              </div>
-
-              {/* Info om personuppgifter */}
-              <p className="mt-2 text-xs text-brand">
-                We use your information to respond to your request. Read more in our{" "}
-                <Link href="/integritypolicy" className="underline underline-offset-2">
-                  integritypolicy
-                </Link>
-                .
-              </p>
-            </form>
-          </div>
-
-          {/* Right: details */}
-          <div className="md:col-span-5 md:ml-25 order-1 md:order-2  bg-brand-input p-5 md:p-0 md:bg-transparent ">
-            <h4 className="text-xl pb-1 font-semibold border-b-2 w-fit border-accent">Adis Hegic</h4>
-            <p className="text-sm font-medium  ">Frontend Developer</p>
-
-            <ul className="mt-4 space-y-3 text-sm">
-              <li className="flex items-center gap-3">
-                <Icon
-                  icon="game-icons:position-marker"
-                  width={18}
-                  height={18}
-                  aria-hidden
-                  className=""
-                />
-                <span>VÄSTERÅS, SWEDEN</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Icon
-                  icon="solar:phone-bold"
-                  width={18}
-                  height={18}
-                  aria-hidden
-                  className=""
-                />
-                <a href="tel:+46700788788" className="hover:underline">
-                  +46 700 788 788
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <Icon
-                  icon="bi:envelope-at-fill"
-                  width={18}
-                  height={18}
-                  aria-hidden
-                  className=""
-                />
-                <a href="mailto:adigic@hotmail.com" className="hover:underline">
-                  adigic@hotmail.com
-                </a>
-              </li>
-            </ul>
-
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-              <Link
-                href="https://www.linkedin.com/in/adishegic/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                className="hover:opacity-80"
-              >
-                <Icon icon="simple-icons:linkedin" width={28} height={28} />
-              </Link>
-<DownloadCV/>
-              
-            </div>
-          </div>
+    <footer data-nav-theme="light" id="contact" className="fade-in-down border-t border-accent/10 bg-brand-light text-brand font-poppins">
+      <div className="mx-auto w-full px-0 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
+        {/* Vänster: Kontaktinfo och sociala länkar */}
+        <div className="flex flex-col md:flex-row items-center md:items-center justify-center gap-4 md:gap-8 md:w-auto px-6 md:px-10">
+          <span className="font-alexandria text-lg font-bold tracking-tight uppercase">Adis Hegic</span>
+          <span className="hidden md:inline-block text-brand/40">|</span>
+          <span className="text-sm font-medium text-brand/70 flex items-center h-full">Software Engineer</span>
+          <span className="hidden md:inline-block text-brand/40">|</span>
+          <div className="flex gap-2 items-center">
+          <NavbarContactButton className="mb-1 md:mb-0" />
+          {/* <Link href="https://www.linkedin.com/in/adishegic/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="hover:opacity-80 hover:scale-110 transition-transform"><Icon icon="simple-icons:linkedin" width={28} height={28} className="text-accent" /></Link> */}
+        </div>
+        </div>
+        {/* Höger: Knappar */}
+        <div className="flex flex-col md:flex-row items-center justify-end gap-2 md:gap-4 w-full md:w-1/3 px-6 md:px-10">
+          
+          <DownloadCV />
         </div>
       </div>
-
-      </div>
-
-      <div className="bg-brand-input">
-        <div className="mx-auto max-w-7xl px-6 md:px-10 py-5 text-xs  text-brand text-center font-jura">
-          ©{" "}
-          <Link
-            href="https://www.digitalsolutions.adigic.se/"
-            target="_blank"
-            className="font-semibold text-brand font-jura "
-          >
-            2025 <span className="hover:text-brand/80">ADIGIC Digital Solutions</span>
-          </Link>
+      <div className="w-full border-t border-accent/10  mx-auto">
+        <div className="mx-auto flex flex-col md:flex-row items-center justify-between px-6 md:px-10 py-4 text-xs text-brand/50 font-jura tracking-wide">
+          <div className="md:text-left text-center w-full md:w-auto md:order-1 order-2">
+            © 2025 <Link href="https://www.digitalsolutions.adigic.se/" target="_blank" className="font-semibold text-brand/60 hover:text-accent transition-colors">ADIGIC Digital Solutions</Link>
+          </div>
+          <Link href="/integritypolicy" className="text-xs text-brand/50 hover:text-accent underline underline-offset-2 md:order-2 order-1">Integritetspolicy</Link>
         </div>
       </div>
     </footer>

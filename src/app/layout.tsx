@@ -2,6 +2,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import AnalyticsLoader from "./components/AnalyticsLoader";
 import CookieBanner from "./components/CookieBanner";
+import { ModalProvider } from "./components/ModalContext";
+import ContactModalWrapper from "./components/ContactModalWrapper";
 
 
 // define fonts
@@ -47,10 +49,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       >
                 {/* 🔹 Ladda GA enbart när samtycke finns */}
         <AnalyticsLoader />
-        <div className="relative min-h-svh">
-          {children}
-        </div>
-                {/* 🔹 Cookie-banner längst ner */}
+        <ModalProvider>
+          <ContactModalWrapper />
+          <div className="relative min-h-svh">
+            {children}
+          </div>
+        </ModalProvider>
+        {/* 🔹 Cookie-banner längst ner */}
         <CookieBanner />
       </body>
     </html>

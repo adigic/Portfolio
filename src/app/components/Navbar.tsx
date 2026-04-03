@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 import { usePathname } from "next/navigation";
+import NavbarContactButton from "./NavbarContactButton";
 
 const LINKS = [
   { href: "#about", label: "About", icon: "solar:user-rounded-bold-duotone" },
@@ -118,13 +119,10 @@ export function Navbar() {
   }, [panelOpen]);
 
   // Färglogik baserat på UI-tema (reversed)
-  const baseLink = "border-b border-transparent text-[11px] font-semibold uppercase tracking-[0.16em] transition-[color,border-color,opacity] duration-200 ease-out";
+  const baseLink = "font-poppins text-[12px] uppercase font-semibold tracking-[0.16em] border-b border-transparent transition-[color,border-color,opacity] duration-200 ease-out flex items-center justify-center h-[32px] px-5 text-center";
   const linkIdle = uiIsDark
-    ? "text-white hover:border-white/80"
-    : "text-brand hover:border-brand";
-  const linkActive = uiIsDark
-    ? "text-white border-b border-white"
-    : "text-brand border-b border-brand";
+    ? "text-white hover:bg-white/10 hover:border-white/80"
+    : "text-brand hover:bg-brand/10 hover:border-brand";
 
   const brandColorClass = uiIsDark ? "text-white" : "text-brand";
   const topBgClass = uiIsDark ? "bg-brand" : "bg-brand-light";
@@ -155,21 +153,33 @@ export function Navbar() {
         {/* Brand (desktop) */}
         <Link
           href="/"
-          className={`hidden md:flex text-[1.9rem] tracking-tight ${brandColorClass}`}
+          className={`hidden md:flex font-alexandria text-2xl md:text-3xl font-extrabold tracking-tight uppercase ${brandColorClass}`}
           onClick={() => closeMenu()}
         >
-          Adis Hegic
+          ADIS HEGIC
         </Link>
 
         {/* Desktop-nav */}
-        <nav className="ml-auto hidden items-center gap-8 md:flex">
+        <nav className="ml-auto hidden items-center gap-2 md:flex">
           {LINKS.map((l) => {
-            const isActive = pathname === "/" && hash === l.href;
+            if (l.label === "Contact Me") {
+              const btnClass = uiIsDark
+                ? "bg-white hover:bg-white/80 border border-white/20"
+                : "bg-brand hover:bg-brand/80 border border-brand/20";
+              const textColorClass = uiIsDark ? "text-brand" : "text-white";
+              return (
+                <NavbarContactButton
+                  key={l.href}
+                  className={`font-poppins text-[12px] uppercase font-semibold tracking-[0.16em] h-[32px] px-5 rounded-xs transition-colors duration-200 ease-out flex items-center justify-center text-center ${btnClass}`}
+                  textColorClass={textColorClass}
+                />
+              );
+            }
             return (
               <Link
                 key={l.href}
                 href={resolveHref(l.href)}
-                className={`${baseLink} ${isActive ? linkActive : linkIdle}`}
+                className={`${baseLink} ${linkIdle} rounded-xs`}
               >
                 {l.label}
               </Link>
@@ -182,9 +192,9 @@ export function Navbar() {
             target="_blank"
             rel="noreferrer"
             aria-label="LinkedIn profile"
-            className={`${iconColorClass} transition-opacity duration-200 ease-out hover:opacity-70`}
+            className={`flex items-center ${iconColorClass} transition-opacity duration-200 ease-out hover:opacity-70 pl-2`}
           >
-            <Icon icon="simple-icons:linkedin" width={20} height={20} />
+            <Icon icon="simple-icons:linkedin" width={24} height={24} />
           </Link>
         </nav>
 
@@ -288,10 +298,7 @@ export function Navbar() {
                   <Link
                     href={resolveHref(l.href)}
                     onClick={() => closeMenu()}
-                    className={[
-                      `flex items-center gap-3 rounded-sm px-4 py-3.5 text-left transition-[background-color,transform,opacity] duration-200 ease-out ${mobileLinkHoverBg}`,
-                      pathname === "/" && hash === l.href ? "opacity-100" : "opacity-90 hover:opacity-100",
-                    ].join(" ")}
+                    className={`flex items-center justify-center gap-3 rounded-sm px-4 py-3.5 text-center transition-[background-color,transform,opacity] duration-200 ease-out ${mobileLinkHoverBg} opacity-90 hover:opacity-100`}
                   >
                     <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-current/10 bg-white/5">
                       <Icon icon={l.icon} width={20} height={20} />

@@ -29,7 +29,7 @@ export default function ProjectList({ projects }: ProjectListProps) {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 gap-3 min-[1180px]:grid-cols-3">
+    <div className="grid grid-cols-1 gap-3 min-[1180px]:grid-cols-3 justify-items-center">
       {projects.map((project, index) => (
         <ProjectCard
           key={project._id}
