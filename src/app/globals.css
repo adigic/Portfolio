@@ -1,3 +1,22 @@
+/* Ripple effect for vertical banners */
+.vertical-banner .ripple-effect {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  background: radial-gradient(circle, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 80%, transparent 100%);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.7);
+  animation: ripple-banner 0.5s linear;
+  z-index: 1;
+}
+
+@keyframes ripple-banner {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2.2);
+  }
+}
 @import "tailwindcss";
 
 /* Design tokens + font utilities */

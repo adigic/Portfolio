@@ -1,4 +1,25 @@
+
 "use client";
+// Animation variants for section headers
+const headerContainerVariants: Variants = {
+  hidden: { opacity: 0, y: 32, scale: 0.96, boxShadow: '0 4px 24px 0 rgba(0,0,0,0.04)' },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    boxShadow: '0 8px 32px 0 rgba(0,0,0,0.13)',
+    transition: {
+      duration: 0.7,
+      ease: [0.4, 0, 0.2, 1],
+      staggerChildren: 0.13,
+    },
+  },
+};
+
+const headerItemVariants: Variants = {
+  hidden: { opacity: 0, y: 18 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+};
 
 import { Icon } from "@iconify/react";
 import { motion, type Variants } from "framer-motion";
@@ -127,13 +148,27 @@ export default function ExperienceEducationSection() {
 
         <div className="grid w-full gap-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(320px,0.85fr)] lg:gap-14">
           <motion.div id="experience" className="min-w-0" variants={cardVariants}>
-            <div className="mb-8 flex items-center gap-3">
-              <span className="inline-flex h-10 w-10 items-center justify-center border border-brand/10 bg-white/60 shadow-[0_12px_24px_rgba(0,0,0,0.05)]">
-                <Icon icon="solar:case-round-minimalistic-bold-duotone" className="h-6 w-6 text-brand" aria-hidden="true" />
-              </span>
-              <h2 className="text-3xl font-semibold tracking-tight sm:text-[2rem]">
-                Experience
-              </h2>
+            <div className="mb-8">
+              <motion.div
+                className="w-full bg-gradient-to-r from-brand/90 via-accent/80 to-brand/60 rounded-sm shadow-xl px-7 py-4 flex items-center gap-4 mb-2 border border-white/30 relative"
+                variants={headerContainerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.7 }}
+              >
+
+
+                <motion.span
+                  className="text-white font-black tracking-widest uppercase text-2xl drop-shadow-sm font-alexandria"
+                  variants={headerItemVariants}
+                >
+                  Experience
+                </motion.span>
+                <motion.div
+                  className="hidden sm:block h-2 w-24 bg-white/30 rounded-full ml-4"
+                  variants={headerItemVariants}
+                />
+              </motion.div>
             </div>
 
             <div className="space-y-6 border-l border-brand/18 pl-5 sm:pl-6">
@@ -166,14 +201,28 @@ export default function ExperienceEducationSection() {
             </div>
           </motion.div>
 
-          <motion.div id="education" className="min-w-0 lg:pt-1" variants={cardVariants}>
-            <div className="mb-8 flex items-center gap-3">
-              <span className="inline-flex h-10 w-10 items-center justify-center border border-brand/10 bg-white/60 shadow-[0_12px_24px_rgba(0,0,0,0.05)]">
-                <Icon icon="solar:diploma-verified-bold-duotone" className="h-6 w-6 text-brand" aria-hidden="true" />
-              </span>
-              <h2 className="text-3xl font-semibold tracking-tight sm:text-[2rem]">
-                Education
-              </h2>
+          <motion.div id="education" className="min-w-0" variants={cardVariants}>
+            <div className="mb-8">
+              <motion.div
+                className="w-full bg-gradient-to-r from-brand/90 via-accent/80 to-brand/60 rounded-sm shadow-xl px-7 py-4 flex items-center gap-4 mb-2 border border-white/30 relative"
+                variants={headerContainerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.7 }}
+              >
+  
+
+                <motion.span
+                  className="text-white font-black tracking-widest uppercase text-2xl drop-shadow-sm font-alexandria"
+                  variants={headerItemVariants}
+                >
+                  Education
+                </motion.span>
+                <motion.div
+                  className="hidden sm:block h-2 w-24 bg-white/30 rounded-full ml-4"
+                  variants={headerItemVariants}
+                />
+              </motion.div>
             </div>
 
             <div className="space-y-5 border-l border-brand/18 pl-5 sm:pl-6">

@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ChevronUp } from "lucide-react";
+import { Icon } from "@iconify/react";
 
 
 
@@ -58,7 +58,7 @@ export function BackToTop({ showAfter = 200 }: { showAfter?: number }) {
     window.scrollTo({ top: 0, behavior: prefersReduced ? "auto" : "smooth" });
 
   // Always use brand navy color and white border
-  const themed = "bg-brand text-white border-2 border-white hover:bg-brand/90";
+  const themed = "bg-accent text-white  border-white hover:bg-accent/90";
 
   return (
     <button
@@ -66,16 +66,16 @@ export function BackToTop({ showAfter = 200 }: { showAfter?: number }) {
       aria-label="Back to top"
       onClick={scrollTop}
       className={[
-        "fixed z-50 right-5 bottom-5 md:right-8 md:bottom-8",
-        "h-11 w-11 rounded-full grid place-items-center shadow-lg border-2",
-        "transition-all duration-300 cursor-pointer hover:opacity-80",
+        "fixed z-50 right-12 bottom-5 md:right-8 md:bottom-8",
+        "h-9 w-9 rounded-sm grid place-items-center shadow-lg",
+        "transition-all duration-300 cursor-pointer hover:opacity-100 opacity-30",
         themed,
-        visible && !footerVisible && !menuOpen
+        visible && !menuOpen
           ? "opacity-100 translate-y-0"
           : "opacity-0 translate-y-2 pointer-events-none",
       ].join(" ")}
     >
-      <ChevronUp className="h-5 w-5 text-white" />
+      <Icon icon="mdi:arrow-up-bold" className="h-4 w-4 text-white" />
     </button>
   );
 }

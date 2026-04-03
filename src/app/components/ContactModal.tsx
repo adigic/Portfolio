@@ -1,10 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import DownloadCV from "./DownloadCV";
 import { Icon } from "@iconify/react";
 
+import { useContext, useEffect } from "react";
+import { ModalContext } from "./ModalContext";
+
 export default function ContactModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+    const modalCtx = useContext(ModalContext);
+
+    // When modal opens, close mobile menu if open
+    useEffect(() => {
+      if (open) {
+        // Remove scroll lock from menu if present
+        if (typeof window !== "undefined") {
+          document.body.classList.remove("overflow-hidden");
+        }
+      }
+    }, [open, modalCtx]);
   const [submitting, setSubmitting] = useState(false);
   const [sent, setSent] = useState(false);
 
@@ -42,16 +55,22 @@ export default function ContactModal({ open, onClose }: { open: boolean; onClose
 
   if (!open) return null;
 
-  // Close modal on outside click
+  // Close modal on outside click or X
   function handleOverlayClick(e: React.MouseEvent<HTMLDivElement>) {
-    if (e.target === e.currentTarget) onClose();
+    if (e.target === e.currentTarget) {
+      onClose();
+      if (modalCtx && modalCtx.setOpen) modalCtx.setOpen(false);
+    }
   }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm" onClick={handleOverlayClick}>
       <div className="bg-white rounded-sm shadow-2xl w-full max-w-3xl relative animate-fadeInDown flex flex-col md:flex-row p-0 md:p-0 overflow-hidden mx-8" onClick={e => e.stopPropagation()}>
         <button
-          onClick={onClose}
+          onClick={() => {
+            onClose();
+            if (modalCtx && modalCtx.setOpen) modalCtx.setOpen(false);
+          }}
           className="absolute top-3 right-3 text-brand/60 hover:text-accent text-xl z-10 cursor-pointer"
           aria-label="Close"
         >
@@ -110,11 +129,23 @@ export default function ContactModal({ open, onClose }: { open: boolean; onClose
                 <Icon icon="solar:phone-bold" width={20} height={20} className="text-accent" />
                 <a href="tel:+46700788788" className="text-brand/90 hover:text-accent transition-colors text-sm font-semibold">+46 700 788 788</a>
               </div>
+              {/* Download CV button with document icon */}
+              <button
+                type="button"
+                onClick={() => {
+                  if (typeof window === "undefined") return;
+                  const cvUrl = "/adishegic-cv.pdf";
+                  window.open(cvUrl, "_blank", "noopener,noreferrer");
+                }}
+                className="flex items-center gap-3 bg-white/60 rounded px-3 py-2 shadow-sm border border-accent/10 text-brand/90 hover:text-accent transition-colors text-sm font-semibold mt-1 cursor-pointer"
+                aria-label="Download my CV here!"
+              >
+                <Icon icon="ph:file-pdf-bold" width={20} height={20} className="text-accent" />
+                <span>Download CV</span>
+              </button>
             </div>
             <div className="mt-8 text-xs text-brand/40 font-jura">Usually replies within 24h</div>
-            <div className="absolute bottom-8 right-8">
-              <DownloadCV label="Download CV" className="w-full md:w-auto" />
-            </div>
+
           </div>
         </div>
       </div>

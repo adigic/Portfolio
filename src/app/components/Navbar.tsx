@@ -13,7 +13,7 @@ const LINKS = [
   { href: "#about", label: "About", icon: "ph:user-circle-fill" },
   { href: "#background", label: "Background", icon: "ph:stack-fill" },
   { href: "#projects", label: "Projects", icon: "ph:rocket-fill" },
-  { href: "#contact", label: "Contact Me", icon: "ph:chat-circle-dots-fill" },
+  { href: "#contact", label: "Contact", icon: "ph:chat-circle-dots-fill" },
 ] as const;
 
 const MOBILE_HOME_LINK = {
@@ -90,7 +90,13 @@ export function Navbar() {
     return () => observer.disconnect();
   }, []);
 
-  const openMenu = () => setPanelOpen(true);
+
+  // Close menu and modal mutually exclusive
+  const openMenu = () => {
+    // If modal is open, close it
+    if (modalCtx?.open) modalCtx.setOpen(false);
+    setPanelOpen(true);
+  };
 
   const closeMenu = () => setPanelOpen(false);
 
@@ -123,7 +129,7 @@ export function Navbar() {
   }, [panelOpen]);
 
   // Färglogik baserat på UI-tema (reversed)
-  const baseLink = "font-poppins text-[12px] uppercase font-semibold tracking-[0.16em] border-b border-transparent transition-[color,border-color,opacity] duration-200 ease-out flex items-center justify-center h-[32px] px-5 text-center";
+  const baseLink = "font-poppins text-[12px] uppercase font-semibold tracking-[0.14em] border-b border-transparent transition-[color,border-color,opacity] duration-200 ease-out flex items-center justify-center h-[32px] px-5 text-center";
   const linkIdle = uiIsDark
     ? "text-white hover:bg-white/10 hover:border-white/80"
     : "text-brand hover:bg-brand/10 hover:border-brand";
@@ -155,49 +161,29 @@ export function Navbar() {
         {/* Brand (desktop) */}
         <Link
           href="/"
-          className={`hidden md:flex font-alexandria text-2xl md:text-3xl font-extrabold tracking-tight uppercase ${brandColorClass}`}
+          className={`hidden md:flex font-alexandria text-2xl md:text-3xl font-semibold tracking-tight uppercase ${brandColorClass}`}
           onClick={() => closeMenu()}
         >
           ADIS HEGIC
         </Link>
 
         {/* Desktop-nav */}
-        <nav className="ml-auto hidden items-center gap-2 md:flex">
-          {LINKS.map((l) => {
-            if (l.label === "Contact Me") {
-              const btnClass = uiIsDark
-                ? "bg-white hover:bg-white/80 border border-white/20"
-                : "bg-brand hover:bg-brand/80 border border-brand/20";
-              const textColorClass = uiIsDark ? "text-brand" : "text-white";
-              return (
-                <NavbarContactButton
-                  key={l.href}
-                  className={`font-poppins text-[12px] uppercase font-semibold tracking-[0.16em] h-[32px] px-5 rounded-xs transition-colors duration-200 ease-out flex items-center justify-center text-center ${btnClass}`}
-                  textColorClass={textColorClass}
-                />
-              );
-            }
-            return (
-              <Link
-                key={l.href}
-                href={resolveHref(l.href)}
-                className={`${baseLink} ${linkIdle} rounded-xs`}
-              >
-                {l.label}
-              </Link>
-            );
-          })}
-
-          {/* LinkedIn-icon */}
-          <Link
-            href="https://www.linkedin.com/in/adishegic/"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="LinkedIn profile"
-            className={`flex items-center ${iconColorClass} transition-opacity duration-200 ease-out hover:opacity-70 pl-2`}
-          >
-            <Icon icon="simple-icons:linkedin" width={24} height={24} style={{border: 'none'}} />
-          </Link>
+        <nav className="ml-auto hidden items-center gap-1 md:flex">
+          {/* Render all nav links except Contact */}
+          {LINKS.filter(l => l.label !== "Contact").map((l) => (
+            <Link
+              key={l.href}
+              href={resolveHref(l.href)}
+              className={`${baseLink} ${linkIdle} rounded-xs`}
+            >
+              {l.label}
+            </Link>
+          ))}
+          {/* Contact button as standalone */}
+          <NavbarContactButton
+            className={`ml-2 font-poppins text-[12px] uppercase font-semibold h-[32px] px-5 rounded-xs transition-colors duration-200 ease-out flex items-center justify-center text-center ${uiIsDark ? "bg-white hover:bg-white/80 border border-white/20" : "bg-brand hover:bg-brand/80 border border-brand/20"}`}
+            textColorClass={uiIsDark ? "text-brand" : "text-white"}
+          />
         </nav>
       </div>
 
@@ -236,7 +222,7 @@ export function Navbar() {
                   <span className="flex-1">{MOBILE_HOME_LINK.label}</span>
                 </Link>
               </li>
-              {LINKS.filter(l => l.label !== "Contact Me").map((l) => (
+              {LINKS.filter(l => l.label !== "Contact").map((l) => (
                 <li key={l.href}>
                   <Link
                     href={resolveHref(l.href)}
@@ -268,15 +254,15 @@ export function Navbar() {
             </Link>
             <button
               type="button"
-              aria-label="Contact Me"
+              aria-label="Contact"
               className="flex w-full items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-brand bg-white border border-white/20 transition-colors duration-200 ease-out hover:bg-white/90 text-right justify-center cursor-pointer"
               style={{ height: 48, width: '50%' }}
               onClick={() => {
-                closeMenu();
-                setTimeout(() => {
-                  modalCtx?.setOpen(true);
-                }, 250); // match menu animation
-              }}
+                  closeMenu();
+                  setTimeout(() => {
+                    modalCtx?.setOpen(true);
+                  }, 250); // match menu animation
+                }}
             >
               <span className="inline-flex h-10 w-10 items-center justify-center rounded bg-white/5">
                 <Icon icon="ph:chat-circle-dots-fill" width={22} height={22} style={{border: 'none'}} />
