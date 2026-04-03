@@ -11,7 +11,7 @@ import { Icon } from "@iconify/react";
 export function BackToTop({ showAfter = 200 }: { showAfter?: number }) {
   const [visible, setVisible] = useState(false);
   // const [theme, setTheme] = useState<Theme>("light");
-  const [footerVisible, setFooterVisible] = useState(false);
+
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Listen for menu open (body.overflow-hidden)
@@ -34,21 +34,6 @@ export function BackToTop({ showAfter = 200 }: { showAfter?: number }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [showAfter]);
-
-  // Theme detection removed (theme not used)
-
-  useEffect(() => {
-    const footer = document.getElementById("contact");
-    if (!footer) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => setFooterVisible(entry.isIntersecting),
-      { threshold: 0.15 }
-    );
-
-    observer.observe(footer);
-    return () => observer.disconnect();
-  }, []);
 
   const prefersReduced =
     typeof window !== "undefined" &&
