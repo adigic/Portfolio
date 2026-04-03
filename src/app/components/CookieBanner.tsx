@@ -4,27 +4,30 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-const STORAGE_KEY = "cookie-consent"; // "accepted" | "denied"
-type ConsentValue = "accepted" | "denied";
+import {
+  dispatchConsentUpdated,
+  readConsent,
+  type ConsentValue,
+  writeConsent,
+} from "@/lib/analytics/consent";
 
 export default function CookieBanner() {
   const [visible, setVisible] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [currentChoice, setCurrentChoice] = useState<ConsentValue | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    const stored = window.localStorage.getItem(STORAGE_KEY) as ConsentValue | null;
+    const stored = readConsent();
+    setCurrentChoice(stored);
 
     if (!stored) {
-      // No choice yet → show banner
       setVisible(true);
-    } else if (stored === "accepted") {
-      // Already accepted → trigger GA loader
-      window.dispatchEvent(new Event("cookie-consent-accepted"));
+    } else {
+      dispatchConsentUpdated(stored);
     }
 
-    // Listen for custom event to reopen the banner (from the privacy page)
     const onOpen = () => {
       setVisible(true);
     };
@@ -40,11 +43,9 @@ export default function CookieBanner() {
   const handleChoice = (value: ConsentValue) => {
     if (typeof window === "undefined") return;
 
-    window.localStorage.setItem(STORAGE_KEY, value);
-
-    if (value === "accepted") {
-      window.dispatchEvent(new Event("cookie-consent-accepted"));
-    }
+    writeConsent(value);
+    setCurrentChoice(value);
+    dispatchConsentUpdated(value);
 
     setVisible(false);
   };
@@ -59,10 +60,10 @@ export default function CookieBanner() {
             I use cookies to analyze traffic with Google Analytics. You can choose to
             accept or reject analytics cookies. Read more in the{" "}
             <Link
-              href="/integrity"
+              href="/integritypolicy"
               className="underline underline-offset-2 hover:text-accent transition-colors"
             >
-              integritypolicy
+              privacy policy
             </Link>
             .
           </p>
@@ -73,14 +74,14 @@ export default function CookieBanner() {
               onClick={() => handleChoice("denied")}
               className="px-3 py-1.5 text-xs sm:text-sm border border-brand-light/40 rounded-md hover:bg-brand-light/10 transition cursor-pointer"
             >
-              Reject
+              {currentChoice === "denied" ? "Rejected" : "Reject"}
             </button>
             <button
               type="button"
               onClick={() => handleChoice("accepted")}
               className=" py-1.5 text-xs sm:text-sm rounded-md px-4 bg-accent text-brand-light hover:opacity-90 transition cursor-pointer"
             >
-              Accept
+              {currentChoice === "accepted" ? "Accepted" : "Accept"}
             </button>
           </div>
         </div>
