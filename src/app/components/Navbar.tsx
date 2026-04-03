@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 import { usePathname } from "next/navigation";
@@ -24,6 +24,21 @@ export function Navbar() {
   const [hash, setHash] = useState<string>("");
   const [navTheme, setNavTheme] = useState<"light" | "dark">("light"); // beskriver SEKTIONEN
   const [scrolled, setScrolled] = useState(false);
+  const [isContactModalQueued, setIsContactModalQueued] = useState(false);
+
+  // När menyn stängs och modal är köad, öppna modal efter delay (animationen hinner klart)
+  useEffect(() => {
+    if (!panelOpen && isContactModalQueued) {
+      const timeout = setTimeout(() => {
+        if (typeof window !== 'undefined') {
+          const evt = new CustomEvent('openContactModal');
+          window.dispatchEvent(evt);
+        }
+        setIsContactModalQueued(false);
+      }, 250); // matcha transition duration
+      return () => clearTimeout(timeout);
+    }
+  }, [panelOpen, isContactModalQueued]);
   const pathname = usePathname();
 
   // uiIsDark = hur NAV:en ska se ut (reverserat mot sektionen)
@@ -261,14 +276,11 @@ export function Navbar() {
               <button
                 type="button"
                 aria-label="Contact Me"
-                className="flex w-full items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-brand bg-white border border-white/20 transition-colors duration-200 ease-out hover:bg-white/90 text-right justify-center"
+                className="flex w-full items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-brand bg-white border border-white/20 transition-colors duration-200 ease-out hover:bg-white/90 text-right justify-center cursor-pointer"
                 style={{ height: 48, width: '50%' }}
                 onClick={() => {
                   closeMenu();
-                  if (typeof window !== 'undefined') {
-                    const evt = new CustomEvent('openContactModal');
-                    window.dispatchEvent(evt);
-                  }
+                  setIsContactModalQueued(true);
                 }}
               >
                 <span className="inline-flex h-10 w-10 items-center justify-center rounded bg-white/5">
