@@ -1,10 +1,13 @@
 "use client";
 
+
 import React, { useEffect, useState } from "react";
+import { ModalContext } from "./ModalContext";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
 import { usePathname } from "next/navigation";
 import NavbarContactButton from "./NavbarContactButton";
+
 
 const LINKS = [
   { href: "#about", label: "About", icon: "ph:user-circle-fill" },
@@ -20,25 +23,12 @@ const MOBILE_HOME_LINK = {
 } as const;
 
 export function Navbar() {
+  const modalCtx = React.useContext(ModalContext);
   const [panelOpen, setPanelOpen] = useState(false);
   const [hash, setHash] = useState<string>("");
   const [navTheme, setNavTheme] = useState<"light" | "dark">("light"); // beskriver SEKTIONEN
   const [scrolled, setScrolled] = useState(false);
-  const [isContactModalQueued, setIsContactModalQueued] = useState(false);
 
-  // När menyn stängs och modal är köad, öppna modal efter delay (animationen hinner klart)
-  useEffect(() => {
-    if (!panelOpen && isContactModalQueued) {
-      const timeout = setTimeout(() => {
-        if (typeof window !== 'undefined') {
-          const evt = new CustomEvent('openContactModal');
-          window.dispatchEvent(evt);
-        }
-        setIsContactModalQueued(false);
-      }, 250); // matcha transition duration
-      return () => clearTimeout(timeout);
-    }
-  }, [panelOpen, isContactModalQueued]);
   const pathname = usePathname();
 
   // uiIsDark = hur NAV:en ska se ut (reverserat mot sektionen)
@@ -212,86 +202,90 @@ export function Navbar() {
       </div>
 
       {/* MOBILE DROPDOWN PANEL (expands from top) + overlay */}
-      {panelOpen && (
-        <>
-          {/* Overlay under menyn */}
-          <button
-            type="button"
-            aria-label="Stäng meny"
-            className="fixed inset-0 z-40 md:hidden bg-black/40 backdrop-blur-sm cursor-pointer"
-            style={{ WebkitTapHighlightColor: 'transparent' }}
-            onClick={closeMenu}
-            tabIndex={-1}
-          />
-          {/* Meny ovanpå overlay */}
-          <div
-            className={`md:hidden fixed left-0 top-0 w-full z-50 transition-all duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] overflow-hidden max-h-[500px] opacity-100 ${mobilePanelSurface}`}
-            style={{boxShadow: '0 10px 35px rgba(0,0,0,0.08)'}}
-            aria-hidden={false}
-          >
-            <nav className="px-4 pb-4 pt-2">
-              <ul className="flex flex-col gap-3 select-none text-right">
-                <li>
+      {/* Mobile menu overlay and curtain animation */}
+      <div
+        className={`md:hidden pointer-events-none fixed inset-0 z-40 transition-all duration-300 ${panelOpen ? 'opacity-100' : 'opacity-0'}`}
+        style={{transitionProperty: 'opacity'}}
+        aria-hidden={!panelOpen}
+      >
+        {/* Overlay under menyn */}
+        <button
+          type="button"
+          aria-label="Stäng meny"
+          className="absolute inset-0 w-full h-full bg-black/40 backdrop-blur-sm cursor-pointer pointer-events-auto"
+          style={{ WebkitTapHighlightColor: 'transparent' }}
+          onClick={closeMenu}
+          tabIndex={-1}
+        />
+        {/* Meny ovanpå overlay, curtain animation */}
+        <div
+          className={`absolute left-0 top-0 w-full z-50 ${mobilePanelSurface} transition-transform transition-opacity duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${panelOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'} shadow-[0_10px_35px_rgba(0,0,0,0.08)]`}
+          style={{willChange: 'transform, opacity'}}
+        >
+          <nav className="px-4 pb-4 pt-2">
+            <ul className="flex flex-col gap-3 select-none text-right">
+              <li>
+                <Link
+                  href={MOBILE_HOME_LINK.href}
+                  onClick={handleHomeClick}
+                  className={`flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-right transition-[background-color,transform,opacity] duration-200 ease-out text-white ${mobileLinkHoverBg} ${pathname === "/" && !hash ? "opacity-100" : "opacity-90 hover:opacity-100"}`}
+                >
+                  <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded">
+                    <Icon icon={MOBILE_HOME_LINK.icon.replace('-fill', '-fill')} width={22} height={22} color="#fff" />
+                  </span>
+                  <span className="flex-1">{MOBILE_HOME_LINK.label}</span>
+                </Link>
+              </li>
+              {LINKS.filter(l => l.label !== "Contact Me").map((l) => (
+                <li key={l.href}>
                   <Link
-                    href={MOBILE_HOME_LINK.href}
-                    onClick={handleHomeClick}
-                    className={`flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-right transition-[background-color,transform,opacity] duration-200 ease-out text-white ${mobileLinkHoverBg} ${pathname === "/" && !hash ? "opacity-100" : "opacity-90 hover:opacity-100"}`}
+                    href={resolveHref(l.href)}
+                    onClick={() => closeMenu()}
+                    className={`flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-right transition-[background-color,transform,opacity] duration-200 ease-out text-white ${mobileLinkHoverBg} opacity-90 hover:opacity-100`}
                   >
                     <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded">
-                      <Icon icon={MOBILE_HOME_LINK.icon.replace('-fill', '-fill')} width={22} height={22} color="#fff" />
+                      <Icon icon={l.icon.replace('-fill', '-fill')} width={22} height={22} color="#fff" />
                     </span>
-                    <span className="flex-1">{MOBILE_HOME_LINK.label}</span>
+                    <span className="flex-1">{l.label}</span>
                   </Link>
                 </li>
-                {LINKS.filter(l => l.label !== "Contact Me").map((l) => (
-                  <li key={l.href}>
-                    <Link
-                      href={resolveHref(l.href)}
-                      onClick={() => closeMenu()}
-                      className={`flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-right transition-[background-color,transform,opacity] duration-200 ease-out text-white ${mobileLinkHoverBg} opacity-90 hover:opacity-100`}
-                    >
-                      <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded">
-                        <Icon icon={l.icon.replace('-fill', '-fill')} width={22} height={22} color="#fff" />
-                      </span>
-                      <span className="flex-1">{l.label}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-            <div className="border-t border-current/10 px-4 py-5 flex flex-row gap-3">
-              <Link
-                href="https://www.linkedin.com/in/adishegic/"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="LinkedIn profile"
-                className="flex w-full items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-brand bg-white border border-white/20 transition-colors duration-200 ease-out hover:bg-white/90 text-right justify-center"
-                style={{ height: 48, width: '50%' }}
-              >
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded bg-white/5">
-                  <Icon icon="simple-icons:linkedin" width={22} height={22} style={{border: 'none'}} />
-                </span>
-                <span className="flex-1">LinkedIn</span>
-              </Link>
-              <button
-                type="button"
-                aria-label="Contact Me"
-                className="flex w-full items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-brand bg-white border border-white/20 transition-colors duration-200 ease-out hover:bg-white/90 text-right justify-center cursor-pointer"
-                style={{ height: 48, width: '50%' }}
-                onClick={() => {
-                  closeMenu();
-                  setIsContactModalQueued(true);
-                }}
-              >
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded bg-white/5">
-                  <Icon icon="ph:chat-circle-dots-fill" width={22} height={22} style={{border: 'none'}} />
-                </span>
-                <span className="flex-1">Contact</span>
-              </button>
-            </div>
+              ))}
+            </ul>
+          </nav>
+          <div className="border-t border-current/10 px-4 py-5 flex flex-row gap-3">
+            <Link
+              href="https://www.linkedin.com/in/adishegic/"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="LinkedIn profile"
+              className="flex w-full items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-brand bg-white border border-white/20 transition-colors duration-200 ease-out hover:bg-white/90 text-right justify-center"
+              style={{ height: 48, width: '50%' }}
+            >
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded bg-white/5">
+                <Icon icon="simple-icons:linkedin" width={22} height={22} style={{border: 'none'}} />
+              </span>
+              <span className="flex-1">LinkedIn</span>
+            </Link>
+            <button
+              type="button"
+              aria-label="Contact Me"
+              className="flex w-full items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-brand bg-white border border-white/20 transition-colors duration-200 ease-out hover:bg-white/90 text-right justify-center cursor-pointer"
+              style={{ height: 48, width: '50%' }}
+              onClick={() => {
+                closeMenu();
+                setTimeout(() => {
+                  modalCtx?.setOpen(true);
+                }, 250); // match menu animation
+              }}
+            >
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded bg-white/5">
+                <Icon icon="ph:chat-circle-dots-fill" width={22} height={22} style={{border: 'none'}} />
+              </span>
+              <span className="flex-1">Contact</span>
+            </button>
           </div>
-        </>
-      )}
+        </div>
+      </div>
       {/* MOBILE HAMBURGER BUTTON (when menu is closed) */}
       {!panelOpen && (
         <div

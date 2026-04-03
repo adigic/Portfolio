@@ -6,7 +6,7 @@ interface ModalContextType {
   setOpen: (open: boolean) => void;
 }
 
-const ModalContext = createContext<ModalContextType | undefined>(undefined);
+export const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
 export function useModal() {
   const ctx = useContext(ModalContext);

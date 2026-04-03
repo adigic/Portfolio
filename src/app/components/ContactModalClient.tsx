@@ -7,7 +7,10 @@ export function ContactModalClient() {
   const { open, setOpen } = useModal();
 
   useEffect(() => {
-    const handler = () => setOpen(true);
+    const handler = () => {
+      setOpen(false); // always close first
+      setTimeout(() => setOpen(true), 250); // match menu animation delay
+    };
     window.addEventListener("openContactModal", handler);
     return () => window.removeEventListener("openContactModal", handler);
   }, [setOpen]);
