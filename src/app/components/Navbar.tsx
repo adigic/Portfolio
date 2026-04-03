@@ -7,16 +7,16 @@ import { usePathname } from "next/navigation";
 import NavbarContactButton from "./NavbarContactButton";
 
 const LINKS = [
-  { href: "#about", label: "About", icon: "solar:user-rounded-bold-duotone" },
-  { href: "#background", label: "Background", icon: "solar:documents-bold-duotone" },
-  { href: "#projects", label: "Projects", icon: "solar:widget-5-bold-duotone" },
-  { href: "#contact", label: "Contact Me", icon: "solar:chat-round-dots-bold-duotone" },
+  { href: "#about", label: "About", icon: "ph:user-circle-fill" },
+  { href: "#background", label: "Background", icon: "ph:stack-fill" },
+  { href: "#projects", label: "Projects", icon: "ph:rocket-fill" },
+  { href: "#contact", label: "Contact Me", icon: "ph:chat-circle-dots-fill" },
 ] as const;
 
 const MOBILE_HOME_LINK = {
   href: "/",
   label: "Home",
-  icon: "solar:home-2-bold-duotone",
+  icon: "ph:house-fill",
 } as const;
 
 export function Navbar() {
@@ -127,6 +127,7 @@ export function Navbar() {
   const brandColorClass = uiIsDark ? "text-white" : "text-brand";
   const topBgClass = uiIsDark ? "bg-brand" : "bg-brand-light";
   const iconColorClass = uiIsDark ? "text-white" : "text-brand";
+  const iconColor = uiIsDark ? "#fff" : "#0a2342"; // brand navy
 
   const mobilePanelSurface = uiIsDark
     ? "bg-brand text-white border-white/10"
@@ -194,7 +195,7 @@ export function Navbar() {
             aria-label="LinkedIn profile"
             className={`flex items-center ${iconColorClass} transition-opacity duration-200 ease-out hover:opacity-70 pl-2`}
           >
-            <Icon icon="simple-icons:linkedin" width={24} height={24} />
+            <Icon icon="simple-icons:linkedin" width={24} height={24} style={{border: 'none'}} />
           </Link>
         </nav>
 
@@ -254,81 +255,76 @@ export function Navbar() {
         <div
           ref={panelRef}
           className={[
-            `absolute right-0 top-0 flex h-full w-[min(88vw,22rem)] flex-col border-l ${mobilePanelSurface} shadow-[0_24px_60px_rgba(0,0,0,0.24)]`,
+            `absolute right-0 top-0 flex h-full w-[min(90vw,22rem)] flex-col border-l ${mobilePanelSurface} shadow-2xl rounded-l-xl`,
             "transform-gpu transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
             panelOpen ? "translate-x-0" : "translate-x-full",
           ].join(" ")}
         >
-          <div className="flex items-center justify-between border-b border-current/10 px-5 py-4">
-            <p className="text-[0.65rem] font-semibold uppercase tracking-[0.2em] opacity-55">
-              Menu
-            </p>
+          <div className="flex items-center justify-between border-b border-current/10 px-6 py-5">
+            <span className="text-[0.8rem] font-semibold uppercase tracking-[0.18em] opacity-60">Meny</span>
             <button
               type="button"
               onClick={closeMenu}
-              aria-label="Close menu"
-              className="flex h-10 w-10 items-center justify-center rounded-sm border border-current/12 transition-colors duration-200 ease-out hover:bg-black/5"
+              aria-label="Stäng meny"
+              className="flex h-10 w-10 items-center justify-center rounded border border-current/15 transition-colors duration-200 ease-out hover:bg-black/10"
             >
-              <Icon icon="solar:close-circle-bold-duotone" width={22} height={22} />
+              <Icon icon="solar:close-circle-bold-duotone" width={24} height={24} />
             </button>
           </div>
 
-          <nav className="flex-1 px-3 py-4">
-            <ul className="flex flex-col gap-1 select-none">
+          <nav className="flex-1 px-4 py-6">
+            <ul className="flex flex-col gap-3 select-none text-right">
               <li>
                 <Link
                   href={MOBILE_HOME_LINK.href}
                   onClick={handleHomeClick}
-                  className={[
-                    `flex items-center gap-3 rounded-sm px-4 py-3.5 text-left transition-[background-color,transform,opacity] duration-200 ease-out ${mobileLinkHoverBg}`,
-                    pathname === "/" && !hash ? "opacity-100" : "opacity-90 hover:opacity-100",
-                  ].join(" ")}
+                  className={`flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-right transition-[background-color,transform,opacity] duration-200 ease-out ${mobileLinkHoverBg} ${pathname === "/" && !hash ? "opacity-100" : "opacity-90 hover:opacity-100"}`}
                 >
-                  <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-current/10 bg-white/5">
-                    <Icon icon={MOBILE_HOME_LINK.icon} width={20} height={20} />
+                  <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded border border-current/10 bg-white/5">
+                    <Icon icon={MOBILE_HOME_LINK.icon} width={22} height={22} color={iconColor} />
                   </span>
-                  <span className="text-[0.95rem] font-semibold tracking-[0.04em]">
-                    {MOBILE_HOME_LINK.label}
-                  </span>
+                  <span className="flex-1">{MOBILE_HOME_LINK.label}</span>
                 </Link>
               </li>
-
-              {LINKS.map((l) => (
-                <li key={l.href}>
-                  <Link
-                    href={resolveHref(l.href)}
-                    onClick={() => closeMenu()}
-                    className={`flex items-center justify-center gap-3 rounded-sm px-4 py-3.5 text-center transition-[background-color,transform,opacity] duration-200 ease-out ${mobileLinkHoverBg} opacity-90 hover:opacity-100`}
-                  >
-                    <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-current/10 bg-white/5">
-                      <Icon icon={l.icon} width={20} height={20} />
-                    </span>
-                    <span className="text-[0.95rem] font-semibold tracking-[0.04em]">
-                      {l.label}
-                    </span>
-                  </Link>
-                </li>
-              ))}
+              {LINKS.map((l) =>
+                l.label === "Contact Me" ? (
+                  <li key={l.href}>
+                    <NavbarContactButton
+                      className="w-full flex items-center justify-center gap-3 rounded-lg px-4 py-4 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-brand bg-white border border-white/20 transition-colors duration-200 ease-out hover:bg-white/90 text-center"
+                      textColorClass="text-brand"
+                    />
+                  </li>
+                ) : (
+                  <li key={l.href}>
+                    <Link
+                      href={resolveHref(l.href)}
+                      onClick={() => closeMenu()}
+                      className={`flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-right transition-[background-color,transform,opacity] duration-200 ease-out ${mobileLinkHoverBg} opacity-90 hover:opacity-100`}
+                    >
+                      <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded border border-current/10 bg-white/5">
+                        <Icon icon={l.icon} width={22} height={22} color={iconColor} />
+                      </span>
+                      <span className="flex-1">{l.label}</span>
+                    </Link>
+                  </li>
+                )
+              )}
             </ul>
           </nav>
 
-          <div className="border-t border-current/10 px-4 py-4">
+          <div className="border-t border-current/10 px-4 py-5">
             <Link
               href="https://www.linkedin.com/in/adishegic/"
               target="_blank"
               rel="noreferrer"
               aria-label="LinkedIn profile"
-              className={[
-                `flex items-center gap-3 rounded-sm px-4 py-3.5 transition-[background-color,transform,opacity] duration-200 ease-out ${mobileLinkHoverBg}`,
-                "opacity-90 hover:opacity-100",
-              ].join(" ")}
+              className={`flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-brand bg-white border border-white/20 transition-colors duration-200 ease-out hover:bg-white/90 text-right`}
+              style={{ height: 48 }}
             >
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-current/10 bg-white/5">
-                <Icon icon="simple-icons:linkedin" width={18} height={18} />
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded bg-white/5">
+                <Icon icon="simple-icons:linkedin" width={22} height={22} style={{border: 'none'}} />
               </span>
-              <span className="text-[0.95rem] font-semibold tracking-[0.04em]">
-                LinkedIn
-              </span>
+              <span className="flex-1">LinkedIn</span>
             </Link>
           </div>
         </div>

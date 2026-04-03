@@ -4,12 +4,28 @@
 import { useEffect, useState } from "react";
 import { ChevronUp } from "lucide-react";
 
-type Theme = "light" | "dark";
+
+
+
 
 export function BackToTop({ showAfter = 200 }: { showAfter?: number }) {
   const [visible, setVisible] = useState(false);
-  const [theme, setTheme] = useState<Theme>("light");
+  // const [theme, setTheme] = useState<Theme>("light");
   const [footerVisible, setFooterVisible] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // Listen for menu open (body.overflow-hidden)
+  useEffect(() => {
+    const checkMenu = () => setMenuOpen(document.body.classList.contains("overflow-hidden"));
+    checkMenu();
+    window.addEventListener("resize", checkMenu);
+    const obs = new MutationObserver(checkMenu);
+    obs.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    return () => {
+      window.removeEventListener("resize", checkMenu);
+      obs.disconnect();
+    };
+  }, []);
 
   // Show/hide after scrolling
   useEffect(() => {
@@ -19,32 +35,7 @@ export function BackToTop({ showAfter = 200 }: { showAfter?: number }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, [showAfter]);
 
-  // Detect current section theme
-  useEffect(() => {
-    const sections = Array.from(document.querySelectorAll<HTMLElement>("[data-nav-theme]"));
-    if (!sections.length) return;
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        const top = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        const next = (top?.target.getAttribute("data-nav-theme") as Theme) || "light";
-        setTheme((prev) => (prev === next ? prev : next));
-      },
-      { root: null, threshold: [0.55] }
-    );
-
-    sections.forEach((s) => io.observe(s));
-
-    // Initial: check what's around viewport center
-    const el = document.elementFromPoint(window.innerWidth / 2, window.innerHeight / 2);
-    const sec = el?.closest("[data-nav-theme]") as HTMLElement | null;
-    const initial = (sec?.getAttribute("data-nav-theme") as Theme) || "light";
-    setTheme(initial);
-
-    return () => io.disconnect();
-  }, []);
+  // Theme detection removed (theme not used)
 
   useEffect(() => {
     const footer = document.getElementById("contact");
@@ -66,11 +57,8 @@ export function BackToTop({ showAfter = 200 }: { showAfter?: number }) {
   const scrollTop = () =>
     window.scrollTo({ top: 0, behavior: prefersReduced ? "auto" : "smooth" });
 
-  // Styles: white on dark sections, dark on light sections
-  const themed =
-    theme === "dark"
-      ? "bg-brand-light text-zinc-900  hover:bg-brand-light/95"
-      : "bg-brand-dark text-white  hover:bg-black";
+  // Always use brand navy color and white border
+  const themed = "bg-brand text-white border-2 border-white hover:bg-brand/90";
 
   return (
     <button
@@ -79,15 +67,15 @@ export function BackToTop({ showAfter = 200 }: { showAfter?: number }) {
       onClick={scrollTop}
       className={[
         "fixed z-50 right-5 bottom-5 md:right-8 md:bottom-8",
-        "h-11 w-11 rounded-full grid place-items-center shadow-lg",
+        "h-11 w-11 rounded-full grid place-items-center shadow-lg border-2",
         "transition-all duration-300 cursor-pointer hover:opacity-80",
         themed,
-        visible && !footerVisible
+        visible && !footerVisible && !menuOpen
           ? "opacity-100 translate-y-0"
           : "opacity-0 translate-y-2 pointer-events-none",
       ].join(" ")}
     >
-      <ChevronUp className="h-5 w-5" />
+      <ChevronUp className="h-5 w-5 text-white" />
     </button>
   );
 }
