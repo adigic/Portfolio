@@ -32,7 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
 <html
   lang="sv"
-  className="scroll-smooth scroll-pt-20"
+  className="scroll-smooth scroll-pt-4 md:scroll-pt-20"
 >
       <body
   className={`

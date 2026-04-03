@@ -73,11 +73,6 @@ const cardVariants: Variants = {
   },
 };
 
-const hoverLift = {
-  y: -5,
-  transition: { type: "spring", stiffness: 300, damping: 24, mass: 0.72 },
-} as const;
-
 export default function ExperienceEducationSection() {
   return (
     <section
@@ -92,14 +87,17 @@ export default function ExperienceEducationSection() {
         viewport={{ once: true, amount: 0.2 }}
         variants={sectionVariants}
       >
-        <motion.div className="mb-10 max-w-3xl" variants={cardVariants}>
+        <motion.div
+          className="mb-10 max-w-3xl lg:mb-12 lg:ml-auto lg:max-w-[42rem] lg:border-r lg:border-brand/12 lg:pr-8 lg:text-right"
+          variants={cardVariants}
+        >
           <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-brand/45">
             Background
           </p>
           <h2 className="text-3xl font-alexandria uppercase tracking-tight sm:text-4xl lg:text-5xl">
             Experience & Education.
           </h2>
-          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-brand/70 sm:text-base">
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-brand/70 sm:text-base lg:ml-auto">
             Experience in modern frontend development combined with years of technical leadership, maintenance responsibility and structured problem solving.
           </p>
         </motion.div>
@@ -121,7 +119,6 @@ export default function ExperienceEducationSection() {
                   key={item.company}
                   className="space-y-2 border border-brand/8 bg-white/45 px-5 py-5 shadow-[0_18px_40px_rgba(0,0,0,0.04)] backdrop-blur-sm transition-[border-color,box-shadow,background-color] duration-200 ease-out hover:border-brand/14 hover:bg-white/55 hover:shadow-[0_22px_42px_rgba(0,0,0,0.08)]"
                   variants={cardVariants}
-                  whileHover={hoverLift}
                 >
                   <div>
                     <h3 className="text-[1.45rem] font-semibold leading-none tracking-tight sm:text-[1.6rem] lg:text-[1.8rem]">
@@ -162,7 +159,6 @@ export default function ExperienceEducationSection() {
                   key={item.school}
                   className="space-y-2 border border-brand/8 bg-white/45 px-5 py-5 shadow-[0_18px_40px_rgba(0,0,0,0.04)] backdrop-blur-sm transition-[border-color,box-shadow,background-color] duration-200 ease-out hover:border-brand/14 hover:bg-white/55 hover:shadow-[0_22px_42px_rgba(0,0,0,0.08)]"
                   variants={cardVariants}
-                  whileHover={hoverLift}
                 >
                   <h3 className="text-[1.35rem] font-semibold leading-none tracking-tight sm:text-[1.55rem]">
                     {item.school}

@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
+import { usePathname } from "next/navigation";
 
 const LINKS = [
   { href: "#about", label: "About", icon: "solar:user-rounded-bold-duotone" },
@@ -11,12 +12,19 @@ const LINKS = [
   { href: "#contact", label: "Contact Me", icon: "solar:chat-round-dots-bold-duotone" },
 ] as const;
 
+const MOBILE_HOME_LINK = {
+  href: "/",
+  label: "Home",
+  icon: "solar:home-2-bold-duotone",
+} as const;
+
 export function Navbar() {
   const [panelOpen, setPanelOpen] = useState(false);
   const [hash, setHash] = useState<string>("");
   const [navTheme, setNavTheme] = useState<"light" | "dark">("light"); // beskriver SEKTIONEN
   const [scrolled, setScrolled] = useState(false);
   const panelRef = useRef<HTMLDivElement | null>(null);
+  const pathname = usePathname();
 
   // uiIsDark = hur NAV:en ska se ut (reverserat mot sektionen)
   // sektion dark  => uiIsDark = false (ljus navbar)
@@ -81,6 +89,16 @@ export function Navbar() {
 
   const closeMenu = () => setPanelOpen(false);
 
+  const handleHomeClick = () => {
+    closeMenu();
+
+    if (pathname === "/") {
+      window.history.replaceState(null, "", "/");
+      setHash("");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   const toggleMenu = () => {
     if (panelOpen) closeMenu();
     else openMenu();
@@ -125,6 +143,8 @@ export function Navbar() {
   // ✨ NYTT: separata hover + border för mobilen
   const mobileLinkHoverBg = uiIsDark ? "hover:bg-white/5" : "hover:bg-brand/10";
 
+  const resolveHref = (href: string) => (pathname === "/" ? href : `/${href}`);
+
 
   return (
     <header className="fixed top-0 left-0 z-50 h-16 w-full inset-x-0 transition">
@@ -144,11 +164,11 @@ export function Navbar() {
         {/* Desktop-nav */}
         <nav className="ml-auto hidden items-center gap-8 md:flex">
           {LINKS.map((l) => {
-            const isActive = hash === l.href;
+            const isActive = pathname === "/" && hash === l.href;
             return (
               <Link
                 key={l.href}
-                href={l.href}
+                href={resolveHref(l.href)}
                 className={`${baseLink} ${isActive ? linkActive : linkIdle}`}
               >
                 {l.label}
@@ -162,7 +182,7 @@ export function Navbar() {
             target="_blank"
             rel="noreferrer"
             aria-label="LinkedIn profile"
-            className={`${iconColorClass} transition-[transform,opacity] duration-200 ease-out hover:translate-y-[-1px] hover:opacity-70`}
+            className={`${iconColorClass} transition-opacity duration-200 ease-out hover:opacity-70`}
           >
             <Icon icon="simple-icons:linkedin" width={20} height={20} />
           </Link>
@@ -245,14 +265,32 @@ export function Navbar() {
 
           <nav className="flex-1 px-3 py-4">
             <ul className="flex flex-col gap-1 select-none">
+              <li>
+                <Link
+                  href={MOBILE_HOME_LINK.href}
+                  onClick={handleHomeClick}
+                  className={[
+                    `flex items-center gap-3 rounded-sm px-4 py-3.5 text-left transition-[background-color,transform,opacity] duration-200 ease-out ${mobileLinkHoverBg}`,
+                    pathname === "/" && !hash ? "opacity-100" : "opacity-90 hover:opacity-100",
+                  ].join(" ")}
+                >
+                  <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-current/10 bg-white/5">
+                    <Icon icon={MOBILE_HOME_LINK.icon} width={20} height={20} />
+                  </span>
+                  <span className="text-[0.95rem] font-semibold tracking-[0.04em]">
+                    {MOBILE_HOME_LINK.label}
+                  </span>
+                </Link>
+              </li>
+
               {LINKS.map((l) => (
                 <li key={l.href}>
                   <Link
-                    href={l.href}
+                    href={resolveHref(l.href)}
                     onClick={() => closeMenu()}
                     className={[
                       `flex items-center gap-3 rounded-sm px-4 py-3.5 text-left transition-[background-color,transform,opacity] duration-200 ease-out ${mobileLinkHoverBg}`,
-                      hash === l.href ? "opacity-100" : "opacity-90 hover:opacity-100",
+                      pathname === "/" && hash === l.href ? "opacity-100" : "opacity-90 hover:opacity-100",
                     ].join(" ")}
                   >
                     <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-current/10 bg-white/5">

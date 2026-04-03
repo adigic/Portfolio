@@ -62,11 +62,6 @@ const itemVariants: Variants = {
   },
 };
 
-const hoverLift = {
-  y: -5,
-  transition: { type: "spring", stiffness: 300, damping: 24, mass: 0.7 },
-} as const;
-
 export default function AboutSection() {
   return (
     <section
@@ -128,7 +123,6 @@ export default function AboutSection() {
                     key={title}
                     className="border border-white/10 bg-white/4 px-4 py-4 transition-[background-color,border-color,box-shadow] duration-200 ease-out hover:border-white/20 hover:bg-white/6 hover:shadow-[0_16px_30px_rgba(0,0,0,0.12)]"
                     variants={itemVariants}
-                    whileHover={hoverLift}
                   >
                     <Icon className="h-4.5 w-4.5 text-white/72" strokeWidth={1.9} />
                     <p className="mt-3 text-[11px] uppercase tracking-[0.18em] text-white/45">
@@ -157,7 +151,6 @@ export default function AboutSection() {
                     key={skill}
                     className="flex min-h-12 items-center justify-center border border-brand-light/10 bg-brand-light/8 px-3 py-3 text-sm font-medium shadow-2xl transition-[background-color,border-color,box-shadow] duration-200 ease-out hover:border-brand-light/40 hover:bg-brand-light/12 hover:shadow-[0_14px_26px_rgba(0,0,0,0.12)]"
                     variants={itemVariants}
-                    whileHover={hoverLift}
                   >
                     {skill}
                   </motion.span>

@@ -1,8 +1,9 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { Github, SquareArrowOutUpRight } from 'lucide-react';
+import { SquareArrowOutUpRight } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { Project } from '@/lib/sanity/types';
 
@@ -11,14 +12,11 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project }: ProjectCardProps) {
-  const hoverLift = {
-    y: -6,
-    transition: { type: 'spring', stiffness: 320, damping: 24, mass: 0.72 },
-  } as const;
+  const hasExternalUrl = Boolean(project.url && project.url !== '#');
 
   return (
-    <motion.div
-      className="group grid h-full w-full overflow-hidden border border-black/6 bg-white text-brand shadow-[0_20px_50px_rgba(0,0,0,0.14)] grid-cols-[148px_minmax(0,1fr)] min-[480px]:grid-cols-[180px_minmax(0,1fr)] sm:grid-cols-[240px_minmax(0,1fr)] min-[1180px]:flex min-[1180px]:min-h-[35rem] min-[1180px]:grid-cols-none min-[1180px]:flex-col"
+    <motion.article
+      className="group relative grid h-full w-full overflow-hidden border border-black/6 bg-white/95 text-brand shadow-[0_20px_50px_rgba(0,0,0,0.14)] transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-white grid-cols-[148px_minmax(0,1fr)] min-[480px]:grid-cols-[180px_minmax(0,1fr)] sm:grid-cols-[240px_minmax(0,1fr)] min-[1180px]:flex min-[1180px]:min-h-[35rem] min-[1180px]:grid-cols-none min-[1180px]:flex-col"
       variants={{
         hidden: { opacity: 0, y: 28 },
         visible: {
@@ -27,14 +25,19 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           transition: { duration: 0.55, ease: "easeOut" },
         },
       }}
-      whileHover={hoverLift}
     >
+      <Link
+        href={`/project/${project._id}`}
+        aria-label={`Open ${project.title} project details`}
+        className="absolute inset-0 z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand focus-visible:outline-offset-[-6px]"
+      />
+
       <div className="relative h-full min-h-[12.5rem] overflow-hidden min-[1180px]:h-[23rem] min-[1180px]:min-h-0">
         <Image
           src={project.imageUrl}
           alt={project.title}
           fill
-          className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.035]"
+          className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
           sizes="(max-width: 479px) 148px, (max-width: 639px) 180px, (max-width: 1179px) 240px, 33vw"
         />
       </div>
@@ -56,27 +59,21 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           </div>
         </div>
 
-        <div className="flex items-center justify-end gap-2.5 self-start pt-0.5 text-brand/78 min-[1180px]:mt-auto min-[1180px]:justify-end min-[1180px]:self-auto">
-          <a
-            href={project.url && project.url !== '#' ? project.url : '#projects'}
-            target={project.url && project.url !== '#' ? '_blank' : undefined}
-            rel={project.url && project.url !== '#' ? 'noopener noreferrer' : undefined}
-            aria-label={`Open ${project.title} repository`}
-            className="transition-[opacity,transform] duration-150 ease-out hover:translate-y-[-1px] hover:opacity-60"
-          >
-            <Github className="h-3.5 w-3.5" strokeWidth={1.9} />
-          </a>
-          <a
-            href={project.url && project.url !== '#' ? project.url : '#projects'}
-            target={project.url && project.url !== '#' ? '_blank' : undefined}
-            rel={project.url && project.url !== '#' ? 'noopener noreferrer' : undefined}
-            aria-label={`Open ${project.title} live preview`}
-            className="transition-[opacity,transform] duration-150 ease-out hover:translate-y-[-1px] hover:opacity-60"
-          >
-            <SquareArrowOutUpRight className="h-3.5 w-3.5" strokeWidth={1.9} />
-          </a>
-        </div>
+        {hasExternalUrl ? (
+          <div className="relative z-20 flex items-center justify-end gap-2.5 self-start pt-0.5 text-brand/78 min-[1180px]:mt-auto min-[1180px]:justify-end min-[1180px]:self-auto">
+            <a
+              href={project.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Open ${project.title} live preview`}
+              className="inline-flex items-center gap-1.5 border border-brand/10 bg-brand/5 px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] transition-[background-color,opacity] duration-150 ease-out hover:bg-brand/8 hover:opacity-100"
+            >
+              <span>Live</span>
+              <SquareArrowOutUpRight className="h-3.5 w-3.5" strokeWidth={1.9} />
+            </a>
+          </div>
+        ) : null}
       </div>
-    </motion.div>
+    </motion.article>
   );
 }

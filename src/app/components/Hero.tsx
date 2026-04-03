@@ -253,7 +253,7 @@ function FeatureCard({ title, text, image, icon }: FeatureCardProps) {
     <div
       className="
         relative mt-5 h-full overflow-hidden rounded-xl border border-brand-light/70 bg-white shadow-[0_18px_40px_rgba(0,0,0,0.1)]
-        transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-brand/20 hover:shadow-[0_24px_55px_rgba(0,0,0,0.14)]
+        transition-[box-shadow,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-brand/20 hover:shadow-[0_24px_55px_rgba(0,0,0,0.14)]
       "
     >
       {/* Bakgrundsbild (soft, under content) */}
@@ -263,7 +263,7 @@ function FeatureCard({ title, text, image, icon }: FeatureCardProps) {
             src={image}
             alt={title}
             fill
-            className="object-cover opacity-40 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
+            className="object-cover opacity-40"
           />
           <div className="absolute inset-0 bg-white/70" />
         </div>
@@ -297,7 +297,7 @@ function FeatureCard({ title, text, image, icon }: FeatureCardProps) {
         {/* Ikonen – centrerad på kortet */}
         <div className="flex justify-center my-4 sm:my-5">
           {icon && (
-            <div className="flex items-center justify-center transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-0.5">
+            <div className="flex items-center justify-center">
               <Icon
                 icon={icon}
                 className="text-brand text-7xl"
