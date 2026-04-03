@@ -1,10 +1,10 @@
 import {BackToTop} from '../components/BackToTop'
 import Footer from '../components/Footer'
-import {Navbar} from '../components/Navbar'
+import Navbar from '../components/Navbar'
 
 export default function ProjectLayout({children}: {children: React.ReactNode}) {
   return (
-    <div>
+    <div data-nav-theme="light">
       <Navbar />
       {children}
       <Footer />

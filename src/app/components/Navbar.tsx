@@ -146,8 +146,8 @@ export function Navbar() {
 
 
   return (
-    <header className="fixed top-0 left-0 z-50 h-16 w-full inset-x-0 transition">
-      {/* TOP RAD: brand + desktop-nav + hamburger */}
+    <header className="fixed top-0 left-0 z-50 w-full inset-x-0 transition">
+      {/* TOP RAD: brand + desktop-nav */}
       <div
         className={`${topBgClass} mx-auto flex items-center justify-between px-4 py-3 transition-[background-color,box-shadow] duration-300 md:px-6 md:py-4 ${scrolled ? "shadow-[0_10px_35px_rgba(0,0,0,0.08)]" : ""}`}
       >
@@ -198,138 +198,110 @@ export function Navbar() {
             <Icon icon="simple-icons:linkedin" width={24} height={24} style={{border: 'none'}} />
           </Link>
         </nav>
+      </div>
 
-        {/* Mobile hamburger */}
-        <div
-          className={`
-            md:hidden
-            ${hamburgerBg} ${hamburgerBorder}
-            rounded-sm absolute top-2 right-2 
-          `}
-        >
+      {/* MOBILE DROPDOWN PANEL (expands from top) */}
+      <div
+        className={`md:hidden fixed left-0 top-0 w-full z-40 transition-all duration-500 ease-in-out overflow-hidden ${panelOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'} ${mobilePanelSurface}`}
+        style={{boxShadow: panelOpen ? '0 10px 35px rgba(0,0,0,0.08)' : 'none'}}
+        aria-hidden={!panelOpen && 'true'}
+      >
+        {/* Hamburger/X button slides down with menu */}
+        <div className="flex justify-end px-4 pt-3">
           <button
             type="button"
             onClick={toggleMenu}
             aria-label="Toggle menu"
             aria-expanded={panelOpen}
-            className={`
-              flex flex-col justify-center items-center w-10 h-10 gap-1
-              transition cursor-pointer
-              ${iconColorClass}
-            `}
+            className={`flex flex-col justify-center items-center w-10 h-10 gap-1 transition cursor-pointer ${iconColorClass}`}
           >
             <span
-              className={`block h-0.5 w-6 bg-current transition-transform duration-200 ease-out ${
-                panelOpen ? "rotate-45 translate-y-1.5" : ""
-              }`}
+              className={`block h-0.5 w-6 bg-current transition-transform duration-200 ease-out ${panelOpen ? "rotate-45 translate-y-1.5" : ""}`}
             />
             <span
-              className={`block h-0.5 w-6 bg-current transition-opacity duration-200 ease-out ${
-                panelOpen ? "opacity-0" : "opacity-100"
-              }`}
+              className={`block h-0.5 w-6 bg-current transition-opacity duration-200 ease-out ${panelOpen ? "opacity-0" : "opacity-100"}`}
             />
             <span
-              className={`block h-0.5 w-6 bg-current transition-transform duration-200 ease-out ${
-                panelOpen ? "-rotate-45 -translate-y-1.5" : ""
-              }`}
+              className={`block h-0.5 w-6 bg-current transition-transform duration-200 ease-out ${panelOpen ? "-rotate-45 -translate-y-1.5" : ""}`}
             />
           </button>
         </div>
-      </div>
-
-      {/* MOBILE SIDE PANEL */}
-      <div
-        className={[
-          "fixed inset-0 z-40 md:hidden transition-opacity duration-300 ease-out",
-          panelOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0",
-        ].join(" ")}
-        aria-hidden={!panelOpen}
-      >
-        <button
-          type="button"
-          aria-label="Close menu overlay"
-          onClick={closeMenu}
-          className={`absolute inset-0 ${mobileOverlay}`}
-        />
-
-        <div
-          ref={panelRef}
-          className={[
-            `absolute right-0 top-0 flex h-full w-[min(90vw,22rem)] flex-col border-l ${mobilePanelSurface} shadow-2xl rounded-l-xl`,
-            "transform-gpu transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
-            panelOpen ? "translate-x-0" : "translate-x-full",
-          ].join(" ")}
-        >
-          <div className="flex items-center justify-between border-b border-current/10 px-6 py-5">
-            <span className="text-[0.8rem] font-semibold uppercase tracking-[0.18em] opacity-60">Meny</span>
-            <button
-              type="button"
-              onClick={closeMenu}
-              aria-label="Stäng meny"
-              className="flex h-10 w-10 items-center justify-center rounded border border-current/15 transition-colors duration-200 ease-out hover:bg-black/10"
-            >
-              <Icon icon="solar:close-circle-bold-duotone" width={24} height={24} />
-            </button>
-          </div>
-
-          <nav className="flex-1 px-4 py-6">
-            <ul className="flex flex-col gap-3 select-none text-right">
-              <li>
-                <Link
-                  href={MOBILE_HOME_LINK.href}
-                  onClick={handleHomeClick}
-                  className={`flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-right transition-[background-color,transform,opacity] duration-200 ease-out ${mobileLinkHoverBg} ${pathname === "/" && !hash ? "opacity-100" : "opacity-90 hover:opacity-100"}`}
-                >
-                  <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded border border-current/10 bg-white/5">
-                    <Icon icon={MOBILE_HOME_LINK.icon} width={22} height={22} color={iconColor} />
-                  </span>
-                  <span className="flex-1">{MOBILE_HOME_LINK.label}</span>
-                </Link>
-              </li>
-              {LINKS.map((l) =>
-                l.label === "Contact Me" ? (
-                  <li key={l.href}>
-                    <NavbarContactButton
-                      className="w-full flex items-center justify-center gap-3 rounded-lg px-4 py-4 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-brand bg-white border border-white/20 transition-colors duration-200 ease-out hover:bg-white/90 text-center"
-                      textColorClass="text-brand"
-                    />
-                  </li>
-                ) : (
-                  <li key={l.href}>
-                    <Link
-                      href={resolveHref(l.href)}
-                      onClick={() => closeMenu()}
-                      className={`flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-right transition-[background-color,transform,opacity] duration-200 ease-out ${mobileLinkHoverBg} opacity-90 hover:opacity-100`}
-                    >
-                      <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded border border-current/10 bg-white/5">
-                        <Icon icon={l.icon} width={22} height={22} color={iconColor} />
-                      </span>
-                      <span className="flex-1">{l.label}</span>
-                    </Link>
-                  </li>
-                )
-              )}
-            </ul>
-          </nav>
-
-          <div className="border-t border-current/10 px-4 py-5">
-            <Link
-              href="https://www.linkedin.com/in/adishegic/"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="LinkedIn profile"
-              className={`flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-brand bg-white border border-white/20 transition-colors duration-200 ease-out hover:bg-white/90 text-right`}
-              style={{ height: 48 }}
-            >
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded bg-white/5">
-                <Icon icon="simple-icons:linkedin" width={22} height={22} style={{border: 'none'}} />
-              </span>
-              <span className="flex-1">LinkedIn</span>
-            </Link>
-          </div>
+        <nav className="px-4 pb-4 pt-2">
+          <ul className="flex flex-col gap-3 select-none text-right">
+            <li>
+              <Link
+                href={MOBILE_HOME_LINK.href}
+                onClick={handleHomeClick}
+                className={`flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-right transition-[background-color,transform,opacity] duration-200 ease-out ${mobileLinkHoverBg} ${pathname === "/" && !hash ? "opacity-100" : "opacity-90 hover:opacity-100"}`}
+              >
+                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded border border-current/10 bg-white/5">
+                  <Icon icon={MOBILE_HOME_LINK.icon} width={22} height={22} color={iconColor} />
+                </span>
+                <span className="flex-1">{MOBILE_HOME_LINK.label}</span>
+              </Link>
+            </li>
+            {LINKS.map((l) =>
+              l.label === "Contact Me" ? (
+                <li key={l.href}>
+                  <NavbarContactButton
+                    className="w-full flex items-center justify-center gap-3 rounded-lg px-4 py-4 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-brand bg-white border border-white/20 transition-colors duration-200 ease-out hover:bg-white/90 text-center"
+                    textColorClass="text-brand"
+                  />
+                </li>
+              ) : (
+                <li key={l.href}>
+                  <Link
+                    href={resolveHref(l.href)}
+                    onClick={() => closeMenu()}
+                    className={`flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-right transition-[background-color,transform,opacity] duration-200 ease-out ${mobileLinkHoverBg} opacity-90 hover:opacity-100`}
+                  >
+                    <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded border border-current/10 bg-white/5">
+                      <Icon icon={l.icon} width={22} height={22} color={iconColor} />
+                    </span>
+                    <span className="flex-1">{l.label}</span>
+                  </Link>
+                </li>
+              )
+            )}
+          </ul>
+        </nav>
+        <div className="border-t border-current/10 px-4 py-5">
+          <Link
+            href="https://www.linkedin.com/in/adishegic/"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="LinkedIn profile"
+            className={`flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-brand bg-white border border-white/20 transition-colors duration-200 ease-out hover:bg-white/90 text-right`}
+            style={{ height: 48 }}
+          >
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded bg-white/5">
+              <Icon icon="simple-icons:linkedin" width={22} height={22} style={{border: 'none'}} />
+            </span>
+            <span className="flex-1">LinkedIn</span>
+          </Link>
         </div>
       </div>
 
+      {/* MOBILE HAMBURGER BUTTON (when menu is closed) */}
+      {!panelOpen && (
+        <div
+          className={`md:hidden fixed top-2 right-2 z-50 ${hamburgerBg} ${hamburgerBorder} rounded-sm transition-all duration-500`}
+        >
+          <button
+            type="button"
+            onClick={toggleMenu}
+            aria-label="Open menu"
+            aria-expanded={panelOpen}
+            className={`flex flex-col justify-center items-center w-10 h-10 gap-1 transition cursor-pointer ${iconColorClass}`}
+          >
+            <span className="block h-0.5 w-6 bg-current transition-transform duration-200 ease-out" />
+            <span className="block h-0.5 w-6 bg-current transition-opacity duration-200 ease-out" />
+            <span className="block h-0.5 w-6 bg-current transition-transform duration-200 ease-out" />
+          </button>
+        </div>
+      )}
     </header>
   );
 }
+
+export default Navbar;

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import DownloadCV from "./DownloadCV";
 import { Icon } from "@iconify/react";
 
 export default function ContactModal({ open, onClose }: { open: boolean; onClose: () => void }) {
@@ -32,7 +33,7 @@ export default function ContactModal({ open, onClose }: { open: boolean; onClose
       form.reset();
       setSent(true);
     } catch {
-      alert("Något gick fel. Försök igen.");
+      alert("Something went wrong. Please try again.");
     } finally {
       setSubmitting(false);
       window.setTimeout(() => setSent(false), 4000);
@@ -41,7 +42,7 @@ export default function ContactModal({ open, onClose }: { open: boolean; onClose
 
   if (!open) return null;
 
-  // Stäng modal vid klick utanför
+  // Close modal on outside click
   function handleOverlayClick(e: React.MouseEvent<HTMLDivElement>) {
     if (e.target === e.currentTarget) onClose();
   }
@@ -52,34 +53,34 @@ export default function ContactModal({ open, onClose }: { open: boolean; onClose
         <button
           onClick={onClose}
           className="absolute top-3 right-3 text-brand/60 hover:text-accent text-xl z-10 cursor-pointer"
-          aria-label="Stäng"
+          aria-label="Close"
         >
           <Icon icon="mdi:close" width={24} height={24} />
         </button>
-        {/* Formulär */}
+        {/* Form */}
         <div className="w-full md:w-[60%] p-6 md:p-8 flex flex-col justify-center">
-          <h3 className="text-xl font-bold text-brand mb-4">Kontakta mig</h3>
+          <h3 className="text-xl font-bold text-brand mb-4">Contact Me</h3>
           <form name="contact" method="POST" onSubmit={onSubmit} className="space-y-4">
             <input type="hidden" name="form-name" value="contact" />
             <div className="flex flex-col gap-2">
               <input
                 name="name"
                 type="text"
-                placeholder="Namn"
+                placeholder="Name"
                 required
                 className="w-full rounded bg-brand-input px-4 py-2 text-sm outline-none ring-1 ring-accent/20 focus:ring-accent"
               />
               <input
                 name="email"
                 type="email"
-                placeholder="E-post"
+                placeholder="Email"
                 required
                 className="w-full rounded bg-brand-input px-4 py-2 text-sm outline-none ring-1 ring-accent/20 focus:ring-accent"
               />
               <textarea
                 name="message"
                 rows={7}
-                placeholder="Ditt meddelande..."
+                placeholder="Your message..."
                 required
                 className="w-full rounded bg-brand-input px-4 py-2 text-sm outline-none ring-1 ring-accent/20 focus:ring-accent md:rows-4"
               />
@@ -89,19 +90,18 @@ export default function ContactModal({ open, onClose }: { open: boolean; onClose
               disabled={submitting}
               className="w-full cursor-pointer bg-accent text-white py-2 rounded font-semibold hover:opacity-90 disabled:opacity-60 transition"
             >
-              {sent ? "Meddelande skickat!" : submitting ? "Skickar..." : "Skicka"}
+              {sent ? "Message sent!" : submitting ? "Sending..." : "Send"}
             </button>
           </form>
         </div>
-        {/* Kontaktinfo, professionell layout */}
-        <div className="hidden md:flex w-[40%] p-0 flex-col justify-center border-l border-accent/15 bg-brand-light">
-          <div className="flex flex-col h-full justify-center items-stretch text-left px-8 py-10 gap-6">
-            <div className="mb-2">
+        {/* Contact info, professional layout */}
+        <div className="hidden md:flex w-[40%] p-0 flex-col justify-end border-l border-accent/15 bg-brand-light">
+          <div className="flex flex-col h-full justify-between items-stretch text-left px-8 py-10 gap-6 relative">
+            <div>
               <span className="font-alexandria text-2xl font-bold tracking-tight uppercase block leading-tight">Adis Hegic</span>
               <span className="text-base font-medium text-brand/60 block leading-tight mt-0.5">Software Engineer</span>
             </div>
-         
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 mt-4">
               <div className="flex items-center gap-3 bg-white/60 rounded px-3 py-2 shadow-sm border border-accent/10">
                 <Icon icon="bi:envelope-at-fill" width={20} height={20} className="text-accent" />
                 <a href="mailto:adigic@hotmail.com" className="text-brand/90 hover:text-accent transition-colors text-sm font-semibold break-all">adigic@hotmail.com</a>
@@ -111,7 +111,10 @@ export default function ContactModal({ open, onClose }: { open: boolean; onClose
                 <a href="tel:+46700788788" className="text-brand/90 hover:text-accent transition-colors text-sm font-semibold">+46 700 788 788</a>
               </div>
             </div>
-            <div className="mt-8 text-xs text-brand/40 font-jura">Svarar oftast inom 24h</div>
+            <div className="mt-8 text-xs text-brand/40 font-jura">Usually replies within 24h</div>
+            <div className="absolute bottom-8 right-8">
+              <DownloadCV label="Download CV" className="w-full md:w-auto" />
+            </div>
           </div>
         </div>
       </div>

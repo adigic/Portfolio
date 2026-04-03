@@ -3,7 +3,7 @@ import { BackToTop } from "./components/BackToTop";
 import ExperienceEducationSection from "./components/ExperienceEducationSection";
 import Footer from "./components/Footer";
 import { Hero } from "./components/Hero";
-import { Navbar } from "./components/Navbar";
+import Navbar from "./components/Navbar";
 import ProjectsSection from "@/components/projects/ProjectsSection";
 import { fetchProjects } from "@/lib/sanity/fetchProjects";
 
