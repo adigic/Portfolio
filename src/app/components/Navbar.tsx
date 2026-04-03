@@ -24,7 +24,6 @@ export function Navbar() {
   const [hash, setHash] = useState<string>("");
   const [navTheme, setNavTheme] = useState<"light" | "dark">("light"); // beskriver SEKTIONEN
   const [scrolled, setScrolled] = useState(false);
-  const panelRef = useRef<HTMLDivElement | null>(null);
   const pathname = usePathname();
 
   // uiIsDark = hur NAV:en ska se ut (reverserat mot sektionen)
@@ -127,11 +126,9 @@ export function Navbar() {
   const brandColorClass = uiIsDark ? "text-white" : "text-brand";
   const topBgClass = uiIsDark ? "bg-brand" : "bg-brand-light";
   const iconColorClass = uiIsDark ? "text-white" : "text-brand";
-  const iconColor = uiIsDark ? "#fff" : "#0a2342"; // brand navy
 
   // Mobile menu always dark mode
   const mobilePanelSurface = "bg-brand text-white border-white/10";
-  const mobileOverlay = uiIsDark ? "bg-black/35" : "bg-brand/12";
 
   const hamburgerBg = uiIsDark ? "bg-brand" : "bg-brand-light";
   const hamburgerBorder = uiIsDark
@@ -199,100 +196,90 @@ export function Navbar() {
         </nav>
       </div>
 
-      {/* MOBILE DROPDOWN PANEL (expands from top) */}
-      <div
-        className={`md:hidden fixed left-0 top-0 w-full z-40 transition-all duration-500 ease-in-out overflow-hidden ${panelOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'} ${mobilePanelSurface}`}
-        style={{boxShadow: panelOpen ? '0 10px 35px rgba(0,0,0,0.08)' : 'none'}}
-        aria-hidden={!panelOpen && 'true'}
-      >
-        {/* Hamburger/X button slides down with menu */}
-        <div className="flex justify-end px-4 pt-3">
+      {/* MOBILE DROPDOWN PANEL (expands from top) + overlay */}
+      {panelOpen && (
+        <>
+          {/* Overlay under menyn */}
           <button
             type="button"
-            onClick={toggleMenu}
-            aria-label="Toggle menu"
-            aria-expanded={panelOpen}
-            className={`flex flex-col justify-center items-center w-10 h-10 gap-1 transition cursor-pointer ${iconColorClass}`}
+            aria-label="Stäng meny"
+            className="fixed inset-0 z-40 md:hidden bg-black/40 backdrop-blur-sm cursor-pointer"
+            style={{ WebkitTapHighlightColor: 'transparent' }}
+            onClick={closeMenu}
+            tabIndex={-1}
+          />
+          {/* Meny ovanpå overlay */}
+          <div
+            className={`md:hidden fixed left-0 top-0 w-full z-50 transition-all duration-250 ease-[cubic-bezier(0.22,1,0.36,1)] overflow-hidden max-h-[500px] opacity-100 ${mobilePanelSurface}`}
+            style={{boxShadow: '0 10px 35px rgba(0,0,0,0.08)'}}
+            aria-hidden={false}
           >
-            <span
-              className={`block h-0.5 w-6 bg-current transition-transform duration-200 ease-out ${panelOpen ? "rotate-45 translate-y-1.5" : ""}`}
-            />
-            <span
-              className={`block h-0.5 w-6 bg-current transition-opacity duration-200 ease-out ${panelOpen ? "opacity-0" : "opacity-100"}`}
-            />
-            <span
-              className={`block h-0.5 w-6 bg-current transition-transform duration-200 ease-out ${panelOpen ? "-rotate-45 -translate-y-1.5" : ""}`}
-            />
-          </button>
-        </div>
-        <nav className="px-4 pb-4 pt-2">
-          <ul className="flex flex-col gap-3 select-none text-right">
-            <li>
-              <Link
-                href={MOBILE_HOME_LINK.href}
-                onClick={handleHomeClick}
-                className={`flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-right transition-[background-color,transform,opacity] duration-200 ease-out text-white ${mobileLinkHoverBg} ${pathname === "/" && !hash ? "opacity-100" : "opacity-90 hover:opacity-100"}`}
-              >
-                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded">
-                  <Icon icon={MOBILE_HOME_LINK.icon.replace('-fill', '-fill')} width={22} height={22} color="#fff" />
-                </span>
-                <span className="flex-1">{MOBILE_HOME_LINK.label}</span>
-              </Link>
-            </li>
-            {LINKS.map((l) =>
-              l.label === "Contact Me" ? (
-                <li key={l.href}>
-                  <NavbarContactButton
-                    className="w-full flex items-center justify-center gap-3 rounded-lg px-4 py-4 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-brand bg-white border border-white/20 transition-colors duration-200 ease-out hover:bg-white/90 text-center"
-                    textColorClass="text-brand"
-                  />
-                </li>
-              ) : (
-                <li key={l.href}>
+            <nav className="px-4 pb-4 pt-2">
+              <ul className="flex flex-col gap-3 select-none text-right">
+                <li>
                   <Link
-                    href={resolveHref(l.href)}
-                    onClick={() => closeMenu()}
-                    className={`flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-right transition-[background-color,transform,opacity] duration-200 ease-out text-white ${mobileLinkHoverBg} opacity-90 hover:opacity-100`}
+                    href={MOBILE_HOME_LINK.href}
+                    onClick={handleHomeClick}
+                    className={`flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-right transition-[background-color,transform,opacity] duration-200 ease-out text-white ${mobileLinkHoverBg} ${pathname === "/" && !hash ? "opacity-100" : "opacity-90 hover:opacity-100"}`}
                   >
                     <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded">
-                      <Icon icon={l.icon.replace('-fill', '-fill')} width={22} height={22} color="#fff" />
+                      <Icon icon={MOBILE_HOME_LINK.icon.replace('-fill', '-fill')} width={22} height={22} color="#fff" />
                     </span>
-                    <span className="flex-1">{l.label}</span>
+                    <span className="flex-1">{MOBILE_HOME_LINK.label}</span>
                   </Link>
                 </li>
-              )
-            )}
-          </ul>
-        </nav>
-        <div className="border-t border-current/10 px-4 py-5 flex gap-3">
-          <Link
-            href="https://www.linkedin.com/in/adishegic/"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="LinkedIn profile"
-            className="flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-white bg-white/10 border border-white/20 transition-colors duration-200 ease-out hover:bg-white/20 text-right"
-            style={{ height: 48 }}
-          >
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded bg-transparent">
-              <Icon icon="simple-icons:linkedin" width={22} height={22} color="#fff" style={{border: 'none'}} />
-            </span>
-            <span className="flex-1">LinkedIn</span>
-          </Link>
-          <Link
-            href="#contact"
-            aria-label="Contact Me"
-            className="flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-white bg-white/10 border border-white/20 transition-colors duration-200 ease-out hover:bg-white/20 text-right"
-            style={{ height: 48 }}
-            onClick={closeMenu}
-          >
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded bg-transparent">
-              <Icon icon="ph:chat-circle-dots-fill" width={22} height={22} color="#fff" />
-            </span>
-            <span className="flex-1">Contact</span>
-          </Link>
-        </div>
-      </div>
-
+                {LINKS.filter(l => l.label !== "Contact Me").map((l) => (
+                  <li key={l.href}>
+                    <Link
+                      href={resolveHref(l.href)}
+                      onClick={() => closeMenu()}
+                      className={`flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-right transition-[background-color,transform,opacity] duration-200 ease-out text-white ${mobileLinkHoverBg} opacity-90 hover:opacity-100`}
+                    >
+                      <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded">
+                        <Icon icon={l.icon.replace('-fill', '-fill')} width={22} height={22} color="#fff" />
+                      </span>
+                      <span className="flex-1">{l.label}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            <div className="border-t border-current/10 px-4 py-5 flex flex-row gap-3">
+              <Link
+                href="https://www.linkedin.com/in/adishegic/"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="LinkedIn profile"
+                className="flex w-full items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-brand bg-white border border-white/20 transition-colors duration-200 ease-out hover:bg-white/90 text-right justify-center"
+                style={{ height: 48, width: '50%' }}
+              >
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded bg-white/5">
+                  <Icon icon="simple-icons:linkedin" width={22} height={22} style={{border: 'none'}} />
+                </span>
+                <span className="flex-1">LinkedIn</span>
+              </Link>
+              <button
+                type="button"
+                aria-label="Contact Me"
+                className="flex w-full items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-brand bg-white border border-white/20 transition-colors duration-200 ease-out hover:bg-white/90 text-right justify-center"
+                style={{ height: 48, width: '50%' }}
+                onClick={() => {
+                  closeMenu();
+                  if (typeof window !== 'undefined') {
+                    const evt = new CustomEvent('openContactModal');
+                    window.dispatchEvent(evt);
+                  }
+                }}
+              >
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded bg-white/5">
+                  <Icon icon="ph:chat-circle-dots-fill" width={22} height={22} style={{border: 'none'}} />
+                </span>
+                <span className="flex-1">Contact</span>
+              </button>
+            </div>
+          </div>
+        </>
+      )}
       {/* MOBILE HAMBURGER BUTTON (when menu is closed) */}
       {!panelOpen && (
         <div
