@@ -106,7 +106,7 @@ export default function AboutSection() {
                 </p>
               </div>
 
-              <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 text-base text-white/80 sm:text-lg">
+              <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-white/80 ">
                 <span className="inline-flex items-center gap-2">
                   <MapPin className="h-5 w-5 text-white/70" strokeWidth={1.9} />
                   <span>Hallstahammar, Sweden</span>

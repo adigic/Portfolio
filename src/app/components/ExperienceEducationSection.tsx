@@ -73,6 +73,29 @@ const cardVariants: Variants = {
   },
 };
 
+const introVariants: Variants = {
+  hidden: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.65,
+      ease: "easeOut",
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const introItemVariants: Variants = {
+  hidden: { opacity: 0, x: 28 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
 export default function ExperienceEducationSection() {
   return (
     <section
@@ -88,18 +111,18 @@ export default function ExperienceEducationSection() {
         variants={sectionVariants}
       >
         <motion.div
-          className="mb-10 max-w-3xl lg:mb-12 lg:ml-auto lg:max-w-[42rem] lg:border-r lg:border-brand/12 lg:pr-8 lg:text-right"
-          variants={cardVariants}
+          className="mb-10 max-w-3xl lg:mb-12 lg:ml-auto lg:max-w-5xl lg:border-r lg:border-brand/12 lg:pr-8 lg:text-right"
+          variants={introVariants}
         >
-          <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-brand/45">
+          <motion.p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-brand/45" variants={introItemVariants}>
             Background
-          </p>
-          <h2 className="text-3xl font-alexandria uppercase tracking-tight sm:text-4xl lg:text-5xl">
+          </motion.p>
+          <motion.h2 className="text-3xl font-alexandria uppercase tracking-tight sm:text-4xl lg:text-5xl" variants={introItemVariants}>
             Experience & Education.
-          </h2>
-          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-brand/70 sm:text-base lg:ml-auto">
+          </motion.h2>
+          <motion.p className="mt-4 max-w-2xl text-sm leading-relaxed text-brand/70 sm:text-base lg:ml-auto" variants={introItemVariants}>
             Experience in modern frontend development combined with years of technical leadership, maintenance responsibility and structured problem solving.
-          </p>
+          </motion.p>
         </motion.div>
 
         <div className="grid w-full gap-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(320px,0.85fr)] lg:gap-14">
