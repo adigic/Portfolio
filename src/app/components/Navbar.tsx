@@ -129,9 +129,8 @@ export function Navbar() {
   const iconColorClass = uiIsDark ? "text-white" : "text-brand";
   const iconColor = uiIsDark ? "#fff" : "#0a2342"; // brand navy
 
-  const mobilePanelSurface = uiIsDark
-    ? "bg-brand text-white border-white/10"
-    : "bg-brand-light text-brand border-brand/10";
+  // Mobile menu always dark mode
+  const mobilePanelSurface = "bg-brand text-white border-white/10";
   const mobileOverlay = uiIsDark ? "bg-black/35" : "bg-brand/12";
 
   const hamburgerBg = uiIsDark ? "bg-brand" : "bg-brand-light";
@@ -232,10 +231,10 @@ export function Navbar() {
               <Link
                 href={MOBILE_HOME_LINK.href}
                 onClick={handleHomeClick}
-                className={`flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-right transition-[background-color,transform,opacity] duration-200 ease-out ${mobileLinkHoverBg} ${pathname === "/" && !hash ? "opacity-100" : "opacity-90 hover:opacity-100"}`}
+                className={`flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-right transition-[background-color,transform,opacity] duration-200 ease-out text-white ${mobileLinkHoverBg} ${pathname === "/" && !hash ? "opacity-100" : "opacity-90 hover:opacity-100"}`}
               >
-                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded border border-current/10 bg-white/5">
-                  <Icon icon={MOBILE_HOME_LINK.icon} width={22} height={22} color={iconColor} />
+                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded">
+                  <Icon icon={MOBILE_HOME_LINK.icon.replace('-fill', '-fill')} width={22} height={22} color="#fff" />
                 </span>
                 <span className="flex-1">{MOBILE_HOME_LINK.label}</span>
               </Link>
@@ -253,10 +252,10 @@ export function Navbar() {
                   <Link
                     href={resolveHref(l.href)}
                     onClick={() => closeMenu()}
-                    className={`flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-right transition-[background-color,transform,opacity] duration-200 ease-out ${mobileLinkHoverBg} opacity-90 hover:opacity-100`}
+                    className={`flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-right transition-[background-color,transform,opacity] duration-200 ease-out text-white ${mobileLinkHoverBg} opacity-90 hover:opacity-100`}
                   >
-                    <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded border border-current/10 bg-white/5">
-                      <Icon icon={l.icon} width={22} height={22} color={iconColor} />
+                    <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded">
+                      <Icon icon={l.icon.replace('-fill', '-fill')} width={22} height={22} color="#fff" />
                     </span>
                     <span className="flex-1">{l.label}</span>
                   </Link>
@@ -265,19 +264,31 @@ export function Navbar() {
             )}
           </ul>
         </nav>
-        <div className="border-t border-current/10 px-4 py-5">
+        <div className="border-t border-current/10 px-4 py-5 flex gap-3">
           <Link
             href="https://www.linkedin.com/in/adishegic/"
             target="_blank"
             rel="noreferrer"
             aria-label="LinkedIn profile"
-            className={`flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-brand bg-white border border-white/20 transition-colors duration-200 ease-out hover:bg-white/90 text-right`}
+            className="flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-white bg-white/10 border border-white/20 transition-colors duration-200 ease-out hover:bg-white/20 text-right"
             style={{ height: 48 }}
           >
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded bg-white/5">
-              <Icon icon="simple-icons:linkedin" width={22} height={22} style={{border: 'none'}} />
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded bg-transparent">
+              <Icon icon="simple-icons:linkedin" width={22} height={22} color="#fff" style={{border: 'none'}} />
             </span>
             <span className="flex-1">LinkedIn</span>
+          </Link>
+          <Link
+            href="#contact"
+            aria-label="Contact Me"
+            className="flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-white bg-white/10 border border-white/20 transition-colors duration-200 ease-out hover:bg-white/20 text-right"
+            style={{ height: 48 }}
+            onClick={closeMenu}
+          >
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded bg-transparent">
+              <Icon icon="ph:chat-circle-dots-fill" width={22} height={22} color="#fff" />
+            </span>
+            <span className="flex-1">Contact</span>
           </Link>
         </div>
       </div>
