@@ -51,8 +51,8 @@ export function BackToTop({ showAfter = 200 }: { showAfter?: number }) {
       aria-label="Back to top"
       onClick={scrollTop}
       className={[
-        "fixed z-50 right-2 bottom-5 md:right-8 md:bottom-8",
-        "h-9 w-9 rounded-sm grid place-items-center shadow-lg",
+        "fixed z-50 right-5 bottom-16 md:right-2 md:bottom-22",
+        "md:h-7 md:w-7 h-10 w-10 rounded-sm grid place-items-center shadow-lg",
         "transition-all duration-300 cursor-pointer hover:opacity-100 opacity-30",
         themed,
         visible && !menuOpen
