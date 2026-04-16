@@ -13,12 +13,12 @@ interface ProjectCardProps {
   index?: number;
 }
 
-export default function ProjectCard({ project, revealDirection = 'down', index = 0 }: ProjectCardProps) {
+export default function ProjectCard({ project, revealDirection = 'side', index = 0 }: ProjectCardProps) {
   const hasExternalUrl = Boolean(project.url && project.url !== '#');
   const revealEase = [0.22, 1, 0.36, 1] as const;
   const hiddenVariant =
     revealDirection === 'side'
-      ? { opacity: 0, x: -42 }
+      ? { opacity: 0, x: index % 2 === 0 ? -42 : 42 }
       : { opacity: 0, y: -28 };
 
   return (

@@ -188,90 +188,90 @@ export function Navbar() {
       </div>
 
       {/* MOBILE DROPDOWN PANEL (expands from top) + overlay */}
-      {/* Mobile menu overlay and curtain animation */}
-      <div
-        className={`md:hidden fixed inset-0 z-40 transition-all duration-300 ${panelOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
-        style={{transitionProperty: 'opacity'}}
-        aria-hidden={!panelOpen}
-      >
-        {/* Overlay under menyn */}
-        <button
-          type="button"
-          aria-label="Stäng meny"
-          className="absolute inset-0 w-full h-full bg-black/40 backdrop-blur-sm cursor-pointer pointer-events-auto"
-          style={{ WebkitTapHighlightColor: 'transparent' }}
-          onClick={closeMenu}
-          tabIndex={-1}
-        />
-        {/* Meny ovanpå overlay, curtain animation */}
+      {panelOpen ? (
         <div
-          className={`absolute left-0 top-0 w-full z-50 ${mobilePanelSurface} transition-transform transition-opacity duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${panelOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'} shadow-[0_10px_35px_rgba(0,0,0,0.08)]`}
-          style={{willChange: 'transform, opacity'}}
+          className="md:hidden fixed inset-0 z-40"
+          style={{ transitionProperty: 'opacity' }}
+          aria-hidden={!panelOpen}
         >
-          <nav className="px-4 pb-4 pt-2">
-            <ul className="flex flex-col gap-3 select-none text-right">
-              <li>
-                <Link
-                  href={MOBILE_HOME_LINK.href}
-                  onClick={handleHomeClick}
-                  className={`flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-right transition-[background-color,transform,opacity] duration-200 ease-out text-white ${mobileLinkHoverBg} ${pathname === "/" && !hash ? "opacity-100" : "opacity-90 hover:opacity-100"}`}
-                >
-                  <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded">
-                    <Icon icon={MOBILE_HOME_LINK.icon.replace('-fill', '-fill')} width={22} height={22} color="#fff" />
-                  </span>
-                  <span className="flex-1">{MOBILE_HOME_LINK.label}</span>
-                </Link>
-              </li>
-              {LINKS.filter(l => l.label !== "Contact").map((l) => (
-                <li key={l.href}>
+          <button
+            type="button"
+            aria-label="Stäng meny"
+            className="absolute inset-0 h-full w-full cursor-pointer bg-black/40 backdrop-blur-sm"
+            style={{ WebkitTapHighlightColor: 'transparent' }}
+            onClick={closeMenu}
+            tabIndex={-1}
+          />
+
+          <div
+            className={`absolute left-0 top-0 z-50 w-full ${mobilePanelSurface} translate-y-0 opacity-100 shadow-[0_10px_35px_rgba(0,0,0,0.08)] transition-transform transition-opacity duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]`}
+            style={{ willChange: 'transform, opacity' }}
+          >
+            <nav className="px-4 pb-4 pt-2">
+              <ul className="flex select-none flex-col gap-3 text-right">
+                <li>
                   <Link
-                    href={resolveHref(l.href)}
-                    onClick={() => closeMenu()}
-                    className={`flex items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-right transition-[background-color,transform,opacity] duration-200 ease-out text-white ${mobileLinkHoverBg} opacity-90 hover:opacity-100`}
+                    href={MOBILE_HOME_LINK.href}
+                    onClick={handleHomeClick}
+                    className={`flex items-center gap-3 rounded-lg px-4 py-3 text-right font-poppins text-[13px] font-semibold uppercase tracking-[0.16em] text-white transition-[background-color,transform,opacity] duration-200 ease-out ${mobileLinkHoverBg} ${pathname === "/" && !hash ? "opacity-100" : "opacity-90 hover:opacity-100"}`}
                   >
                     <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded">
-                      <Icon icon={l.icon.replace('-fill', '-fill')} width={22} height={22} color="#fff" />
+                      <Icon icon={MOBILE_HOME_LINK.icon.replace('-fill', '-fill')} width={22} height={22} color="#fff" />
                     </span>
-                    <span className="flex-1">{l.label}</span>
+                    <span className="flex-1">{MOBILE_HOME_LINK.label}</span>
                   </Link>
                 </li>
-              ))}
-            </ul>
-          </nav>
-          <div className="border-t border-current/10 px-4 py-5 flex flex-row gap-3">
-            <Link
-              href="https://www.linkedin.com/in/adishegic/"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="LinkedIn profile"
-              className="flex w-full items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-brand bg-white border border-white/20 transition-colors duration-200 ease-out hover:bg-white/90 text-right justify-center"
-              style={{ height: 48, width: '50%' }}
-            >
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded bg-white/5">
-                <Icon icon="simple-icons:linkedin" width={22} height={22} style={{border: 'none'}} />
-              </span>
-              <span className="flex-1">LinkedIn</span>
-            </Link>
-            <button
-              type="button"
-              aria-label="Contact"
-              className="flex w-full items-center gap-3 rounded-lg px-4 py-3 font-poppins text-[13px] uppercase font-semibold tracking-[0.16em] text-brand bg-white border border-white/20 transition-colors duration-200 ease-out hover:bg-white/90 text-right justify-center cursor-pointer"
-              style={{ height: 48, width: '50%' }}
-              onClick={() => {
+                {LINKS.filter(l => l.label !== "Contact").map((l) => (
+                  <li key={l.href}>
+                    <Link
+                      href={resolveHref(l.href)}
+                      onClick={() => closeMenu()}
+                      className={`flex items-center gap-3 rounded-lg px-4 py-3 text-right font-poppins text-[13px] font-semibold uppercase tracking-[0.16em] text-white opacity-90 transition-[background-color,transform,opacity] duration-200 ease-out hover:opacity-100 ${mobileLinkHoverBg}`}
+                    >
+                      <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded">
+                        <Icon icon={l.icon.replace('-fill', '-fill')} width={22} height={22} color="#fff" />
+                      </span>
+                      <span className="flex-1">{l.label}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            <div className="flex flex-row gap-3 border-t border-current/10 px-4 py-5">
+              <Link
+                href="https://www.linkedin.com/in/adishegic/"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="LinkedIn profile"
+                className="flex w-full items-center justify-center gap-3 rounded-lg border border-white/20 bg-white px-4 py-3 text-right font-poppins text-[13px] font-semibold uppercase tracking-[0.16em] text-brand transition-colors duration-200 ease-out hover:bg-white/90"
+                style={{ height: 48, width: '50%' }}
+              >
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded bg-white/5">
+                  <Icon icon="simple-icons:linkedin" width={22} height={22} style={{ border: 'none' }} />
+                </span>
+                <span className="flex-1">LinkedIn</span>
+              </Link>
+              <button
+                type="button"
+                aria-label="Contact"
+                className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-lg border border-white/20 bg-white px-4 py-3 text-right font-poppins text-[13px] font-semibold uppercase tracking-[0.16em] text-brand transition-colors duration-200 ease-out hover:bg-white/90"
+                style={{ height: 48, width: '50%' }}
+                onClick={() => {
                   closeMenu();
                   setTimeout(() => {
                     modalCtx?.setOpen(true);
-                  }, 250); // match menu animation
+                  }, 250);
                 }}
-            >
-              <span className="inline-flex h-10 w-10 items-center justify-center rounded bg-white/5">
-                <Icon icon="ph:chat-circle-dots-fill" width={22} height={22} style={{border: 'none'}} />
-              </span>
-              <span className="flex-1">Contact</span>
-            </button>
+              >
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded bg-white/5">
+                  <Icon icon="ph:chat-circle-dots-fill" width={22} height={22} style={{ border: 'none' }} />
+                </span>
+                <span className="flex-1">Contact</span>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      ) : null}
       {/* MOBILE HAMBURGER BUTTON (when menu is closed) */}
       {!panelOpen && (
         <div

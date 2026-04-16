@@ -330,19 +330,19 @@ const HERO_CARDS: FeatureCardProps[] = [
     title: "DESIGN",
     image: "/cards/design.avif",
     icon: "streamline-freehand:design-tool-quill",
-    text: "Elegant, balanserad och modern design med fokus på känsla, typografi och visuell hierarki. Alltid pixelperfekt.",
+    text: "Elegant, balanced and modern design with a strong focus on feel, typography and visual hierarchy. Always pixel-perfect.",
   },
   {
     title: "UX",
     image: "/cards/ux.avif",
     icon: "streamline-ultimate:layout-bold",
-    text: "Upplevelser som känns självklara, intuitiva och engagerande. Flöden och interaktioner som bygger förtroende och glädje.",
+    text: "Experiences that feel natural, intuitive and engaging. Flows and interactions that build trust and delight.",
   },
   {
     title: "CODE",
     image: "/cards/code.avif",
     icon: "ant-design:code-filled",
-    text: "Snabb, robust och framtidssäker frontend med modern stack. Kod som är lätt att underhålla och skalar snyggt.",
+    text: "Fast, robust and future-ready frontend built with a modern stack. Code that is easy to maintain and scales cleanly.",
   },
 ];
 
