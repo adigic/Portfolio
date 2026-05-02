@@ -8,6 +8,7 @@ export function BackToTop({ showAfter = 200 }: { showAfter?: number }) {
   const [visible, setVisible] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [dockedPosition, setDockedPosition] = useState<{ left: number; top: number } | null>(null);
+  const [hideBecauseFooter, setHideBecauseFooter] = useState(false);
 
   // Listen for menu open (body.overflow-hidden)
   useEffect(() => {
@@ -35,6 +36,7 @@ export function BackToTop({ showAfter = 200 }: { showAfter?: number }) {
 
       if (!anchor || !footer) {
         setDockedPosition(null);
+        setHideBecauseFooter(false);
         return;
       }
 
@@ -42,6 +44,9 @@ export function BackToTop({ showAfter = 200 }: { showAfter?: number }) {
       const anchorRect = anchor.getBoundingClientRect();
       const isFooterVisible = footerRect.top < window.innerHeight && footerRect.bottom > 0;
       const isAnchorVisible = anchorRect.top < window.innerHeight && anchorRect.bottom > 0;
+
+      // Göm knappen om footern är synlig, oavsett device
+      setHideBecauseFooter(isFooterVisible);
 
       if (!isFooterVisible || !isAnchorVisible) {
         setDockedPosition(null);
@@ -92,9 +97,11 @@ export function BackToTop({ showAfter = 200 }: { showAfter?: number }) {
         dockedPosition ? "md:right-auto md:bottom-auto" : "md:right-12 md:bottom-6",
         "transition-all duration-300 cursor-pointer hover:opacity-100 opacity-30",
         themed,
-        visible && !menuOpen
+        visible && !menuOpen && !hideBecauseFooter
           ? "opacity-100 translate-y-0"
-          : "opacity-0 translate-y-2 pointer-events-none",
+          : hideBecauseFooter
+            ? "hidden"
+            : "opacity-0 translate-y-2 pointer-events-none",
       ].join(" ")}
     >
       <Icon icon="mdi:arrow-up-bold" className="h-4 w-4 text-white" />

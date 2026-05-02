@@ -13,7 +13,7 @@ export default function ProjectList({ projects }: ProjectListProps) {
       {projects.map((project, index) => (
         <div
           key={project._id}
-          className="w-full max-w-full min-[480px]:max-w-[22rem] min-[1180px]:w-[calc(33.333%-0.75rem)] min-[1180px]:max-w-[42rem]"
+          className="w-full max-w-[42rem] min-[1180px]:w-[calc(33.333%-0.75rem)]"
         >
           <ProjectCard
             project={project}

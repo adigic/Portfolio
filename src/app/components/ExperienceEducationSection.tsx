@@ -171,7 +171,7 @@ export default function ExperienceEducationSection() {
               </motion.div>
             </div>
 
-            <div className="space-y-6 border-l border-brand/18 pl-5 sm:pl-6">
+            <div className="space-y-6 md:border-l border-brand/18 p-2 md:pl-3 sm:pl-6">
               {experiences.map((item) => (
                 <motion.article
                   key={item.company}
@@ -225,7 +225,7 @@ export default function ExperienceEducationSection() {
               </motion.div>
             </div>
 
-            <div className="space-y-5 border-l border-brand/18 pl-5 sm:pl-6">
+            <div className="space-y-5 md:border-l border-brand/18 p-2 md:pl-3 sm:pl-6">
               {education.map((item) => (
                 <motion.article
                   key={item.school}

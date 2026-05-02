@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useState } from "react";
 import DownloadCV from "./DownloadCV";
 import { Icon } from "@iconify/react";
+import { FooterBackToTop } from "./FooterBackToTop";
 import NavbarContactButton from "./NavbarContactButton";
 
 export default function Footer() {
@@ -43,13 +44,19 @@ export default function Footer() {
             <DownloadCV />
           </div>
           {/* Sociala ikoner */}
-          <div className="flex flex-row gap-4 mt-3">
+          <div className="flex flex-row gap-4 mt-3 items-center">
             <Link href="https://www.linkedin.com/in/adishegic/" target="_blank" aria-label="LinkedIn" className="hover:opacity-80 transition-transform">
               <Icon icon="simple-icons:linkedin" width={28} height={28} className="text-accent" />
             </Link>
-            <Link href="https://github.com/adigic" target="_blank" aria-label="GitHub" className="hover:opacity-80 transition-transform">
-              <Icon icon="simple-icons:github" width={28} height={28} className="text-accent" />
-            </Link>
+            <div className="flex flex-row items-center gap-2">
+              <Link href="https://github.com/adigic" target="_blank" aria-label="GitHub" className="hover:opacity-80 transition-transform">
+                <Icon icon="simple-icons:github" width={28} height={28} className="text-accent" />
+              </Link>
+              {/* FooterBackToTop knapp direkt bredvid GitHub på både mobil och desktop */}
+              <span className="inline-flex">
+                <FooterBackToTop />
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -84,9 +91,15 @@ export default function Footer() {
           <Link href="https://www.linkedin.com/in/adishegic/" target="_blank" aria-label="LinkedIn" className="hover:opacity-80 transition-transform">
             <Icon icon="simple-icons:linkedin" width={26} height={26} className="text-accent" />
           </Link>
-          <Link href="https://github.com/adigic" target="_blank" aria-label="GitHub" className="hover:opacity-80 transition-transform">
-            <Icon icon="simple-icons:github" width={26} height={26} className="text-accent" />
-          </Link>
+          <div className="flex flex-row items-center gap-2">
+            <Link href="https://github.com/adigic" target="_blank" aria-label="GitHub" className="hover:opacity-80 transition-transform">
+              <Icon icon="simple-icons:github" width={26} height={26} className="text-accent" />
+            </Link>
+            {/* FooterBackToTop knapp direkt bredvid GitHub även på desktop */}
+            <span className="inline-flex">
+              <FooterBackToTop />
+            </span>
+          </div>
           <span data-back-to-top-anchor="desktop" aria-hidden="true" className="hidden h-7 w-7 md:block" />
         </div>
       </div>
