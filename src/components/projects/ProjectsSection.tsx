@@ -40,7 +40,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
   const description = FILTER_DESCRIPTIONS[filter];
 
   return (
-    <section id="projects" data-nav-theme="dark" className="flex min-h-svh items-center bg-brand px-4 py-16 text-white md:px-12 md:py-18">
+    <section id="projects" data-nav-theme="dark" className="flex min-h-svh items-center bg-brand px-4 py-16 text-white md:px-12 md:py-18 overflow-x-hidden">
       <div className="mx-auto w-full max-w-[1500px]">
         <div className="mb-8 grid gap-6 lg:mb-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)] lg:items-end lg:gap-10">
           <div className="min-w-0 max-w-3xl">
