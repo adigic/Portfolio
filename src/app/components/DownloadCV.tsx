@@ -11,7 +11,7 @@ export default function DownloadCV({
     if (typeof window === "undefined") return;
 
     // Adjust path if you name the file something else
-    const cvUrl = "/adishegic-cv.pdf";
+    const cvUrl = "/Adis Hegic CV & Projects.pdf";
 
     window.open(cvUrl, "_blank", "noopener,noreferrer");
   };

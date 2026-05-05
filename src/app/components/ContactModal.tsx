@@ -134,7 +134,7 @@ export default function ContactModal({ open, onClose }: { open: boolean; onClose
                 type="button"
                 onClick={() => {
                   if (typeof window === "undefined") return;
-                  const cvUrl = "/adishegic-cv.pdf";
+                  const cvUrl = "/Adis Hegic CV & Projects.pdf";
                   window.open(cvUrl, "_blank", "noopener,noreferrer");
                 }}
                 className="flex items-center gap-3 bg-white/60 rounded px-3 py-2 shadow-sm border border-accent/10 text-brand/90 hover:text-accent transition-colors text-sm font-semibold mt-1 cursor-pointer"
