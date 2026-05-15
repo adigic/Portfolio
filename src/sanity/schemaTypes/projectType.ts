@@ -1,5 +1,6 @@
 import {defineField, defineType} from 'sanity'
 
+
 export const projectType = defineType({
   name: 'project',
   title: 'Project',
@@ -19,11 +20,61 @@ export const projectType = defineType({
       validation: (Rule) => Rule.required().min(20).max(220),
     }),
     defineField({
-      name: 'mainImage',
-      title: 'Main image',
+      name: 'cardImage',
+      title: 'Project Card Image',
       type: 'image',
       options: {hotspot: true},
-      validation: (Rule) => Rule.required(),
+      description: 'Bild som visas på projektkortet.'
+    }),
+    defineField({
+      name: 'foundationImage',
+      title: 'Project Foundation Image',
+      type: 'image',
+      options: {hotspot: true},
+      description: 'Bild som visas i "foundation"-delen av projektet.'
+    }),
+
+    defineField({
+      name: 'uxImages',
+      title: 'UX/UI & Figma Images',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'image',
+              type: 'image',
+              title: 'Image',
+              options: {hotspot: true},
+            },
+            {
+              name: 'title',
+              type: 'string',
+              title: 'Titel (t.ex. Logotyp, Mobile, Desktop)',
+            },
+            {
+              name: 'description',
+              type: 'string',
+              title: 'Beskrivning (valfri)',
+            },
+            {
+              name: 'aspect',
+              type: 'string',
+              title: 'Aspect',
+              options: {
+                list: [
+                  {title: 'Square', value: 'square'},
+                  {title: 'Landscape', value: 'landscape'},
+                  {title: 'Portrait', value: 'portrait'},
+                ],
+                layout: 'radio',
+              },
+            },
+          ],
+        },
+      ],
+      description: 'Ladda upp logotyp, mobil/desktop screenshots etc. med titel och beskrivning.',
     }),
     defineField({
       name: 'tags',

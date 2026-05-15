@@ -3,6 +3,7 @@
 import {motion, type Variants} from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
+import { SquareArrowOutUpRight } from 'lucide-react';
 
 import type {Project} from '@/lib/sanity/types'
 
@@ -17,23 +18,19 @@ type ProjectDetailSummary = {
   year: string
   toolsUsed: string[]
   uiSummary: string
-  figmaImageUrls: string[]
 }
 
 type ProjectDetailContentProps = {
   project: Project
   summary: ProjectDetailSummary
   hasExternalUrl: boolean
-  uxImages: string[]
 }
-
 const sectionVariants: Variants = {
   hidden: {opacity: 0, y: 24},
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.7,
       ease: 'easeOut',
       staggerChildren: 0.12,
     },
@@ -53,7 +50,6 @@ export default function ProjectDetailContent({
   project,
   summary,
   hasExternalUrl,
-  uxImages,
 }: ProjectDetailContentProps) {
   return (
     <main>
@@ -103,7 +99,7 @@ export default function ProjectDetailContent({
                     className="inline-flex items-center gap-2 border border-white/14 bg-white px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-brand transition-[background-color,opacity] duration-200 ease-out hover:bg-white/92 hover:opacity-100"
                   >
                     <span>Open Live Site</span>
-                    <span aria-hidden>&nearr;</span>
+                    <SquareArrowOutUpRight className="h-3.5 w-3.5" strokeWidth={1.9} />
                   </a>
                 </motion.div>
               ) : null}
@@ -138,15 +134,25 @@ export default function ProjectDetailContent({
           variants={sectionVariants}
         >
           <motion.div className="overflow-hidden border border-brand/10 bg-white shadow-[0_24px_60px_rgba(0,0,0,0.08)]" variants={itemVariants}>
-            <div className="relative aspect-[16/10] w-full md:aspect-[16/8]">
-              <Image
-                src={project.imageUrl}
-                alt={project.title}
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 900px"
-                priority
-              />
+            {/* Foundation-bild */}
+            <div className="relative aspect-[16/10] w-full md:aspect-[16/8] flex items-center justify-center bg-brand/10">
+              {(() => {
+                const foundationImg = project.foundationImage;
+                const foundationUrl = foundationImg?.asset?.url;
+                const foundationAlt = project.title;
+                return foundationUrl ? (
+                  <Image
+                    src={foundationUrl}
+                    alt={foundationAlt}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 900px"
+                    priority
+                  />
+                ) : (
+                  <span className="text-brand/30 text-xs">No image</span>
+                );
+              })()}
             </div>
           </motion.div>
 
@@ -169,19 +175,7 @@ export default function ProjectDetailContent({
                   <p className="font-semibold text-brand/90">Stack</p>
                   <p>{project.tags.join(', ')}</p>
                 </div>
-                {hasExternalUrl ? (
-                  <div>
-                    <p className="font-semibold text-brand/90">Demo / Live Website</p>
-                    <a
-                      href={project.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="transition-opacity duration-200 ease-out hover:opacity-70"
-                    >
-                      Open live project
-                    </a>
-                  </div>
-                ) : null}
+
               </div>
             </motion.div>
           </motion.div>
@@ -260,35 +254,7 @@ export default function ProjectDetailContent({
           variants={sectionVariants}
         >
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start lg:gap-12">
-            <motion.div className="grid gap-4 md:grid-cols-2" variants={itemVariants}>
-              {uxImages.map((imageUrl, index) => (
-                <motion.article
-                  key={`${imageUrl}-${index}`}
-                  className="overflow-hidden border border-white/10 bg-white shadow-[0_20px_48px_rgba(0,0,0,0.16)]"
-                  variants={itemVariants}
-                >
-                  <div className="relative aspect-[16/10] w-full">
-                    <Image
-                      src={imageUrl}
-                      alt={`${project.title} design direction ${index + 1}`}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                    />
-                  </div>
-                  <div className="border-t border-brand/8 px-5 py-4 text-brand">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand/45">
-                      {index === 0 ? 'Primary Direction' : `Design View ${index + 1}`}
-                    </p>
-                    <p className="mt-2 text-sm leading-relaxed text-brand/76">
-                      {index === 0
-                        ? 'A closer look at the visual direction, layout hierarchy and interface decisions behind the project.'
-                        : 'Additional UI context that supports how the project was shaped and presented visually.'}
-                    </p>
-                  </div>
-                </motion.article>
-              ))}
-            </motion.div>
+
 
             <motion.div className="lg:pl-6 lg:text-right" variants={itemVariants}>
               <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/45">UX / UI</p>
@@ -296,13 +262,44 @@ export default function ProjectDetailContent({
               <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/72 sm:text-base lg:ml-auto">{summary.uiSummary}</p>
 
               <motion.div
-                className="mt-8 border border-white/10 bg-white px-5 py-5 text-left text-brand shadow-[0_16px_38px_rgba(0,0,0,0.14)] lg:ml-auto lg:max-w-xl"
+                className="mt-8 text-left text-brand shadow-[0_16px_38px_rgba(0,0,0,0.14)] lg:ml-auto lg:max-w-xl"
                 variants={itemVariants}
               >
-                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-brand/45">Design Notes</p>
-                <p className="mt-3 text-sm leading-relaxed text-brand/76 sm:text-base">
-                  This section is intended to show visual direction, interface thinking and supporting UX/UI material such as Figma screens, flows or design explorations. Each project can reuse the same structure while still feeling relevant to its own content.
-                </p>
+                <motion.div className="grid gap-4 md:grid-cols-2" variants={itemVariants}>
+                  {(project.uxImages ?? []).map((ux, index) => {
+                    const img = ux.image;
+                    const url = img?.asset?.url;
+                    const alt = ux.title || project.title;
+                    const tag = ux.title || 'UX/UI';
+                    const aspect = ux.aspect || 'landscape';
+                    return url ? (
+                      <motion.article
+                        key={ux.title || ux.description || ux.aspect || index}
+                        className="overflow-hidden border border-white/10 bg-white shadow-[0_20px_48px_rgba(0,0,0,0.16)]"
+                        variants={itemVariants}
+                      >
+                        <div className={aspect === 'square' ? 'relative aspect-square w-full' : 'relative aspect-[16/10] w-full'}>
+                          <Image
+                            src={url}
+                            alt={alt}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 768px) 100vw, 50vw"
+                          />
+                        </div>
+                        <div className="border-t border-brand/8 px-5 py-4 text-brand">
+                          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand/45">
+                            {tag}
+                          </p>
+                          <p className="mt-2 text-sm leading-relaxed text-brand/76">
+                            {ux.description || ''}
+                          </p>
+                        </div>
+                      </motion.article>
+                    ) : null;
+                  })}
+                </motion.div>
+
               </motion.div>
             </motion.div>
           </div>

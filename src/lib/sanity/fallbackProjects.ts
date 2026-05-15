@@ -6,7 +6,7 @@ export const fallbackProjects: Project[] = [
     title: 'RunClub',
     description:
       'Community-first running concept with focus on clear UX, structured content and a modern responsive frontend.',
-    imageUrl: '/projects/RunClub.avif',
+    // images borttaget, används ej i nya typen
     tags: ['Next.js', 'TypeScript', 'Tailwind'],
     type: 'Personal',
     url: '#',
@@ -26,14 +26,21 @@ export const fallbackProjects: Project[] = [
     toolsUsed: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Figma'],
     uiSummary:
       'The UX/UI direction focused on strong spacing, friendly visual rhythm and mobile-first clarity. The interface was shaped to feel active and modern while keeping every section easy to scan and interact with.',
-    figmaImageUrls: ['/projects/RunClub.avif'],
+    uxImages: [
+      {
+        image: { asset: { url: '/cards/design.avif' }, _type: 'image' },
+        title: 'Logotyp',
+        description: 'RunClub logotyp',
+        aspect: 'square',
+      },
+    ],
   },
   {
     _id: 'golfcount',
     title: 'GolfCount',
     description:
       'Score tracking experience designed to feel lightweight and precise, with a clean interface tailored for mobile use.',
-    imageUrl: '/projects/GolfCount.avif',
+    // images borttaget, används ej i nya typen
     tags: ['React', 'UX/UI', 'Responsive'],
     type: 'Personal',
     url: '#',
@@ -53,14 +60,22 @@ export const fallbackProjects: Project[] = [
     toolsUsed: ['React', 'Responsive Design', 'UX/UI', 'Figma'],
     uiSummary:
       'The UX/UI work centered on reducing friction. Clear contrast, compact controls and a calm layout language made the product feel more precise and dependable during repeated use.',
-    figmaImageUrls: ['/projects/GolfCount.avif'],
+    uxImages: [
+      {
+        image: { asset: { url: '/cards/design.avif' }, _type: 'image' },
+        title: 'Logotyp',
+        description: 'GolfCount logotyp',
+        aspect: 'square',
+      },
+    ],
   },
   {
     _id: 'portfolio',
     title: 'Portfolio',
     description:
       'Personal portfolio concept focused on strong visual hierarchy, refined spacing and a premium presentation for frontend work.',
-    imageUrl: '/cards/design.avif',
+      cardImage: { asset: { url: '/cards/design.avif' }, _type: 'image' },
+      foundationImage: { asset: { url: '/cards/design.avif' }, _type: 'image' },
     tags: ['Next.js', 'Figma', 'Tailwind'],
     type: 'Personal',
     url: '#',
@@ -80,14 +95,28 @@ export const fallbackProjects: Project[] = [
     toolsUsed: ['Next.js', 'Tailwind CSS', 'Figma', 'Framer Motion', 'Sanity'],
     uiSummary:
       'The UI direction focused on typography, rhythm, contrast and section hierarchy. Figma thinking and frontend implementation worked closely together to create a portfolio that feels structured, editorial and modern.',
-    figmaImageUrls: ['/cards/design.avif', '/cards/ux.avif'],
+      uxImages: [
+        {
+          image: { asset: { url: '/cards/design.avif' }, _type: 'image' },
+          title: 'Logotyp',
+          description: 'Portfolio logotyp',
+          aspect: 'square',
+        },
+        {
+          image: { asset: { url: '/cards/ux.avif' }, _type: 'image' },
+          title: 'Mobile screenshot',
+          description: 'Mobilvy',
+          aspect: 'portrait',
+        },
+      ],
   },
   {
     _id: 'travelmate',
     title: 'TravelMate',
     description:
       'Travel planning concept combining strong visual hierarchy, practical flows and a polished product presentation.',
-    imageUrl: '/projects/TravelMate.avif',
+      cardImage: { asset: { url: '/projects/TravelMate.avif' }, _type: 'image' },
+      foundationImage: { asset: { url: '/projects/TravelMate.avif' }, _type: 'image' },
     tags: ['Angular', 'NgRx', 'Tailwind'],
     type: 'Professional',
     url: '#',
@@ -107,14 +136,22 @@ export const fallbackProjects: Project[] = [
     toolsUsed: ['Angular', 'NgRx', 'Tailwind CSS', 'Product UI'],
     uiSummary:
       'The UX/UI direction centered on calm structure and guided decision-making. The interface needed to support planning flows while maintaining a polished travel-oriented visual tone.',
-    figmaImageUrls: ['/projects/TravelMate.avif'],
+      uxImages: [
+        {
+          image: { asset: { url: '/projects/TravelMate.avif' }, _type: 'image' },
+          title: 'Desktop screenshot',
+          description: 'TravelMate desktopvy',
+          aspect: 'landscape',
+        },
+      ],
   },
   {
     _id: 'fleetflow',
     title: 'FleetFlow',
     description:
       'Operational dashboard concept for vehicle logistics with focus on monitoring, clarity and fast decision-making.',
-    imageUrl: '/cards/code.avif',
+      cardImage: { asset: { url: '/cards/code.avif' }, _type: 'image' },
+      foundationImage: { asset: { url: '/cards/code.avif' }, _type: 'image' },
     tags: ['Next.js', 'TypeScript', 'Analytics'],
     type: 'Professional',
     url: '#',
@@ -134,14 +171,22 @@ export const fallbackProjects: Project[] = [
     toolsUsed: ['Next.js', 'TypeScript', 'Analytics', 'Dashboard UI'],
     uiSummary:
       'The UX/UI direction focused on scanability, data grouping and fast orientation. Visual restraint was important so the dashboard could support action instead of distraction.',
-    figmaImageUrls: ['/cards/code.avif'],
+      uxImages: [
+        {
+          image: { asset: { url: '/cards/code.avif' }, _type: 'image' },
+          title: 'Dashboard',
+          description: 'FleetFlow dashboard',
+          aspect: 'landscape',
+        },
+      ],
   },
   {
     _id: 'designsystem',
     title: 'Design System',
     description:
       'Scalable UI system work centered on reusable components, documentation and consistent product presentation.',
-    imageUrl: '/cards/ux.avif',
+      cardImage: { asset: { url: '/cards/ux.avif' }, _type: 'image' },
+      foundationImage: { asset: { url: '/cards/ux.avif' }, _type: 'image' },
     tags: ['Figma', 'Components', 'UX/UI'],
     type: 'Professional',
     url: '#',
@@ -161,6 +206,19 @@ export const fallbackProjects: Project[] = [
     toolsUsed: ['Figma', 'Component Systems', 'Documentation', 'UX/UI'],
     uiSummary:
       'The UX/UI focus was on building a coherent visual system rather than isolated screens. That meant clearer component behavior, stronger documentation and more dependable design patterns.',
-    figmaImageUrls: ['/cards/ux.avif', '/cards/design.avif'],
+      uxImages: [
+        {
+          image: { asset: { url: '/cards/ux.avif' }, _type: 'image' },
+          title: 'Logotyp',
+          description: 'Designsystem logotyp',
+          aspect: 'square',
+        },
+        {
+          image: { asset: { url: '/cards/design.avif' }, _type: 'image' },
+          title: 'Desktop screenshot',
+          description: 'Designsystem desktopvy',
+          aspect: 'landscape',
+        },
+      ],
   },
 ];

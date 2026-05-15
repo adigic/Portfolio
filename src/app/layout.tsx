@@ -52,12 +52,38 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ModalProvider>
           <ContactModalWrapper />
           <div className="relative min-h-svh">
-            {children}
+              <NetlifyDetectionForm />
+              {children}
           </div>
         </ModalProvider>
         {/* 🔹 Cookie-banner längst ner */}
         <CookieBanner />
       </body>
     </html>
+  );
+}
+
+// Netlify Forms detection: hidden static form
+function NetlifyDetectionForm() {
+  return (
+    <form
+      name="contact"
+      method="POST"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      hidden
+      style={{ display: "none" }}
+    >
+      <input type="hidden" name="form-name" value="contact" />
+      <p style={{ display: "none" }}>
+        <label>
+          Don’t fill this out if you&apos;re human: <input name="bot-field" />
+        </label>
+      </p>
+      <input name="name" type="text" />
+      <input name="email" type="email" />
+      <textarea name="message" />
+      <button type="submit">Send</button>
+    </form>
   );
 }

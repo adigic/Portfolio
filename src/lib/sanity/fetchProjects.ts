@@ -6,8 +6,36 @@ const projectFields = `{
   _id,
   title,
   description,
-  "imageUrl": coalesce(mainImage.asset->url, image.asset->url),
-  "tags": coalesce(tags, []),
+  cardImage {
+    asset {
+      url
+    },
+    hotspot,
+    crop,
+    _type
+  },
+  foundationImage {
+    asset {
+      url
+    },
+    hotspot,
+    crop,
+    _type
+  },
+  uxImages[] {
+    image {
+      asset {
+        url
+      },
+      hotspot,
+      crop,
+      _type
+    },
+    title,
+    description,
+    aspect
+  },
+  tags,
   type,
   url,
   role,
@@ -18,9 +46,8 @@ const projectFields = `{
   challenge,
   solution,
   outcome,
-  "toolsUsed": coalesce(toolsUsed, tags, []),
-  uiSummary,
-  "figmaImageUrls": coalesce(figmaImages[].asset->url, [])
+  toolsUsed,
+  uiSummary
 }`;
 
 export async function fetchProjects(): Promise<Project[]> {

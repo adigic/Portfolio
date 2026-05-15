@@ -38,7 +38,7 @@ function getProjectSummary(project: Awaited<ReturnType<typeof fetchProjectById>>
     uiSummary:
       project.uiSummary ??
       'The UX/UI direction focused on hierarchy, spacing, clarity and a visual language that supports the product without adding unnecessary noise.',
-    figmaImageUrls: project.figmaImageUrls?.length ? project.figmaImageUrls : [project.imageUrl],
+    // figmaImageUrls och imageUrl används ej längre
   }
 }
 
@@ -74,11 +74,11 @@ export default async function ProjectDetailPage({params}: ProjectPageProps) {
 
   const summary = getProjectSummary(project)
   const hasExternalUrl = Boolean(project.url && project.url !== '#')
-  const uxImages = summary?.figmaImageUrls ?? []
+  // uxImages hanteras nu direkt i ProjectDetailContent
 
   if (!summary) {
     notFound()
   }
 
-  return <ProjectDetailContent project={project} summary={summary} hasExternalUrl={hasExternalUrl} uxImages={uxImages} />
+  return <ProjectDetailContent project={project} summary={summary} hasExternalUrl={hasExternalUrl} />
 }

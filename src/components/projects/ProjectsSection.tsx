@@ -1,10 +1,11 @@
 "use client";
 
+
 import ProjectList from './ProjectList';
 import { Project } from '@/lib/sanity/types';
 import { useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import Link from 'next/link';
+import { fallbackProjects } from '@/lib/sanity/fallbackProjects';
 
 
 const FILTERS = [
@@ -26,17 +27,28 @@ type ProjectsSectionProps = {
 export default function ProjectsSection({ projects }: ProjectsSectionProps) {
   const [filter, setFilter] = useState<'Personal' | 'Professional'>('Personal');
 
-  const filtered = useMemo(
-    () =>
-      projects.filter((project) =>
-        filter === 'Personal'
-          ? project.type === 'Personal' || project.type === 'Private'
-          : project.type === 'Professional'
-      ),
-    [filter, projects]
-  );
 
-  const featuredProjects = filtered.slice(0, 3);
+  const filtered = useMemo(() => {
+    const sanityProjects = projects.filter((project) =>
+      filter === 'Personal'
+        ? project.type === 'Personal' || project.type === 'Private'
+        : project.type === 'Professional'
+    );
+    const fallbackFiltered = fallbackProjects.filter((project: Project) =>
+      filter === 'Personal'
+        ? project.type === 'Personal' || project.type === 'Private'
+        : project.type === 'Professional'
+    );
+    // Add placeholders if less than 3
+    const needed = 3 - sanityProjects.length;
+    const placeholders = fallbackFiltered
+      .filter((fp) => !sanityProjects.some((sp) => sp._id === fp._id))
+      .slice(0, needed)
+      .map((p, i) => ({ ...p, _id: `placeholder-${filter}-${i}`, isPlaceholder: true as const }));
+    return [...sanityProjects, ...placeholders].slice(0, 3);
+  }, [filter, projects]);
+
+  const featuredProjects = filtered;
   const description = FILTER_DESCRIPTIONS[filter];
 
   return (
@@ -44,8 +56,11 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
       <div className="mx-auto w-full max-w-[1500px]">
         <div className="mb-8 grid gap-6 lg:mb-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)] lg:items-end lg:gap-10">
           <div className="min-w-0 max-w-3xl">
+                        <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/45">
+              Selected Work
+            </p>
             <motion.h2
-              className="text-2xl font-alexandria uppercase tracking-tight sm:text-4xl lg:text-5xl"
+              className="text-2xl font-alexandria uppercase tracking-tight sm:text-4xl lg:text-5xl mb-2"
               initial={{ opacity: 0, x: 40 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7 }}
@@ -53,9 +68,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
             >
               Projects.
             </motion.h2>
-            <p className="mt-2 mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/45">
-              Selected Work
-            </p>
+
             <p className="max-w-2xl text-sm leading-relaxed text-white/68 sm:text-base">
               {description}
             </p>
@@ -102,14 +115,14 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
             <ProjectList projects={featuredProjects} />
           </motion.div>
         </AnimatePresence>
-        <div className="mt-8 flex justify-end lg:mt-10">
+{/*         <div className="mt-8 flex justify-end lg:mt-10">
           <Link
             href="#projects"
             className="inline-flex items-center gap-2 text-sm font-medium uppercase tracking-[0.18em] text-white transition-opacity duration-200 ease-out hover:opacity-85"
           >
             ALL PROJECTS <span className="text-base">&raquo;</span>
           </Link>
-        </div>
+        </div> */}
       </div>
     </section>
   );
