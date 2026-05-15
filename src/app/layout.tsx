@@ -3,7 +3,9 @@ import "./globals.css";
 import AnalyticsLoader from "./components/AnalyticsLoader";
 import CookieBanner from "./components/CookieBanner";
 import { ModalProvider } from "./components/ModalContext";
+
 import ContactModalWrapper from "./components/ContactModalWrapper";
+import ContactModal from "./components/ContactModal";
 
 
 // define fonts
@@ -51,8 +53,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AnalyticsLoader />
         <ModalProvider>
           <ContactModalWrapper />
+          {/* Hidden ContactModal for Netlify Forms detection (no event handlers) */}
+          <div style={{ display: "none" }} aria-hidden="true">
+            {/* @ts-expect-error Only for Netlify static form detection, no interactivity needed */}
+            <ContactModal open={true} />
+          </div>
           <div className="relative min-h-svh">
-              <NetlifyDetectionForm />
+
               {children}
           </div>
         </ModalProvider>
@@ -63,27 +70,4 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   );
 }
 
-// Netlify Forms detection: hidden static form
-function NetlifyDetectionForm() {
-  return (
-    <form
-      name="contact"
-      method="POST"
-      data-netlify="true"
-      netlify-honeypot="bot-field"
-      hidden
-      style={{ display: "none" }}
-    >
-      <input type="hidden" name="form-name" value="contact" />
-      <p style={{ display: "none" }}>
-        <label>
-          Don’t fill this out if you&apos;re human: <input name="bot-field" />
-        </label>
-      </p>
-      <input name="name" type="text" />
-      <input name="email" type="email" />
-      <textarea name="message" />
-      <button type="submit">Send</button>
-    </form>
-  );
-}
+
