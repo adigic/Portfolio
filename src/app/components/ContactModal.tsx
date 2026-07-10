@@ -30,32 +30,26 @@ export default function ContactModal({ open, onClose }: { open: boolean; onClose
 
 
 
-  // Hantera Netlify Forms "success"-state via JS
   const [sent, setSent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
-
-  function encodeFormData(data: FormData): string {
-    const params = new URLSearchParams();
-    data.forEach((value, key) => {
-      params.append(key, typeof value === "string" ? value : String(value));
-    });
-    return params.toString();
-  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setSubmitting(true);
     const form = e.currentTarget;
     const fd = new FormData(form);
-    if (!fd.get("form-name")) fd.set("form-name", "contact");
     try {
-      const res = await fetch("/", {
+      const res = await fetch("/api/contact", {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: encodeFormData(fd),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: fd.get("name"),
+          email: fd.get("email"),
+          message: fd.get("message"),
+        }),
       });
-      if (!res.ok) throw new Error("Netlify submission failed");
+      if (!res.ok) throw new Error("Contact submission failed");
       form.reset();
       setSent(true);
     } catch {
@@ -126,20 +120,10 @@ export default function ContactModal({ open, onClose }: { open: boolean; onClose
                 <form
                   ref={formRef}
                   name="contact"
-                  method="POST"
-                  data-netlify="true"
-                  netlify-honeypot="bot-field"
                   onSubmit={handleSubmit}
                   autoComplete="off"
                   className="space-y-4"
                 >
-                  {/* Netlify honeypot field */}
-                  <input type="hidden" name="form-name" value="contact" />
-                  <p style={{ display: "none" }}>
-                    <label>
-                      Don’t fill this out if you&apos;re human: <input name="bot-field" />
-                    </label>
-                  </p>
                   <div className="flex flex-col gap-2">
                     <input
                       name="name"

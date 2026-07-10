@@ -7,7 +7,7 @@ const projectFields = `{
   title,
   description,
   cardImage {
-    asset {
+    asset-> {
       url
     },
     hotspot,
@@ -15,7 +15,7 @@ const projectFields = `{
     _type
   },
   foundationImage {
-    asset {
+    asset-> {
       url
     },
     hotspot,
@@ -24,7 +24,7 @@ const projectFields = `{
   },
   uxImages[] {
     image {
-      asset {
+      asset-> {
         url
       },
       hotspot,

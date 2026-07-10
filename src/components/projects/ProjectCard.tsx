@@ -8,6 +8,7 @@ import Link from 'next/link';
 
 
 import { Project } from '@/lib/sanity/types';
+import { urlFor } from '@/lib/sanity/imageUrl';
 
 interface ProjectCardProps {
   project: Project;
@@ -27,7 +28,7 @@ export default function ProjectCard({ project, revealDirection = 'side', index =
   if (isPlaceholder) {
     return (
       <motion.article
-        className="group relative grid h-full w-full overflow-hidden border border-black/6 bg-white/95 text-brand shadow-[0_20px_50px_rgba(0,0,0,0.14)] transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-white grid-cols-[148px_minmax(0,1fr)] min-[480px]:grid-cols-[180px_minmax(0,1fr)] sm:grid-cols-[240px_minmax(0,1fr)] min-[1180px]:flex min-[1180px]:min-h-[35rem] min-[1180px]:grid-cols-none min-[1180px]:flex-col"
+        className="group relative flex flex-col h-full w-full overflow-hidden border border-black/6 bg-white/95 text-brand shadow-[0_20px_50px_rgba(0,0,0,0.14)] transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-white sm:grid sm:grid-cols-[240px_minmax(0,1fr)] min-[1180px]:flex min-[1180px]:min-h-[35rem] min-[1180px]:grid-cols-none min-[1180px]:flex-col"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.28 }}
@@ -47,7 +48,7 @@ export default function ProjectCard({ project, revealDirection = 'side', index =
         }}
       >
         {/* Bildyta med Coming soon-ikon */}
-        <div className="relative h-full min-h-[12.5rem] overflow-hidden min-[1180px]:h-[23rem] min-[1180px]:min-h-0 flex items-center justify-center bg-brand/10">
+        <div className="relative h-52 min-h-[12.5rem] overflow-hidden sm:h-full min-[1180px]:h-[23rem] min-[1180px]:min-h-0 flex items-center justify-center bg-brand/10">
           <Clock className="w-12 h-12 text-brand/30" strokeWidth={2.2} />
         </div>
 
@@ -73,12 +74,13 @@ export default function ProjectCard({ project, revealDirection = 'side', index =
 
   // Hämta rätt bild för ProjectCard
   const cardImage = project.cardImage;
-  const cardImageUrl = cardImage?.asset?.url;
+  // Use urlFor to generate the image URL from Sanity asset reference
+  const cardImageUrl = cardImage ? urlFor(cardImage, 800) : undefined;
   const cardImageAlt = project.title;
 
   return (
     <motion.article
-      className="group relative grid h-full w-full overflow-hidden border border-black/6 bg-white/95 text-brand shadow-[0_20px_50px_rgba(0,0,0,0.14)] transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-white grid-cols-[148px_minmax(0,1fr)] min-[480px]:grid-cols-[180px_minmax(0,1fr)] sm:grid-cols-[240px_minmax(0,1fr)] min-[1180px]:flex min-[1180px]:min-h-[35rem] min-[1180px]:grid-cols-none min-[1180px]:flex-col"
+      className="group relative flex flex-col h-full w-full overflow-hidden border border-black/6 bg-white/95 text-brand shadow-[0_20px_50px_rgba(0,0,0,0.14)] transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-white sm:grid sm:grid-cols-[240px_minmax(0,1fr)] min-[1180px]:flex min-[1180px]:min-h-[35rem] min-[1180px]:grid-cols-none min-[1180px]:flex-col"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.28 }}
@@ -103,14 +105,14 @@ export default function ProjectCard({ project, revealDirection = 'side', index =
         className="absolute inset-0 z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand focus-visible:outline-offset-[-6px]"
       />
 
-      <div className="relative h-full min-h-[12.5rem] overflow-hidden min-[1180px]:h-[23rem] min-[1180px]:min-h-0 flex items-center justify-center bg-brand/10">
+      <div className="relative h-52 min-h-[12.5rem] overflow-hidden sm:h-full min-[1180px]:h-[23rem] min-[1180px]:min-h-0 flex items-center justify-center bg-brand/10">
         {cardImageUrl ? (
           <Image
             src={cardImageUrl}
             alt={cardImageAlt}
             fill
             className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
-            sizes="(max-width: 479px) 148px, (max-width: 639px) 180px, (max-width: 1179px) 240px, 33vw"
+            sizes="(max-width: 639px) 100vw, (max-width: 1179px) 240px, 33vw"
           />
         ) : (
           <span className="text-brand/30 text-xs">No image</span>

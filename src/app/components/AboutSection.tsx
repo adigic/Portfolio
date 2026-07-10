@@ -9,6 +9,8 @@ const skills = [
   "JavaScript",
   "TypeScript",
   "React",
+  "Framer Motion",
+  "Sanity",
   "Next.js",
   "Vue.js",
   "Vite",
@@ -19,7 +21,8 @@ const skills = [
   "AWS",
   "ChatGPT",
   "GitHub Copilot",
-  "Claude Code",
+  "Claude Code"
+
 ];
 
 const highlights = [

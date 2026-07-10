@@ -5,7 +5,6 @@ import CookieBanner from "./components/CookieBanner";
 import { ModalProvider } from "./components/ModalContext";
 
 import ContactModalWrapper from "./components/ContactModalWrapper";
-import ContactModal from "./components/ContactModal";
 
 
 // define fonts
@@ -53,11 +52,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AnalyticsLoader />
         <ModalProvider>
           <ContactModalWrapper />
-          {/* Hidden ContactModal for Netlify Forms detection (no event handlers) */}
-          <div style={{ display: "none" }} aria-hidden="true">
-            {/* @ts-expect-error Only for Netlify static form detection, no interactivity needed */}
-            <ContactModal open={true} />
-          </div>
           <div className="relative min-h-svh">
 
               {children}

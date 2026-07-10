@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { SquareArrowOutUpRight } from 'lucide-react';
 
 import type {Project} from '@/lib/sanity/types'
+import { urlFor } from '@/lib/sanity/imageUrl';
 
 type ProjectDetailSummary = {
   overview: string
@@ -138,7 +139,7 @@ export default function ProjectDetailContent({
             <div className="relative aspect-[16/10] w-full md:aspect-[16/8] flex items-center justify-center bg-brand/10">
               {(() => {
                 const foundationImg = project.foundationImage;
-                const foundationUrl = foundationImg?.asset?.url;
+                const foundationUrl = foundationImg ? urlFor(foundationImg, 1200) : undefined;
                 const foundationAlt = project.title;
                 return foundationUrl ? (
                   <Image
@@ -268,7 +269,7 @@ export default function ProjectDetailContent({
                 <motion.div className="grid gap-4 md:grid-cols-2" variants={itemVariants}>
                   {(project.uxImages ?? []).map((ux, index) => {
                     const img = ux.image;
-                    const url = img?.asset?.url;
+                    const url = img ? urlFor(img, 900) : undefined;
                     const alt = ux.title || project.title;
                     const tag = ux.title || 'UX/UI';
                     const aspect = ux.aspect || 'landscape';
