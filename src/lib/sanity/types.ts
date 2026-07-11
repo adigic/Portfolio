@@ -1,6 +1,9 @@
 
 export interface ProjectImage {
-  asset?: { url?: string };
+  asset?: {
+    url?: string;
+    metadata?: { dimensions?: { width?: number; height?: number } };
+  };
   hotspot?: Record<string, unknown>;
   crop?: Record<string, unknown>;
   _type: 'image';

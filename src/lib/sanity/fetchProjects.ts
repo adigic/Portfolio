@@ -25,7 +25,8 @@ const projectFields = `{
   uxImages[] {
     image {
       asset-> {
-        url
+        url,
+        metadata { dimensions { width, height } }
       },
       hotspot,
       crop,

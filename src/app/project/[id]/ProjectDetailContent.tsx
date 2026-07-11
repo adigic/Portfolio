@@ -266,28 +266,29 @@ export default function ProjectDetailContent({
                 className="mt-8 text-left text-brand shadow-[0_16px_38px_rgba(0,0,0,0.14)] lg:ml-auto lg:max-w-xl"
                 variants={itemVariants}
               >
-                <motion.div className="grid gap-4 md:grid-cols-2" variants={itemVariants}>
+                <motion.div className="columns-1 gap-4 sm:columns-2" variants={itemVariants}>
                   {(project.uxImages ?? []).map((ux, index) => {
                     const img = ux.image;
-                    const url = img ? urlFor(img, 900) : undefined;
+                    const url = img ? urlFor(img, 700) : undefined;
                     const alt = ux.title || project.title;
                     const tag = ux.title || 'UX/UI';
-                    const aspect = ux.aspect || 'landscape';
+                    const dimensions = img?.asset?.metadata?.dimensions;
+                    const width = dimensions?.width || 800;
+                    const height = dimensions?.height || 600;
                     return url ? (
                       <motion.article
                         key={ux.title || ux.description || ux.aspect || index}
-                        className="overflow-hidden border border-white/10 bg-white shadow-[0_20px_48px_rgba(0,0,0,0.16)]"
+                        className="mb-4 break-inside-avoid overflow-hidden border border-white/10 bg-white shadow-[0_20px_48px_rgba(0,0,0,0.16)]"
                         variants={itemVariants}
                       >
-                        <div className={aspect === 'square' ? 'relative aspect-square w-full' : 'relative aspect-[16/10] w-full'}>
-                          <Image
-                            src={url}
-                            alt={alt}
-                            fill
-                            className="object-cover"
-                            sizes="(max-width: 768px) 100vw, 50vw"
-                          />
-                        </div>
+                        <Image
+                          src={url}
+                          alt={alt}
+                          width={width}
+                          height={height}
+                          className="block h-auto w-full"
+                          sizes="(max-width: 640px) 100vw, 50vw"
+                        />
                         <div className="border-t border-brand/8 px-5 py-4 text-brand">
                           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand/45">
                             {tag}
