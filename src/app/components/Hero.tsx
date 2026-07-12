@@ -123,7 +123,7 @@ export function Hero() {
     <section
       id="top"
       data-nav-theme="light"
-      className="relative flex min-h-svh w-full flex-col justify-center
+      className="relative flex min-h-dvh w-full flex-col justify-center
         bg-brand-light
         overflow-x-hidden px-4 pt-20 pb-12 md:px-12 md:pt-24 md:pb-10"
     >
@@ -192,8 +192,8 @@ export function Hero() {
             </span>
 
             <span
-              className="block text-accent font-righteous
-                text-[clamp(2.5rem,7vw,4.5rem)]
+              className="block text-accent font-righteous whitespace-nowrap
+                text-[clamp(1.8rem,7vw,4.5rem)]
               "
             >
               Software Engineer<span className="text-brand">.</span>

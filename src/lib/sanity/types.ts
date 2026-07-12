@@ -4,7 +4,7 @@ export interface ProjectImage {
     url?: string;
     metadata?: { dimensions?: { width?: number; height?: number } };
   };
-  hotspot?: Record<string, unknown>;
+  hotspot?: { x?: number; y?: number; height?: number; width?: number };
   crop?: Record<string, unknown>;
   _type: 'image';
 }

@@ -77,6 +77,9 @@ export default function ProjectCard({ project, revealDirection = 'side', index =
   // Use urlFor to generate the image URL from Sanity asset reference
   const cardImageUrl = cardImage ? urlFor(cardImage, 800) : undefined;
   const cardImageAlt = project.title;
+  // Focal point set in Sanity Studio (hotspot), falls back to center
+  const hotspotX = cardImage?.hotspot?.x ?? 0.5;
+  const hotspotY = cardImage?.hotspot?.y ?? 0.5;
 
   return (
     <motion.article
@@ -111,7 +114,8 @@ export default function ProjectCard({ project, revealDirection = 'side', index =
             src={cardImageUrl}
             alt={cardImageAlt}
             fill
-            className="object-contain transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
+            style={{ objectPosition: `${hotspotX * 100}% ${hotspotY * 100}%` }}
+            className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
             sizes="(max-width: 639px) 100vw, (max-width: 1179px) 240px, 33vw"
           />
         ) : (
