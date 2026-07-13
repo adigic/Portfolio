@@ -156,7 +156,7 @@ export function Navbar() {
     <header className="fixed top-0 left-0 z-50 w-full inset-x-0 transition">
       {/* TOP RAD: brand + desktop-nav */}
       <div
-        className={`${topBgClass} mx-auto flex items-center justify-between px-4 py-3 transition-[background-color,box-shadow] duration-300 md:px-6 md:py-4 ${scrolled ? "shadow-[0_10px_35px_rgba(0,0,0,0.08)]" : ""}`}
+        className={`${topBgClass} mx-auto flex items-center justify-between px-4 py-3 transition-[background-color,box-shadow] duration-300 md:px-6 md:py-4 ${scrolled ? "shadow-header" : ""}`}
       >
         {/* Brand (desktop) */}
         <Link
@@ -196,7 +196,7 @@ export function Navbar() {
         >
           <button
             type="button"
-            aria-label="Stäng meny"
+            aria-label="Close menu"
             className="absolute inset-0 h-full w-full cursor-pointer bg-black/40 backdrop-blur-sm"
             style={{ WebkitTapHighlightColor: 'transparent' }}
             onClick={closeMenu}
@@ -204,7 +204,7 @@ export function Navbar() {
           />
 
           <div
-            className={`absolute left-0 top-0 z-50 w-full ${mobilePanelSurface} translate-y-0 opacity-100 shadow-[0_10px_35px_rgba(0,0,0,0.08)] transition-transform transition-opacity duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]`}
+            className={`absolute left-0 top-0 z-50 w-full ${mobilePanelSurface} translate-y-0 opacity-100 shadow-header transition-transform transition-opacity duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]`}
             style={{ willChange: 'transform, opacity' }}
           >
             <nav className="px-4 pb-4 pt-2">
@@ -216,7 +216,7 @@ export function Navbar() {
                     className={`flex items-center gap-3 rounded-lg px-4 py-3 text-right font-poppins text-[13px] font-semibold uppercase tracking-[0.16em] text-white transition-[background-color,transform,opacity] duration-200 ease-out ${mobileLinkHoverBg} ${pathname === "/" && !hash ? "opacity-100" : "opacity-90 hover:opacity-100"}`}
                   >
                     <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded">
-                      <Icon icon={MOBILE_HOME_LINK.icon.replace('-fill', '-fill')} width={22} height={22} color="#fff" />
+                      <Icon icon={MOBILE_HOME_LINK.icon} width={22} height={22} />
                     </span>
                     <span className="flex-1">{MOBILE_HOME_LINK.label}</span>
                   </Link>
@@ -229,7 +229,7 @@ export function Navbar() {
                       className={`flex items-center gap-3 rounded-lg px-4 py-3 text-right font-poppins text-[13px] font-semibold uppercase tracking-[0.16em] text-white opacity-90 transition-[background-color,transform,opacity] duration-200 ease-out hover:opacity-100 ${mobileLinkHoverBg}`}
                     >
                       <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded">
-                        <Icon icon={l.icon.replace('-fill', '-fill')} width={22} height={22} color="#fff" />
+                        <Icon icon={l.icon} width={22} height={22} />
                       </span>
                       <span className="flex-1">{l.label}</span>
                     </Link>

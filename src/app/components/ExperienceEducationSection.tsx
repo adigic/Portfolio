@@ -23,8 +23,19 @@ const headerItemVariants: Variants = {
 
 
 import { motion, type Variants } from "framer-motion";
+import { itemVariants as cardVariants } from "@/lib/motionVariants";
 
 const experiences = [
+  {
+    company: "ADIGIC Digital Solutions",
+    period: "September 2025 - Present",
+    role: "Founder | Software Engineer",
+    bullets: [
+      "Design and build custom websites and digital solutions for small businesses using React, Next.js and TypeScript instead of template-based tools.",
+      "Develop and ship own SaaS products and web apps end-to-end, from concept to deployment.",
+      "Own the full client relationship, from scoping and design through ongoing hosting, maintenance and support.",
+    ],
+  },
   {
     company: "Novalo Technologies",
     period: "November 2024 - May 2025",
@@ -82,15 +93,6 @@ const sectionVariants: Variants = {
       ease: "easeOut",
       staggerChildren: 0.12,
     },
-  },
-};
-
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 18 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.55, ease: "easeOut" },
   },
 };
 

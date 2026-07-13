@@ -32,11 +32,13 @@ export default function ContactModal({ open, onClose }: { open: boolean; onClose
 
   const [sent, setSent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setSubmitting(true);
+    setError(null);
     const form = e.currentTarget;
     const fd = new FormData(form);
     try {
@@ -47,13 +49,17 @@ export default function ContactModal({ open, onClose }: { open: boolean; onClose
           name: fd.get("name"),
           email: fd.get("email"),
           message: fd.get("message"),
+          company: fd.get("company"),
         }),
       });
-      if (!res.ok) throw new Error("Contact submission failed");
+      const data = await res.json().catch(() => null);
+      if (!res.ok) {
+        throw new Error(data?.error || "Contact submission failed");
+      }
       form.reset();
       setSent(true);
-    } catch {
-      alert("Something went wrong. Please try again.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -68,6 +74,7 @@ export default function ContactModal({ open, onClose }: { open: boolean; onClose
           onClick={() => {
             // Återställ formulär och bekräftelse när modalen stängs
             setSent(false);
+            setError(null);
             if (formRef.current) formRef.current.reset();
             onClose();
             if (modalCtx && modalCtx.setOpen) modalCtx.setOpen(false);
@@ -146,7 +153,17 @@ export default function ContactModal({ open, onClose }: { open: boolean; onClose
                       required
                       className="w-full rounded bg-brand-input px-4 py-2 text-sm outline-none ring-1 ring-accent/20 focus:ring-accent md:rows-4"
                     />
+                    {/* Honeypot field: hidden from real users, bots tend to fill in every field */}
+                    <div className="absolute left-[-9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+                      <label htmlFor="company">Company</label>
+                      <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
+                    </div>
                   </div>
+                  {error ? (
+                    <p role="alert" className="text-sm font-medium text-red-600">
+                      {error}
+                    </p>
+                  ) : null}
                   <button
                     type="submit"
                     disabled={submitting}

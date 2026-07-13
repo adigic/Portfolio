@@ -84,13 +84,13 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
                     <button
                       key={item.value}
                       onClick={() => setFilter(item.value as 'Personal' | 'Professional')}
-                      className={`cursor-pointer relative z-10 min-w-0 rounded-full px-3 py-1.5 text-[0.72rem] font-medium uppercase tracking-[0.14em] transition-colors duration-200 ease-out sm:px-4 md:px-5  ${isActive ? 'text-white' : 'text-[#202020]'}`}
+                      className={`cursor-pointer relative z-10 min-w-0 rounded-full px-3 py-1.5 text-[0.72rem] font-medium uppercase tracking-[0.14em] transition-colors duration-200 ease-out sm:px-4 md:px-5  ${isActive ? 'text-white' : 'text-brand-pill'}`}
                       type="button"
                     >
                       {isActive ? (
                         <motion.span
                           layoutId="projects-filter-pill"
-                          className="absolute inset-0 rounded-full bg-[#202020]"
+                          className="absolute inset-0 rounded-full bg-brand-pill"
                           transition={{ type: 'spring', stiffness: 360, damping: 30, mass: 0.85 }}
                         />
                       ) : null}
@@ -115,14 +115,6 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
             <ProjectList projects={featuredProjects} />
           </motion.div>
         </AnimatePresence>
-{/*         <div className="mt-8 flex justify-end lg:mt-10">
-          <Link
-            href="#projects"
-            className="inline-flex items-center gap-2 text-sm font-medium uppercase tracking-[0.18em] text-white transition-opacity duration-200 ease-out hover:opacity-85"
-          >
-            ALL PROJECTS <span className="text-base">&raquo;</span>
-          </Link>
-        </div> */}
       </div>
     </section>
   );

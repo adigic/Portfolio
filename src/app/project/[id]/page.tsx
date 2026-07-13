@@ -8,6 +8,8 @@ type ProjectPageProps = {
   params: Promise<{id: string}>
 }
 
+export const revalidate = 3600
+
 function getProjectSummary(project: Awaited<ReturnType<typeof fetchProjectById>>) {
   if (!project) {
     return null
@@ -38,7 +40,6 @@ function getProjectSummary(project: Awaited<ReturnType<typeof fetchProjectById>>
     uiSummary:
       project.uiSummary ??
       'The UX/UI direction focused on hierarchy, spacing, clarity and a visual language that supports the product without adding unnecessary noise.',
-    // figmaImageUrls och imageUrl används ej längre
   }
 }
 
@@ -74,7 +75,6 @@ export default async function ProjectDetailPage({params}: ProjectPageProps) {
 
   const summary = getProjectSummary(project)
   const hasExternalUrl = Boolean(project.url && project.url !== '#')
-  // uxImages hanteras nu direkt i ProjectDetailContent
 
   if (!summary) {
     notFound()

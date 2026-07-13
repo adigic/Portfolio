@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import AnalyticsLoader from "./components/AnalyticsLoader";
@@ -5,6 +6,32 @@ import CookieBanner from "./components/CookieBanner";
 import { ModalProvider } from "./components/ModalContext";
 
 import ContactModalWrapper from "./components/ContactModalWrapper";
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://adigic.se";
+const siteTitle = "Adis Hegic — Software Engineer";
+const siteDescription =
+  "Portfolio of Adis Hegic, a software engineer focused on frontend development, UX/UI and building polished, production-ready web products.";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: siteTitle,
+    template: "%s | Adis Hegic",
+  },
+  description: siteDescription,
+  openGraph: {
+    title: siteTitle,
+    description: siteDescription,
+    url: siteUrl,
+    siteName: siteTitle,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
+  },
+};
 
 
 // define fonts

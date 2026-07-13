@@ -7,6 +7,8 @@ import Navbar from "./components/Navbar";
 import ProjectsSection from "@/components/projects/ProjectsSection";
 import { fetchProjects } from "@/lib/sanity/fetchProjects";
 
+export const revalidate = 3600;
+
 export default async function Home() {
   const projects = await fetchProjects();
 

@@ -16,43 +16,52 @@ interface ProjectCardProps {
   index?: number;
 }
 
+const CARD_SHELL_CLASSNAME =
+  "group relative flex flex-col h-full w-full overflow-hidden border border-black/6 bg-white/95 text-brand shadow-[0_20px_50px_rgba(0,0,0,0.14)] transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-white min-[640px]:grid min-[640px]:grid-cols-[240px_minmax(0,1fr)] min-[1180px]:flex min-[1180px]:min-h-[38rem] min-[1180px]:grid-cols-none min-[1180px]:flex-col";
+const CARD_IMAGE_CLASSNAME =
+  "relative h-72 min-h-[16rem] overflow-hidden min-[640px]:h-full min-[1180px]:h-[26rem] min-[1180px]:min-h-0 flex items-center justify-center bg-brand/10";
+const CARD_BODY_CLASSNAME =
+  "grid flex-1 gap-3 p-4 min-[480px]:p-4 min-[640px]:gap-4 min-[640px]:p-5 min-[1180px]:gap-1 min-[1180px]:p-4";
+const REVEAL_EASE = [0.22, 1, 0.36, 1] as const;
+
 export default function ProjectCard({ project, revealDirection = 'side', index = 0 }: ProjectCardProps) {
   const hasExternalUrl = Boolean(project.url && project.url !== '#');
   const isPlaceholder = (project as Project & { isPlaceholder?: boolean }).isPlaceholder;
-  const revealEase = [0.22, 1, 0.36, 1] as const;
   const hiddenVariant =
     revealDirection === 'side'
       ? { opacity: 0, x: index % 2 === 0 ? -42 : 42 }
       : { opacity: 0, y: -28 };
 
+  const revealVariants = {
+    hidden: hiddenVariant,
+    visible: (cardIndex: number) => ({
+      opacity: 1,
+      x: revealDirection === 'side' ? 0 : undefined,
+      y: revealDirection === 'down' ? 0 : undefined,
+      transition: {
+        duration: 0.55,
+        ease: REVEAL_EASE,
+        delay: cardIndex * 0.1,
+      },
+    }),
+  };
+
   if (isPlaceholder) {
     return (
       <motion.article
-        className="group relative flex flex-col h-full w-full overflow-hidden border border-black/6 bg-white/95 text-brand shadow-[0_20px_50px_rgba(0,0,0,0.14)] transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-white min-[640px]:grid min-[640px]:grid-cols-[240px_minmax(0,1fr)] min-[1180px]:flex min-[1180px]:min-h-[38rem] min-[1180px]:grid-cols-none min-[1180px]:flex-col"
+        className={CARD_SHELL_CLASSNAME}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.28 }}
         custom={index}
-        variants={{
-          hidden: hiddenVariant,
-          visible: (cardIndex) => ({
-            opacity: 1,
-            x: revealDirection === 'side' ? 0 : undefined,
-            y: revealDirection === 'down' ? 0 : undefined,
-            transition: {
-              duration: 0.55,
-              ease: revealEase,
-              delay: cardIndex * 0.1,
-            },
-          }),
-        }}
+        variants={revealVariants}
       >
         {/* Bildyta med Coming soon-ikon */}
-        <div className="relative h-72 min-h-[16rem] overflow-hidden min-[640px]:h-full min-[1180px]:h-[26rem] min-[1180px]:min-h-0 flex items-center justify-center bg-brand/10">
+        <div className={CARD_IMAGE_CLASSNAME}>
           <Clock className="w-12 h-12 text-brand/30" strokeWidth={2.2} />
         </div>
 
-        <div className="grid flex-1 gap-3 p-4 min-[480px]:p-4 min-[640px]:gap-4 min-[640px]:p-5 min-[1180px]:gap-1 min-[1180px]:p-4">
+        <div className={CARD_BODY_CLASSNAME}>
           <div className="min-[1180px]:flex min-[1180px]:h-full min-[1180px]:flex-col">
             <h3 className="mb-1.5 text-lg font-bold leading-tight min-[1180px]:text-base xl:text-lg">
               Project coming soon
@@ -83,24 +92,12 @@ export default function ProjectCard({ project, revealDirection = 'side', index =
 
   return (
     <motion.article
-      className="group relative flex flex-col h-full w-full overflow-hidden border border-black/6 bg-white/95 text-brand shadow-[0_20px_50px_rgba(0,0,0,0.14)] transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-white min-[640px]:grid min-[640px]:grid-cols-[240px_minmax(0,1fr)] min-[1180px]:flex min-[1180px]:min-h-[38rem] min-[1180px]:grid-cols-none min-[1180px]:flex-col"
+      className={CARD_SHELL_CLASSNAME}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.28 }}
       custom={index}
-      variants={{
-        hidden: hiddenVariant,
-        visible: (cardIndex) => ({
-          opacity: 1,
-          x: revealDirection === 'side' ? 0 : undefined,
-          y: revealDirection === 'down' ? 0 : undefined,
-          transition: {
-            duration: 0.55,
-            ease: revealEase,
-            delay: cardIndex * 0.1,
-          },
-        }),
-      }}
+      variants={revealVariants}
     >
       <Link
         href={`/project/${project._id}`}
@@ -108,7 +105,7 @@ export default function ProjectCard({ project, revealDirection = 'side', index =
         className="absolute inset-0 z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand focus-visible:outline-offset-[-6px]"
       />
 
-      <div className="relative h-72 min-h-[16rem] overflow-hidden min-[640px]:h-full min-[1180px]:h-[26rem] min-[1180px]:min-h-0 flex items-center justify-center bg-brand/10">
+      <div className={CARD_IMAGE_CLASSNAME}>
         {cardImageUrl ? (
           <Image
             src={cardImageUrl}
@@ -123,7 +120,7 @@ export default function ProjectCard({ project, revealDirection = 'side', index =
         )}
       </div>
 
-      <div className="grid flex-1 gap-3 p-4 min-[480px]:p-4 min-[640px]:gap-4 min-[640px]:p-5 min-[1180px]:gap-1 min-[1180px]:p-4">
+      <div className={CARD_BODY_CLASSNAME}>
         <div className="min-[1180px]:flex min-[1180px]:h-full min-[1180px]:flex-col">
           <h3 className="mb-1.5 text-lg font-bold leading-tight min-[1180px]:text-base xl:text-lg">
             {project.title}

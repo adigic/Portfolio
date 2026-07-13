@@ -62,7 +62,8 @@ export async function fetchProjects(): Promise<Project[]> {
     const projects = await sanityClient.fetch<Project[]>(query);
 
     return projects.length > 0 ? projects : fallbackProjects;
-  } catch {
+  } catch (error) {
+    console.error("Sanity fetch failed (fetchProjects):", error);
     return fallbackProjects;
   }
 }
@@ -79,7 +80,8 @@ export async function fetchProjectById(id: string): Promise<Project | null> {
   try {
     const project = await sanityClient.fetch<Project | null>(query, { id });
     return project ?? fallbackProject;
-  } catch {
+  } catch (error) {
+    console.error("Sanity fetch failed (fetchProjectById):", error);
     return fallbackProject;
   }
 }

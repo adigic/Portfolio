@@ -91,6 +91,7 @@ export const projectType = defineType({
         list: [
           {title: 'Personal', value: 'Personal'},
           {title: 'Professional', value: 'Professional'},
+          {title: 'Private', value: 'Private'},
         ],
         layout: 'radio',
       },
@@ -154,17 +155,6 @@ export const projectType = defineType({
       rows: 4,
     }),
     defineField({
-      name: 'figmaImages',
-      title: 'Figma / UX images',
-      type: 'array',
-      of: [
-        {
-          type: 'image',
-          options: {hotspot: true},
-        },
-      ],
-    }),
-    defineField({
       name: 'url',
       title: 'Project URL',
       type: 'url',
@@ -175,7 +165,7 @@ export const projectType = defineType({
     select: {
       title: 'title',
       subtitle: 'type',
-      media: 'mainImage',
+      media: 'cardImage',
     },
   },
 })

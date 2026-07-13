@@ -1,6 +1,10 @@
 // migrate-projects.js
-// Migrerar gamla bildfält till nya och tar bort gamla fält i Sanity "project"-dokument.
-// Kör: node migrate-projects.js
+// One-off migration, already run against production data: migrates old image
+// fields to the new ones and removes the old fields on Sanity "project" documents.
+// Kept for reference only — do not re-run against a dataset that has already
+// been migrated (it currently reflects the migrated schema, so it would be a no-op
+// at best and destructive at worst if the schema changes again).
+// Run (from repo root): node scripts/migrate-projects.js
 
 
 import { createClient } from '@sanity/client';

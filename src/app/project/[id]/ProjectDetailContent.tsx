@@ -1,12 +1,13 @@
 'use client'
 
 import {motion, type Variants} from 'framer-motion'
-import Image from 'next/image'
 import Link from 'next/link'
 import { SquareArrowOutUpRight } from 'lucide-react';
 
 import type {Project} from '@/lib/sanity/types'
-import { urlFor } from '@/lib/sanity/imageUrl';
+import { itemVariants } from '@/lib/motionVariants';
+import FoundationImage from './components/FoundationImage';
+import UxGallery from './components/UxGallery';
 
 type ProjectDetailSummary = {
   overview: string
@@ -35,15 +36,6 @@ const sectionVariants: Variants = {
       ease: 'easeOut',
       staggerChildren: 0.12,
     },
-  },
-}
-
-const itemVariants: Variants = {
-  hidden: {opacity: 0, y: 18},
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {duration: 0.55, ease: 'easeOut'},
   },
 }
 
@@ -135,26 +127,7 @@ export default function ProjectDetailContent({
           variants={sectionVariants}
         >
           <motion.div className="overflow-hidden border border-brand/10 bg-white shadow-[0_24px_60px_rgba(0,0,0,0.08)]" variants={itemVariants}>
-            {/* Foundation-bild */}
-            <div className="relative aspect-[16/10] w-full md:aspect-[16/8] flex items-center justify-center bg-brand/10">
-              {(() => {
-                const foundationImg = project.foundationImage;
-                const foundationUrl = foundationImg ? urlFor(foundationImg, 1200) : undefined;
-                const foundationAlt = project.title;
-                return foundationUrl ? (
-                  <Image
-                    src={foundationUrl}
-                    alt={foundationAlt}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 1024px) 100vw, 900px"
-                    priority
-                  />
-                ) : (
-                  <span className="text-brand/30 text-xs">No image</span>
-                );
-              })()}
-            </div>
+            <FoundationImage image={project.foundationImage} alt={project.title} />
           </motion.div>
 
           <motion.div className="self-center" variants={itemVariants}>
@@ -254,57 +227,17 @@ export default function ProjectDetailContent({
           viewport={{once: true, amount: 0.2}}
           variants={sectionVariants}
         >
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start lg:gap-12">
+          <motion.div className="mb-10 max-w-2xl lg:ml-auto lg:text-right" variants={itemVariants}>
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/45">UX / UI</p>
+            <h2 className="text-3xl font-alexandria uppercase tracking-tight sm:text-4xl lg:text-5xl">Design Direction.</h2>
+            <p className="mt-4 text-sm leading-relaxed text-white/72 sm:text-base">{summary.uiSummary}</p>
+          </motion.div>
 
-
-            <motion.div className="lg:pl-6 lg:text-right" variants={itemVariants}>
-              <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/45">UX / UI</p>
-              <h2 className="text-3xl font-alexandria uppercase tracking-tight sm:text-4xl lg:text-5xl">Design Direction.</h2>
-              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/72 sm:text-base lg:ml-auto">{summary.uiSummary}</p>
-
-              <motion.div
-                className="mt-8 text-left text-brand shadow-[0_16px_38px_rgba(0,0,0,0.14)] lg:ml-auto lg:max-w-xl"
-                variants={itemVariants}
-              >
-                <motion.div className="columns-1 gap-4 sm:columns-2" variants={itemVariants}>
-                  {(project.uxImages ?? []).map((ux, index) => {
-                    const img = ux.image;
-                    const url = img ? urlFor(img, 700) : undefined;
-                    const alt = ux.title || project.title;
-                    const tag = ux.title || 'UX/UI';
-                    const dimensions = img?.asset?.metadata?.dimensions;
-                    const width = dimensions?.width || 800;
-                    const height = dimensions?.height || 600;
-                    return url ? (
-                      <motion.article
-                        key={ux.title || ux.description || ux.aspect || index}
-                        className="mb-4 break-inside-avoid overflow-hidden border border-white/10 bg-white shadow-[0_20px_48px_rgba(0,0,0,0.16)]"
-                        variants={itemVariants}
-                      >
-                        <Image
-                          src={url}
-                          alt={alt}
-                          width={width}
-                          height={height}
-                          className="block h-auto w-full"
-                          sizes="(max-width: 640px) 100vw, 50vw"
-                        />
-                        <div className="border-t border-brand/8 px-5 py-4 text-brand">
-                          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand/45">
-                            {tag}
-                          </p>
-                          <p className="mt-2 text-sm leading-relaxed text-brand/76">
-                            {ux.description || ''}
-                          </p>
-                        </div>
-                      </motion.article>
-                    ) : null;
-                  })}
-                </motion.div>
-
-              </motion.div>
-            </motion.div>
-          </div>
+          <UxGallery
+            images={project.uxImages ?? []}
+            fallbackAlt={project.title}
+            itemVariants={itemVariants}
+          />
         </motion.div>
       </section>
     </main>
