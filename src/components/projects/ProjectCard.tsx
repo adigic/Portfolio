@@ -1,157 +1,135 @@
 "use client";
 
 import { motion } from 'framer-motion';
-import { SquareArrowOutUpRight, Clock } from 'lucide-react';
+import { ArrowUpRight, Clock } from 'lucide-react';
+import { Icon } from '@iconify/react';
 import Image from 'next/image';
 import Link from 'next/link';
-
-
 
 import { Project } from '@/lib/sanity/types';
 import { urlFor } from '@/lib/sanity/imageUrl';
 
 interface ProjectCardProps {
   project: Project;
-  revealDirection?: 'side' | 'down';
   index?: number;
 }
 
-const CARD_SHELL_CLASSNAME =
-  "group relative flex flex-col h-full w-full overflow-hidden border border-black/6 bg-white/95 text-brand shadow-[0_20px_50px_rgba(0,0,0,0.14)] transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-white min-[640px]:grid min-[640px]:grid-cols-[240px_minmax(0,1fr)] min-[1180px]:flex min-[1180px]:min-h-[38rem] min-[1180px]:grid-cols-none min-[1180px]:flex-col";
-const CARD_IMAGE_CLASSNAME =
-  "relative h-72 min-h-[16rem] overflow-hidden min-[640px]:h-full min-[1180px]:h-[26rem] min-[1180px]:min-h-0 flex items-center justify-center bg-brand/10";
-const CARD_BODY_CLASSNAME =
-  "grid flex-1 gap-3 p-4 min-[480px]:p-4 min-[640px]:gap-4 min-[640px]:p-5 min-[1180px]:gap-1 min-[1180px]:p-4";
 const REVEAL_EASE = [0.22, 1, 0.36, 1] as const;
 
-export default function ProjectCard({ project, revealDirection = 'side', index = 0 }: ProjectCardProps) {
-  const hasExternalUrl = Boolean(project.url && project.url !== '#');
-  const isPlaceholder = (project as Project & { isPlaceholder?: boolean }).isPlaceholder;
-  const hiddenVariant =
-    revealDirection === 'side'
-      ? { opacity: 0, x: index % 2 === 0 ? -42 : 42 }
-      : { opacity: 0, y: -28 };
-
-  const revealVariants = {
-    hidden: hiddenVariant,
-    visible: (cardIndex: number) => ({
-      opacity: 1,
-      x: revealDirection === 'side' ? 0 : undefined,
-      y: revealDirection === 'down' ? 0 : undefined,
-      transition: {
-        duration: 0.55,
-        ease: REVEAL_EASE,
-        delay: cardIndex * 0.1,
-      },
-    }),
-  };
-
-  if (isPlaceholder) {
-    return (
-      <motion.article
-        className={CARD_SHELL_CLASSNAME}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.28 }}
-        custom={index}
-        variants={revealVariants}
-      >
-        {/* Bildyta med Coming soon-ikon */}
-        <div className={CARD_IMAGE_CLASSNAME}>
-          <Clock className="w-12 h-12 text-brand/30" strokeWidth={2.2} />
-        </div>
-
-        <div className={CARD_BODY_CLASSNAME}>
-          <div className="min-[1180px]:flex min-[1180px]:h-full min-[1180px]:flex-col">
-            <h3 className="mb-1.5 text-lg font-bold leading-tight min-[1180px]:text-base xl:text-lg">
-              Project coming soon
-            </h3>
-            <p className="mb-3 text-[12px] leading-relaxed text-brand/72 min-[1180px]:flex-1 min-[1180px]:text-[11px] xl:text-[12px]">
-              A new project will be published here soon. Stay tuned!
-            </p>
-            <div className="flex flex-wrap gap-1.5 min-[1180px]:mb-3">
-              {/* Tomma tags eller placeholder-tag */}
-              <span className="rounded-full bg-brand/6 px-2 py-1 text-[9px] font-medium uppercase tracking-[0.14em] text-brand/40 lg:px-2.5 lg:text-[10px]">
-                Coming soon
-              </span>
-            </div>
-          </div>
-        </div>
-      </motion.article>
-    );
-  }
-
-  // Hämta rätt bild för ProjectCard
+export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
   const cardImage = project.cardImage;
-  // Use urlFor to generate the image URL from Sanity asset reference
-  const cardImageUrl = cardImage ? urlFor(cardImage, 800) : undefined;
-  const cardImageAlt = project.title;
-  // Focal point set in Sanity Studio (hotspot), falls back to center
+  const cardImageUrl = cardImage ? urlFor(cardImage, 900) : undefined;
   const hotspotX = cardImage?.hotspot?.x ?? 0.5;
   const hotspotY = cardImage?.hotspot?.y ?? 0.5;
+  const badgeLabel = project.type === 'Professional' ? 'Professional' : 'Personal';
+  const hasGithubUrl = Boolean(project.githubUrl);
 
   return (
     <motion.article
-      className={CARD_SHELL_CLASSNAME}
-      initial="hidden"
-      whileInView="visible"
+      className="group relative aspect-square h-full w-full overflow-hidden border border-white/10 bg-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.25)] transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-white/75"
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.28 }}
-      custom={index}
-      variants={revealVariants}
+      transition={{ duration: 0.55, ease: REVEAL_EASE, delay: index * 0.1 }}
     >
       <Link
         href={`/project/${project._id}`}
         aria-label={`Open ${project.title} project details`}
-        className="absolute inset-0 z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand focus-visible:outline-offset-[-6px]"
+        className="absolute inset-0 z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-[-6px]"
       />
 
-      <div className={CARD_IMAGE_CLASSNAME}>
-        {cardImageUrl ? (
-          <Image
-            src={cardImageUrl}
-            alt={cardImageAlt}
-            fill
-            style={{ objectPosition: `${hotspotX * 100}% ${hotspotY * 100}%` }}
-            className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
-            sizes="(max-width: 639px) 100vw, (max-width: 1179px) 240px, 33vw"
-          />
-        ) : (
-          <span className="text-brand/30 text-xs">No image</span>
-        )}
+      {cardImageUrl ? (
+        <Image
+          src={cardImageUrl}
+          alt={project.title}
+          fill
+          style={{ objectPosition: `${hotspotX * 100}% ${hotspotY * 100}%` }}
+          className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.05]"
+          sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
+        />
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center bg-white/5">
+          <span className="text-xs text-white/30">No image</span>
+        </div>
+      )}
+
+      <span className="absolute left-3 top-3 z-10 rounded-sm bg-white/80 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.14em] text-brand/65 backdrop-blur-md transition-colors duration-300 ease-out group-hover:bg-white sm:left-4 sm:top-4 sm:text-[10px]">
+        {badgeLabel}
+      </span>
+
+      {/* Always-visible bottom info */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-black/88 via-black/40 to-transparent transition-opacity duration-300 ease-out group-hover:opacity-0" />
+      <div className="absolute inset-x-0 bottom-0 z-10 flex items-end justify-between gap-3 p-4 transition-opacity duration-300 ease-out group-hover:opacity-0 sm:p-5">
+        <h3 className="text-base font-bold uppercase leading-tight tracking-tight text-white sm:text-lg lg:text-xl">
+          {project.title}
+        </h3>
+        <span className="flex shrink-0 items-center gap-1 whitespace-nowrap text-[10px] font-semibold uppercase tracking-[0.14em] text-white/85 sm:text-[11px]">
+          View project
+          <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2.2} />
+        </span>
       </div>
 
-      <div className={CARD_BODY_CLASSNAME}>
-        <div className="min-[1180px]:flex min-[1180px]:h-full min-[1180px]:flex-col">
-          <h3 className="mb-1.5 text-lg font-bold leading-tight min-[1180px]:text-base xl:text-lg">
-            {project.title}
-          </h3>
-          <p className="mb-3 text-[12px] leading-relaxed text-brand/72 min-[1180px]:flex-1 min-[1180px]:text-[11px] xl:text-[12px]">
+      {/* Full-card hover overlay */}
+      <div className="absolute inset-0 z-10 flex flex-col justify-between bg-white/88 p-4 opacity-0 backdrop-blur-sm transition-opacity duration-300 ease-out group-hover:opacity-100 sm:p-5">
+        <div>
+          <p className="text-xs leading-relaxed text-brand/72 sm:text-sm">
             {project.description}
           </p>
-          <div className="flex flex-wrap gap-1.5 min-[1180px]:mb-3">
+          <div className="mt-3 flex flex-wrap gap-1.5">
             {project.tags.map((tag) => (
-              <span key={tag} className="rounded-full bg-brand/6 px-2 py-1 text-[9px] font-medium uppercase tracking-[0.14em] text-brand/70 lg:px-2.5 lg:text-[10px]">
+              <span
+                key={tag}
+                className="rounded-sm bg-brand/12 px-2 py-1 text-[9px] font-medium uppercase tracking-[0.14em] text-brand/85"
+              >
                 {tag}
               </span>
             ))}
           </div>
         </div>
 
-        {hasExternalUrl ? (
-          <div className="relative z-20 flex items-center justify-end gap-2.5 self-start pt-0.5 text-brand/78 min-[1180px]:mt-auto min-[1180px]:justify-end min-[1180px]:self-auto">
-            <a
-              href={project.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Open ${project.title} live preview`}
-              className="inline-flex items-center gap-1.5 border border-brand/10 bg-brand/5 px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] transition-[background-color,opacity] duration-150 ease-out hover:bg-brand/8 hover:opacity-100"
-            >
-              <span>Live</span>
-              <SquareArrowOutUpRight className="h-3.5 w-3.5" strokeWidth={1.9} />
-            </a>
+        <div className="flex items-end justify-between gap-3">
+          <h3 className="text-base font-bold uppercase leading-tight tracking-tight text-brand sm:text-lg lg:text-xl">
+            {project.title}
+          </h3>
+          <div className="flex shrink-0 items-center gap-3">
+            {hasGithubUrl ? (
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`Open ${project.title} on GitHub`}
+                className="relative z-30 flex items-center text-brand/70 transition-colors duration-200 hover:text-brand"
+              >
+                <Icon icon="simple-icons:github" width={16} height={16} />
+              </a>
+            ) : null}
+            <span className="flex items-center gap-1 whitespace-nowrap text-[10px] font-semibold uppercase tracking-[0.14em] text-brand/85 sm:text-[11px]">
+              View project
+              <ArrowUpRight
+                className="h-3.5 w-3.5 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                strokeWidth={2.2}
+              />
+            </span>
           </div>
-        ) : null}
+        </div>
       </div>
+    </motion.article>
+  );
+}
+
+export function ProjectPlaceholderCard({ index = 0 }: { index?: number }) {
+  return (
+    <motion.article
+      className="relative flex aspect-square h-full w-full flex-col items-center justify-center gap-2 overflow-hidden border border-dashed border-white/15 bg-white/[0.03]"
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.28 }}
+      transition={{ duration: 0.55, ease: REVEAL_EASE, delay: index * 0.1 }}
+    >
+      <Clock className="h-8 w-8 text-white/30" strokeWidth={1.8} />
+      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/30">
+        Project coming soon
+      </p>
     </motion.article>
   );
 }

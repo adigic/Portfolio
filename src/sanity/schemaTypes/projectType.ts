@@ -24,7 +24,14 @@ export const projectType = defineType({
       title: 'Project Card Image',
       type: 'image',
       options: {hotspot: true},
-      description: 'Bild som visas på projektkortet.'
+      description: 'Bild som visas på projektkortet på startsidan (Selected Work).'
+    }),
+    defineField({
+      name: 'archiveImage',
+      title: 'Archive Card Image',
+      type: 'image',
+      options: {hotspot: true},
+      description: 'Bild som visas på kortet på "All Projects"-sidan, t.ex. en logotyp. Om tomt används Project Card Image istället.'
     }),
     defineField({
       name: 'foundationImage',
@@ -98,6 +105,13 @@ export const projectType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'featured',
+      title: 'Featured on homepage',
+      type: 'boolean',
+      description: 'Show in the homepage "Selected Work" section. Aim for 3–4 at a time.',
+      initialValue: false,
+    }),
+    defineField({
       name: 'role',
       title: 'Role',
       type: 'string',
@@ -160,12 +174,27 @@ export const projectType = defineType({
       type: 'url',
       validation: (Rule) => Rule.uri({allowRelative: false, scheme: ['http', 'https']}),
     }),
+    defineField({
+      name: 'githubUrl',
+      title: 'GitHub URL',
+      type: 'url',
+      description: 'Valfritt. Om ifyllt visas en GitHub-ikon på projektkortet på startsidan.',
+      validation: (Rule) => Rule.uri({allowRelative: false, scheme: ['http', 'https']}),
+    }),
   ],
   preview: {
     select: {
       title: 'title',
       subtitle: 'type',
+      featured: 'featured',
       media: 'cardImage',
+    },
+    prepare({title, subtitle, featured, media}) {
+      return {
+        title,
+        subtitle: featured ? `★ Featured · ${subtitle}` : subtitle,
+        media,
+      }
     },
   },
 })

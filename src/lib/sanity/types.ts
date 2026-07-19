@@ -21,11 +21,14 @@ export interface Project {
   title: string;
   description: string;
   cardImage?: ProjectImage;
+  archiveImage?: ProjectImage;
   foundationImage?: ProjectImage;
   uxImages?: ProjectUXImage[];
   tags: string[];
   type: 'Personal' | 'Private' | 'Professional';
+  featured?: boolean;
   url?: string;
+  githubUrl?: string;
   role?: string;
   client?: string;
   year?: string;

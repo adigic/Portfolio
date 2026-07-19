@@ -109,14 +109,14 @@ export default function AboutSection() {
                 </p>
               </div>
 
-              <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-white/80 ">
+              <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-white/80">
                 <span className="inline-flex items-center gap-2">
-                  <MapPin className="h-5 w-5 text-white/70" strokeWidth={1.9} />
+                  <MapPin className="h-5 w-5 text-white/75" strokeWidth={1.9} />
                   <span>Hallstahammar, Sweden</span>
                 </span>
-                <span className="inline-flex items-center gap-2 text-sm uppercase tracking-[0.16em] text-white/58 sm:text-[0.8rem]">
-                  <Globe className="h-4.5 w-4.5" strokeWidth={1.9} />
-                  Swedish, English, Bosnian
+                <span className="inline-flex items-center gap-2">
+                  <Globe className="h-5 w-5 text-white/75" strokeWidth={1.9} />
+                  Swedish, English & Bosnian
                 </span>
               </div>
 

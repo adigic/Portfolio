@@ -44,6 +44,8 @@ export default function ProjectDetailContent({
   summary,
   hasExternalUrl,
 }: ProjectDetailContentProps) {
+  const hasUxImages = Boolean(project.uxImages?.some((ux) => ux.image))
+
   return (
     <main>
       <section data-nav-theme="dark" className="bg-brand px-4 pb-16 pt-24 text-white md:px-12 md:pb-20 md:pt-28">
@@ -61,7 +63,6 @@ export default function ProjectDetailContent({
               <span aria-hidden>&larr;</span>
               Back To Projects
             </Link>
-            <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/40">{summary.year}</span>
           </motion.div>
 
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)] lg:gap-14">
@@ -134,24 +135,6 @@ export default function ProjectDetailContent({
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-brand/45">Overview</p>
             <h2 className="mt-3 text-3xl font-alexandria uppercase tracking-tight sm:text-4xl lg:text-5xl">Project Foundation.</h2>
             <p className="mt-4 max-w-2xl text-sm leading-relaxed text-brand/74 sm:text-base">{summary.overview}</p>
-
-            <motion.div
-              className="mt-8 border border-brand/10 bg-white px-5 py-5 shadow-[0_16px_38px_rgba(0,0,0,0.05)]"
-              variants={itemVariants}
-            >
-              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-brand/45">Project Details</p>
-              <div className="mt-4 space-y-4 text-sm text-brand/78">
-                <div>
-                  <p className="font-semibold text-brand/90">Type</p>
-                  <p>{project.type === 'Professional' ? 'Professional / Company work' : 'Personal / Learning project'}</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-brand/90">Stack</p>
-                  <p>{project.tags.join(', ')}</p>
-                </div>
-
-              </div>
-            </motion.div>
           </motion.div>
         </motion.div>
       </section>
@@ -189,57 +172,61 @@ export default function ProjectDetailContent({
         </motion.div>
       </section>
 
-      <section data-nav-theme="light" className="bg-brand-light px-4 py-16 text-brand md:px-12 md:py-20">
-        <motion.div
-          className="mx-auto grid w-full max-w-[1500px] gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-12"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{once: true, amount: 0.2}}
-          variants={sectionVariants}
-        >
-          <motion.div variants={itemVariants}>
-            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-brand/45">What Was Used</p>
-            <h2 className="text-3xl font-alexandria uppercase tracking-tight sm:text-4xl lg:text-5xl">Tools & Execution.</h2>
-            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-brand/72 sm:text-base">
-              The project was shaped through a mix of product thinking, interface design and frontend implementation. The tools below reflect the main workflow and technologies used to bring it together.
-            </p>
-          </motion.div>
+      {summary.toolsUsed.length > 0 ? (
+        <section data-nav-theme="light" className="bg-brand-light px-4 py-16 text-brand md:px-12 md:py-20">
+          <motion.div
+            className="mx-auto grid w-full max-w-[1500px] gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-12"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{once: true, amount: 0.2}}
+            variants={sectionVariants}
+          >
+            <motion.div variants={itemVariants}>
+              <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-brand/45">What Was Used</p>
+              <h2 className="text-3xl font-alexandria uppercase tracking-tight sm:text-4xl lg:text-5xl">Tools & Execution.</h2>
+              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-brand/72 sm:text-base">
+                The project was shaped through a mix of product thinking, interface design and frontend implementation. The tools below reflect the main workflow and technologies used to bring it together.
+              </p>
+            </motion.div>
 
-          <motion.div className="grid grid-cols-2 gap-3 sm:grid-cols-3" variants={itemVariants}>
-            {summary.toolsUsed.map((tool) => (
-              <motion.div
-                key={tool}
-                className="flex min-h-16 items-center justify-center border border-brand/10 bg-white px-3 py-4 text-center text-sm font-medium text-brand shadow-[0_14px_34px_rgba(0,0,0,0.05)]"
-                variants={itemVariants}
-              >
-                {tool}
-              </motion.div>
-            ))}
+            <motion.div className="grid grid-cols-2 gap-3 sm:grid-cols-3" variants={itemVariants}>
+              {summary.toolsUsed.map((tool) => (
+                <motion.div
+                  key={tool}
+                  className="flex min-h-16 items-center justify-center border border-brand/10 bg-white px-3 py-4 text-center text-sm font-medium text-brand shadow-[0_14px_34px_rgba(0,0,0,0.05)]"
+                  variants={itemVariants}
+                >
+                  {tool}
+                </motion.div>
+              ))}
+            </motion.div>
           </motion.div>
-        </motion.div>
-      </section>
+        </section>
+      ) : null}
 
-      <section data-nav-theme="dark" className="bg-brand px-4 py-16 text-white md:px-12 md:py-20">
-        <motion.div
-          className="mx-auto w-full max-w-[1500px]"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{once: true, amount: 0.2}}
-          variants={sectionVariants}
-        >
-          <motion.div className="mb-10 max-w-2xl lg:ml-auto lg:text-right" variants={itemVariants}>
-            <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/45">UX / UI</p>
-            <h2 className="text-3xl font-alexandria uppercase tracking-tight sm:text-4xl lg:text-5xl">Design Direction.</h2>
-            <p className="mt-4 text-sm leading-relaxed text-white/72 sm:text-base">{summary.uiSummary}</p>
+      {hasUxImages ? (
+        <section data-nav-theme="dark" className="bg-brand px-4 py-16 text-white md:px-12 md:py-20">
+          <motion.div
+            className="mx-auto w-full max-w-[1500px]"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{once: true, amount: 0.2}}
+            variants={sectionVariants}
+          >
+            <motion.div className="mb-10 max-w-2xl lg:ml-auto lg:text-right" variants={itemVariants}>
+              <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/45">UX / UI</p>
+              <h2 className="text-3xl font-alexandria uppercase tracking-tight sm:text-4xl lg:text-5xl">Design Direction.</h2>
+              <p className="mt-4 text-sm leading-relaxed text-white/72 sm:text-base">{summary.uiSummary}</p>
+            </motion.div>
+
+            <UxGallery
+              images={project.uxImages ?? []}
+              fallbackAlt={project.title}
+              itemVariants={itemVariants}
+            />
           </motion.div>
-
-          <UxGallery
-            images={project.uxImages ?? []}
-            fallbackAlt={project.title}
-            itemVariants={itemVariants}
-          />
-        </motion.div>
-      </section>
+        </section>
+      ) : null}
     </main>
   )
 }

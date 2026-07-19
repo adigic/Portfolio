@@ -95,7 +95,7 @@ export function BackToTop({ showAfter = 200 }: { showAfter?: number }) {
       className={[
         "fixed z-50 right-6 bottom-8 md:h-7 md:w-7 h-10 w-10 rounded-sm grid place-items-center shadow-lg",
         dockedPosition ? "md:right-auto md:bottom-auto" : "md:right-12 md:bottom-6",
-        "transition-all duration-300 cursor-pointer hover:opacity-100 opacity-30",
+        "transition-all duration-300 cursor-pointer",
         themed,
         visible && !menuOpen && !hideBecauseFooter
           ? "opacity-100 translate-y-0"

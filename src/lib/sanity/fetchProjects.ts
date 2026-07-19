@@ -14,6 +14,14 @@ const projectFields = `{
     crop,
     _type
   },
+  archiveImage {
+    asset-> {
+      url
+    },
+    hotspot,
+    crop,
+    _type
+  },
   foundationImage {
     asset-> {
       url
@@ -38,7 +46,9 @@ const projectFields = `{
   },
   tags,
   type,
+  featured,
   url,
+  githubUrl,
   role,
   client,
   year,

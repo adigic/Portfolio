@@ -1,0 +1,14 @@
+import { BackToTop } from '../components/BackToTop'
+import Footer from '../components/Footer'
+import Navbar from '../components/Navbar'
+
+export default function ProjectsLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <div data-nav-theme="light">
+      <Navbar />
+      {children}
+      <Footer />
+      <BackToTop showAfter={360} />
+    </div>
+  )
+}

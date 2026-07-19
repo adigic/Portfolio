@@ -36,7 +36,7 @@ function getProjectSummary(project: Awaited<ReturnType<typeof fetchProjectById>>
         ? 'Project delivered through my company'
         : 'Independent learning project'),
     year: project.year ?? 'Recent work',
-    toolsUsed: project.toolsUsed?.length ? project.toolsUsed : project.tags,
+    toolsUsed: project.toolsUsed?.length ? project.toolsUsed : [],
     uiSummary:
       project.uiSummary ??
       'The UX/UI direction focused on hierarchy, spacing, clarity and a visual language that supports the product without adding unnecessary noise.',
