@@ -60,10 +60,11 @@ const righteous = localFont({
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-<html
-  lang="sv"
-  className="scroll-smooth scroll-pt-4 md:scroll-pt-20"
->
+    // scroll-padding-top sätts dynamiskt av Navbar utifrån headerns faktiska höjd
+    <html
+      lang="sv"
+      className="scroll-smooth"
+    >
       <body
   className={`
     ${poppins.variable}

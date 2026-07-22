@@ -1,7 +1,7 @@
 "use client";
 
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ModalContext } from "./ModalContext";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
@@ -56,6 +56,28 @@ export function Navbar() {
     document.body.classList.toggle("overflow-hidden", panelOpen);
     return () => document.body.classList.remove("overflow-hidden");
   }, [panelOpen]);
+
+  // Sätt scroll-padding-top till den fasta headerns faktiska höjd (0 på mobil,
+  // eftersom toppraden är dold där), så scrollIntoView/anchor-scroll landar
+  // exakt vid sektionens topp utan att en bit av föregående sektion syns.
+  const topBarRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = topBarRef.current;
+    if (!el) return;
+
+    const updateOffset = () => {
+      document.documentElement.style.scrollPaddingTop = `${el.getBoundingClientRect().height}px`;
+    };
+
+    updateOffset();
+    const observer = new ResizeObserver(updateOffset);
+    observer.observe(el);
+    window.addEventListener("resize", updateOffset);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", updateOffset);
+    };
+  }, []);
 
   // Lyssna på vilken sektion som är i view (via data-nav-theme)
   useEffect(() => {
@@ -153,6 +175,7 @@ export function Navbar() {
     <header className="fixed top-0 left-0 z-50 w-full inset-x-0 transition">
       {/* TOP RAD: brand + desktop-nav (desktop only, mobile has no top bar bg) */}
       <div
+        ref={topBarRef}
         className={`${topBgClass} mx-auto hidden items-center justify-between px-4 py-3 transition-[background-color,box-shadow] duration-300 md:flex md:px-6 md:py-4 ${scrolled ? "shadow-header" : ""}`}
       >
         {/* Brand (desktop) */}
