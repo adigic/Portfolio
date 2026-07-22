@@ -137,21 +137,21 @@ export default function ContactModal({ open, onClose }: { open: boolean; onClose
                       type="text"
                       placeholder="Name"
                       required
-                      className="w-full rounded bg-brand-input px-4 py-2 text-sm outline-none ring-1 ring-accent/20 focus:ring-accent"
+                      className="w-full rounded bg-brand-input px-4 py-2 text-base outline-none ring-1 ring-accent/20 focus:ring-accent md:text-sm"
                     />
                     <input
                       name="email"
                       type="email"
                       placeholder="Email"
                       required
-                      className="w-full rounded bg-brand-input px-4 py-2 text-sm outline-none ring-1 ring-accent/20 focus:ring-accent"
+                      className="w-full rounded bg-brand-input px-4 py-2 text-base outline-none ring-1 ring-accent/20 focus:ring-accent md:text-sm"
                     />
                     <textarea
                       name="message"
                       rows={7}
                       placeholder="Your message..."
                       required
-                      className="w-full rounded bg-brand-input px-4 py-2 text-sm outline-none ring-1 ring-accent/20 focus:ring-accent md:rows-4"
+                      className="w-full rounded bg-brand-input px-4 py-2 text-base outline-none ring-1 ring-accent/20 focus:ring-accent md:rows-4 md:text-sm"
                     />
                     {/* Honeypot field: hidden from real users, bots tend to fill in every field */}
                     <div className="absolute left-[-9999px] top-auto h-px w-px overflow-hidden" aria-hidden="true">

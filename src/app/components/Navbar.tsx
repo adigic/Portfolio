@@ -151,9 +151,9 @@ export function Navbar() {
 
   return (
     <header className="fixed top-0 left-0 z-50 w-full inset-x-0 transition">
-      {/* TOP RAD: brand + desktop-nav */}
+      {/* TOP RAD: brand + desktop-nav (desktop only, mobile has no top bar bg) */}
       <div
-        className={`${topBgClass} mx-auto flex items-center justify-between px-4 py-3 transition-[background-color,box-shadow] duration-300 md:px-6 md:py-4 ${scrolled ? "shadow-header" : ""}`}
+        className={`${topBgClass} mx-auto hidden items-center justify-between px-4 py-3 transition-[background-color,box-shadow] duration-300 md:flex md:px-6 md:py-4 ${scrolled ? "shadow-header" : ""}`}
       >
         {/* Brand (desktop) */}
         <Link
